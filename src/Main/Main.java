@@ -1,9 +1,14 @@
 package Main;
 
+import View.MainFrame;
+import View.SignIn_Up;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		MainFrame mainFrame = new MainFrame();
+		SignIn_Up signIn_Up = new SignIn_Up(null);
+		
 
 	}
 
