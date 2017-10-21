@@ -7,7 +7,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		MainFrame mainFrame = new MainFrame();
-		SignIn_Up signIn_Up = new SignIn_Up(null);
+		SignIn_Up signIn_Up = new SignIn_Up(mainFrame);
+		System.out.println(signIn_Up.getOutput());
 		
 
 	}
