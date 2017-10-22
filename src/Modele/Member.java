@@ -7,5 +7,11 @@ public class Member {
 	private String password;
 	private Toolbox toolbox;
 	private ArrayList<Group> groupList;
+
+	public String getPseudo() {
+		return pseudo;
+	}
+
+
 	
 }
