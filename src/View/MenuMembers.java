@@ -20,8 +20,7 @@ public class MenuMembers extends JScrollPane{
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
-			this.add(new JLabel(""+member.getPseudo()));
-			
+			this.add(new JLabel(""+member.getPseudo()));		
 		}
 	}
 }
