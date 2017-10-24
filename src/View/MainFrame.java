@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,7 +22,7 @@ public class MainFrame extends JFrame{
 		this.setLocationRelativeTo(null);               
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setVisible(true);
-	    
+	    this.setSize(500, 500);
 	    
 	    //Containt
 	    JPanel container = new JPanel(); //will contain all other JPanel
@@ -30,7 +31,7 @@ public class MainFrame extends JFrame{
 	    menu = new Menu();
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 	    
-	    pCanva = new PCanva();
+	    pCanva = new PCanva(toolbox);
 	    container.add(pCanva, BorderLayout.CENTER);
 	    
 	    pToolBox = new PToolBox(toolbox);

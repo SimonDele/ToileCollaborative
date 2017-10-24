@@ -1,5 +1,7 @@
 package View;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,5 +25,7 @@ public class PToolBox extends JPanel {
 		
 		this.add(circle);
 		this.add(sizeSmall);
+		
+		this.setBackground(Color.black);
 	}
 }
