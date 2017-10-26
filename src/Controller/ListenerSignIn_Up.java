@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import Modele.Member;
+import Main.Main;
 
 public class ListenerSignIn_Up implements ActionListener {
 	JButton signUp;
@@ -21,6 +22,13 @@ public class ListenerSignIn_Up implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(this.signUp.isEnabled() == false) { //If it is a sign Up
 			Member member = new Member(pseudo.getText(), password.getText());
+			Main.USER = member;
+			System.out.println("Sign Up");
+		}else {// it is a sign In
+			Member member = new Member();
+			member = member.connection(pseudo.getText(), password.getText());
+			System.out.println("Sign In");
+			Main.USER = member;
 		}
 		
 	}
