@@ -20,7 +20,11 @@ public class MenuMembers extends JPanel{
 	
 
 	public MenuMembers(Group group) {
-		this.listMembers = group.getMemberList();
+		try {
+			this.listMembers = group.getMemberList();			
+		}catch(NullPointerException e) {
+			this.listMembers = new ArrayList<Member>();
+		}
 		
 		
 		this.setSize(new Dimension(200,200));

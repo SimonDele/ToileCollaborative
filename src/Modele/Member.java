@@ -27,10 +27,14 @@ public class Member implements Serializable {
 	
 	public Member() {	
 		fileMembers = new File("listeMembers.txt");
+		groupList = new ArrayList<Group>(); // Creation of an empty groupList
 	}
 	
 	public Member(String pseudo,String password) {
+		groupList = new ArrayList<Group>(); // Creation of an empty groupList
 		//Writing in the dedicated file the new member.
+		this.pseudo = pseudo;
+		this.password = password;
 		
 		fileMembers = new File("listeMembers.txt");
 		
@@ -53,21 +57,23 @@ public class Member implements Serializable {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	     
-		groupList = new ArrayList<Group>(); // Creation of an empty groupList
-	     
+		}	          
 	}
 	public String getPseudo() {
 		return pseudo;
+	}
+	public ArrayList<Group> getGroupList() {
+		return groupList;
 	}
 	public Member connection(String pseudo, String password) {
 		ArrayList<Member> listMember = readFileMembers();
 		Iterator iterator = listMember.iterator();
 		boolean found = false;
 		while(!found && iterator.hasNext()) {
+
 			Member member = (Member) iterator.next();
-			if(member.password == password && member.pseudo == pseudo) {
+			if((password.equals(member.password)) && (pseudo.equals(member.pseudo))) {
+				System.out.println("ok");
 				found = true;
 				return member;
 			}
@@ -85,8 +91,8 @@ public class Member implements Serializable {
 
 				while(true) {
 					try {
-						Object obj = ois.readObject();
-						res.add((Member)obj);
+						Member obj = (Member)ois.readObject();
+						res.add(obj);
 						System.out.println(obj);
 					}catch(EOFException | ClassNotFoundException e) { // Catch if we have reached the end of the file
 						ois.close();

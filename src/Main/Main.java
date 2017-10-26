@@ -11,11 +11,12 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Toolbox toolbox = new Toolbox();
-		Group group = new Group();
-		MainFrame mainFrame = new MainFrame(toolbox, group);
-		SignIn_Up signIn_Up = new SignIn_Up(mainFrame);
+
+		SignIn_Up signIn_Up = new SignIn_Up(null);
+		System.out.println(USER.getGroupList().size());
+		MainFrame mainFrame = new MainFrame(toolbox, USER);
+		//mainFrame.setGroup(USER.getGroupList());
 		mainFrame.setVisible(true);
-		System.out.println(signIn_Up.getOutput());
 		
 
 	}

@@ -94,7 +94,7 @@ public class SignIn_Up extends JDialog {
 		});
 		
 		submit = new JButton("Valider");
-		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, signUp));
+		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, signUp,this));
 		title = new JPanel();
 		title.setLayout(new BoxLayout(title, BoxLayout.LINE_AXIS));
 		title.setAlignmentX(CENTER_ALIGNMENT);
