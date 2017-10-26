@@ -15,4 +15,7 @@ public class Group {
 	public void addMember(Member toAdd) {
 		memberList.add(toAdd);
 	}
+	public ArrayList<Member> getMemberList(){
+		return this.memberList;
+	}
 }

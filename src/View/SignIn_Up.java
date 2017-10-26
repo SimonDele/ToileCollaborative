@@ -13,18 +13,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Controller.ListenerSignIn_Up;
+
 public class SignIn_Up extends JDialog {
 	
-	JPanel content;
+	JPanel content, title, body;
 	JLabel labpseudo;
 	JLabel labpassword;
 	JTextField pseudo;
 	JTextField password;
-	JButton submit;
+	JButton signIn, signUp, submit;
 	JButton buttonColor;
 	JPanel pPseudo;
 	JPanel pPassword;
 	JDialog signIn_Up;
+	
 	public SignIn_Up(JFrame parent) {
 		super(parent, "Sign In or Sign Up", true);
 		this.setSize(500,500);
@@ -58,7 +61,9 @@ public class SignIn_Up extends JDialog {
 		pPassword.add(password);
 		pPassword.setAlignmentX(LEFT_ALIGNMENT);
 		
+		//Pick Color
 		buttonColor = new JButton("Couleur");
+		buttonColor.setVisible(false);
 		buttonColor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -67,21 +72,45 @@ public class SignIn_Up extends JDialog {
 			
 		});
 		
-		submit = new JButton("Valider");
-		submit.addActionListener(new ActionListener() {
+		signIn = new JButton("Connexion");
+		signIn.setEnabled(false); // Sign In by default
+		signIn.addActionListener(new ActionListener() { //Change to Sign In 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();		
+				signIn.setEnabled(false);
+				signUp.setEnabled(true); 
+				buttonColor.setVisible(false);// No need to pick up a color to Sign In
+			}
+		});
+		signUp = new JButton("Inscription");
+		signUp.addActionListener(new ActionListener() { // Change to Sign Up
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				signIn.setEnabled(true);
+				signUp.setEnabled(false);
+				buttonColor.setVisible(true); // Must pick up a color to Sign Up
+
 			}
 		});
 		
-		content.add(pPseudo);
-		content.add(pPassword);
-		content.add(buttonColor);
-		content.add(submit);
+		submit = new JButton("Valider");
+		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, signUp));
+		title = new JPanel();
+		title.setLayout(new BoxLayout(title, BoxLayout.LINE_AXIS));
+		title.setAlignmentX(CENTER_ALIGNMENT);
+		title.add(signIn);
+		title.add(signUp);
 		
-		//content.setBackground(Color.black);
-		//content.setMinimumSize(new Dimension(300,300));
+		
+		body = new JPanel();
+		body.setLayout(new BoxLayout(body,BoxLayout.PAGE_AXIS));
+		body.add(pPseudo);
+		body.add(pPassword);
+		body.add(buttonColor);
+		
+		content.add(title);
+		content.add(body);
+		content.add(submit);
 		
 		//Add everything in the JDialog
 		this.getContentPane().add(content);
