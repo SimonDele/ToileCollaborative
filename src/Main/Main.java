@@ -13,7 +13,7 @@ public class Main {
 		Toolbox toolbox = new Toolbox();
 
 		SignIn_Up signIn_Up = new SignIn_Up(null);
-		System.out.println(USER.getGroupList().size());
+		//System.out.println(USER.getGroupList().size());
 		MainFrame mainFrame = new MainFrame(toolbox, USER);
 		//mainFrame.setGroup(USER.getGroupList());
 		mainFrame.setVisible(true);
