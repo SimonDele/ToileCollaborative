@@ -57,9 +57,7 @@ public class Member implements Serializable {
 
 			Member member = (Member) iterator.next();
 			if((password.equals(member.password)) && (pseudo.equals(member.pseudo))) {
-				System.out.println("ok");
 				found = true;
-				System.out.println("zae" + member.groupList.size());
 				return member;
 			}
 		}
@@ -70,9 +68,13 @@ public class Member implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(
 			          new BufferedOutputStream(
 			            new FileOutputStream(fileMembers)));
-		    for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
-				Member member = (Member) iterator.next();
-				oos.writeObject(member);
+		    for (int i=0; i<listMembers.size();i++) {
+				Member member = listMembers.get(i);
+				if(member.getPseudo().equals(this.pseudo) && member.password.equals(this.password)) { //Look for the user in the list
+					oos.writeObject(this); // Update the member because it may have changed
+				}else {
+					oos.writeObject(member); // Just rewrite it
+				}
 				
 			}
 			oos.close();
@@ -116,14 +118,12 @@ public class Member implements Serializable {
 	}
 	public void createNewGroup(String name) {
 		this.groupList.add(new Group(name));
-		ArrayList<Member> temp = this.readFileMembers(); // Get the list of all the members
-		for (int i = 0; i < temp.size(); i++) {
-			if(temp.get(i).getPseudo().equals(this.pseudo) && temp.get(i).password.equals(this.password)) { //Look for the user in the list
-				System.out.println("fdvgdfsq"+ this.groupList.size());
-				temp.set(i, this); //And replace it with its new group
-			}
-		}
-		this.writeFileMembers(temp);
+		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
+		this.writeFileMembers(member); //And rewrite it
+	}
+	public void saveBeforeExit() {
+		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
+		this.writeFileMembers(member); //And rewrite it
 	}
 
 	
