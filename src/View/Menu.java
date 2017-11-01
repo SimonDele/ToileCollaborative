@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Modele.Canvas;
 import Modele.Group;
 import Modele.Member;
 
@@ -11,9 +12,9 @@ public class Menu extends JPanel {
 	MenuMembers menuMembers;
 	MenuGroups menuGroups;
 
-	public Menu(Group group, Member member) {
+	public Menu(Group group, Member member, Canvas canvas) {
 		menuMembers = new MenuMembers(group);
-		menuGroups = new MenuGroups(member.getGroupList());
+		menuGroups = new MenuGroups(member.getGroupList(), canvas);
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(new JScrollPane(menuGroups));

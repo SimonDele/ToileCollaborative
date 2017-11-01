@@ -124,6 +124,14 @@ public class Member implements Serializable {
 	public void saveBeforeExit() {
 		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
 		this.writeFileMembers(member); //And rewrite it
+		for(int i=0; i<this.groupList.size(); i++) {
+			try {
+				this.groupList.get(i).getCanvas().save(this.groupList.get(i).getName());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	

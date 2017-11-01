@@ -24,10 +24,10 @@ public class PCanva extends JPanel {
 	
 	public PCanva(Toolbox toolbox, Canvas canvas) {
 		toDrawPath = false;
-		drawing = canvas.getDrawing();
+		drawing = MainFrame.canvas.getDrawing();
 		//canvas.setDrawing(drawing);
 		this.toolbox = toolbox;
-		this.canvas = canvas;
+		this.canvas = MainFrame.canvas;
 		//Listeners
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
@@ -43,12 +43,14 @@ public class PCanva extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-        g.drawImage(drawing, 0, 0, null);
+        g.drawRect(0, 0, this.getWidth(), this.getHeight());    
+		g.drawImage(MainFrame.canvas.getDrawing(), 0, 0, null);
        
 	}
 
     // draw painting
     public void updatePaint(){
+    	
     	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = drawing.createGraphics();
 
@@ -64,16 +66,20 @@ public class PCanva extends JPanel {
         // repaint panel with new modified paint
         repaint();
         //Save in Canvas
-        canvas.setDrawing(drawing);
+        MainFrame.canvas.setDrawing(drawing);
     }
-
+    /*
+    public void changeGroup(Canvas canvas) {
+    	this.canvas = canvas;
+    }*/
     public void save() throws IOException{
         ImageIO.write(drawing, "PNG", new File("filename.png"));
     }
-
+/*
     public void load() throws IOException {
         drawing = ImageIO.read(new File("filename.png"));
         // update panel with new paint image
         repaint();
-    }	
+    }
+   */	
 }

@@ -8,7 +8,7 @@ public class Group implements Serializable {
 	private String name;
 	private ArrayList<Member> memberList;
 	private ArrayList<Boolean> adminList;
-	private Canvas canvas;
+	private transient Canvas canvas;
 
 	public Group(String name) {
 		this.name = name;
