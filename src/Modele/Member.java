@@ -58,6 +58,9 @@ public class Member implements Serializable {
 			Member member = (Member) iterator.next();
 			if((password.equals(member.password)) && (pseudo.equals(member.pseudo))) {
 				found = true;
+				for(int i=0; i<member.groupList.size(); i++) {
+					member.groupList.get(i).loadImg();
+				}
 				return member;
 			}
 		}
@@ -93,8 +96,6 @@ public class Member implements Serializable {
 			ois = new ObjectInputStream(
 			          new BufferedInputStream(
 			            new FileInputStream(fileMembers)));
-			
-
 				while(true) {
 					try {
 						Member obj = (Member)ois.readObject();
@@ -112,15 +113,16 @@ public class Member implements Serializable {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 		return res;
 	}
+	
 	public void createNewGroup(String name) {
 		this.groupList.add(new Group(name));
 		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
 		this.writeFileMembers(member); //And rewrite it
 	}
+	
 	public void saveBeforeExit() {
 		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
 		this.writeFileMembers(member); //And rewrite it
@@ -128,7 +130,6 @@ public class Member implements Serializable {
 			try {
 				this.groupList.get(i).getCanvas().save(this.groupList.get(i).getName());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -1,7 +1,11 @@
 package Modele;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Group implements Serializable {
 	
@@ -29,5 +33,14 @@ public class Group implements Serializable {
 	}
 	public Canvas getCanvas() {
 		return canvas;
+	}
+	public void loadImg() {
+		try {
+			this.canvas = new Canvas();		
+			this.canvas.setDrawing(ImageIO.read(new File("drawings/" + name+".png")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

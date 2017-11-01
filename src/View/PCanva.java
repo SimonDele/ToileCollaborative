@@ -32,32 +32,32 @@ public class PCanva extends JPanel {
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
 		this.addMouseListener(listenersPCanva);
-	
 	}
 	
 	public void drawPath() {
 		toDrawPath = true;
 		this.updatePaint();
-
 	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-        g.drawRect(0, 0, this.getWidth(), this.getHeight());    
-		g.drawImage(MainFrame.canvas.getDrawing(), 0, 0, null);
-       
+		g.drawImage(MainFrame.canvas.getDrawing(), 0, 0, null);  
 	}
 
     // draw painting
     public void updatePaint(){
-    	
-    	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+    	if(MainFrame.canvas.getDrawing() == null) {
+        	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
+    	}else {
+    		drawing = MainFrame.canvas.getDrawing();
+    	}
+
         Graphics g = drawing.createGraphics();
 
         if(toDrawPath) {
 			 for(Point p : listenersPCanva.getPath()) { //We iterate over our list of point in the path ArrayList
-				 g.setColor(Color.red); //A changer
-				 
+				 g.setColor(Color.red); //A changer 
 				 g.fillRect((int)p.getX(),(int) p.getY(), toolbox.getSize(), toolbox.getSize());
 			 }
 		 }
@@ -68,13 +68,11 @@ public class PCanva extends JPanel {
         //Save in Canvas
         MainFrame.canvas.setDrawing(drawing);
     }
-    /*
-    public void changeGroup(Canvas canvas) {
-    	this.canvas = canvas;
-    }*/
+/*
     public void save() throws IOException{
         ImageIO.write(drawing, "PNG", new File("filename.png"));
     }
+   */
 /*
     public void load() throws IOException {
         drawing = ImageIO.read(new File("filename.png"));

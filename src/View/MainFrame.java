@@ -27,7 +27,6 @@ public class MainFrame extends JFrame{
 		this.setLocationRelativeTo(null);               
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setSize(500, 500);
-	    
 	    	    
 	    //Containt
 	    JPanel container = new JPanel(); //will contain all other JPanel
@@ -36,13 +35,13 @@ public class MainFrame extends JFrame{
 	    if(user.getGroupList().size() > 0) {
 		    canvas = user.getGroupList().get(0).getCanvas();
 		    menu = new Menu(user.getGroupList().get(0), user, canvas);
-
+		    System.out.println("size>0");
 	    }else {
 	    	canvas = new Canvas();
 	    	menu = new Menu(null, user, canvas);
 
 	    }
-
+System.out.println(canvas);
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 	    
 	    pCanva = new PCanva(toolbox, canvas);

@@ -18,6 +18,6 @@ public class Canvas{
 		return drawing;
 	}
     public void save(String name) throws IOException{
-        ImageIO.write(drawing, "PNG", new File("/drawings" + name +".png"));
+        ImageIO.write(drawing, "PNG", new File("drawings/" + name +".png"));
     }
 }
