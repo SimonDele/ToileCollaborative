@@ -29,7 +29,8 @@ public class Group implements Serializable {
 	}
 	
 	public void addMember(Member toAdd) {
-		memberList.add(toAdd);
+		memberList.add(toAdd); // Add the toAdd member to the list of members of this group
+		toAdd.createNewGroup(this.getName()); // Add this group to the member added		
 	}
 	public Canvas getCanvas() {
 		return canvas;

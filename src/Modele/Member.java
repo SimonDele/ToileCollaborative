@@ -22,7 +22,7 @@ public class Member implements Serializable {
 	private Color color; // Not used yet
 	private ArrayList<Group> groupList;
 	
-	private File fileMembers;
+	private static File fileMembers;
 	private transient Toolbox toolbox;
 	
 	public Member() {	
@@ -38,7 +38,7 @@ public class Member implements Serializable {
 		
 		fileMembers = new File("listeMembers.txt");
 		
-		ArrayList<Member> listMembers = this.readFileMembers(); // Since we can't append a FileOuputStream, firtly we store all its content
+		ArrayList<Member> listMembers = readFileMembers(); // Since we can't append a FileOuputStream, firtly we store all its content
 		//Then we rewrite it, and we add the new Member at the end
 		listMembers.add(this);
 		this.writeFileMembers(listMembers);
@@ -48,6 +48,16 @@ public class Member implements Serializable {
 	}
 	public ArrayList<Group> getGroupList() {
 		return groupList;
+	}
+	public static Member getMember(String pseudo) {
+		ArrayList<Member> listMembers = readFileMembers();
+		for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
+			Member member = (Member) iterator.next();
+			if(member.getPseudo().equals(pseudo)) {
+				return member;
+			}
+		}
+		return null; //If the member doesn't exist
 	}
 	public Member connection(String pseudo, String password) {
 		ArrayList<Member> listMember = readFileMembers();
@@ -66,19 +76,14 @@ public class Member implements Serializable {
 		}
 		return null;
 	}
-	private void writeFileMembers(ArrayList<Member> listMembers) {
+	private static void writeFileMembers(ArrayList<Member> listMembers) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
 			          new BufferedOutputStream(
 			            new FileOutputStream(fileMembers)));
 		    for (int i=0; i<listMembers.size();i++) {
 				Member member = listMembers.get(i);
-				if(member.getPseudo().equals(this.pseudo) && member.password.equals(this.password)) { //Look for the user in the list
-					oos.writeObject(this); // Update the member because it may have changed
-				}else {
-					oos.writeObject(member); // Just rewrite it
-				}
-				
+				oos.writeObject(member);	
 			}
 			oos.close();
 			
@@ -88,7 +93,7 @@ public class Member implements Serializable {
 			e.printStackTrace();
 		}	          		
 	}
-	private ArrayList<Member> readFileMembers(){
+	private static ArrayList<Member> readFileMembers(){
 		ArrayList<Member> res = new ArrayList<Member>();
 		ObjectInputStream ois;
 
@@ -100,7 +105,6 @@ public class Member implements Serializable {
 					try {
 						Member obj = (Member)ois.readObject();
 						res.add(obj);
-						System.out.println(obj);
 					}catch(EOFException | ClassNotFoundException e) { // Catch if we have reached the end of the file
 						ois.close();
 						break;
@@ -119,13 +123,20 @@ public class Member implements Serializable {
 	
 	public void createNewGroup(String name) {
 		this.groupList.add(new Group(name));
-		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
-		this.writeFileMembers(member); //And rewrite it
+		ArrayList<Member> members = readFileMembers(); // Get the list of all the members
+		
+		for(int i=0; i<members.size();i++) { //Modify the current User
+			if(members.get(i).pseudo.equals(this.pseudo) && members.get(i).password.equals(this.password)) {
+				members.set(i,this);
+			}
+		}
+		
+		writeFileMembers(members); //And rewrite everything
 	}
 	
 	public void saveBeforeExit() {
-		ArrayList<Member> member = this.readFileMembers(); // Get the list of all the members
-		this.writeFileMembers(member); //And rewrite it
+		ArrayList<Member> member = readFileMembers(); // Get the list of all the members
+		writeFileMembers(member); //And rewrite it
 		for(int i=0; i<this.groupList.size(); i++) {
 			try {
 				this.groupList.get(i).getCanvas().save(this.groupList.get(i).getName());

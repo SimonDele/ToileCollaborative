@@ -39,9 +39,7 @@ public class MainFrame extends JFrame{
 	    }else {
 	    	canvas = new Canvas();
 	    	menu = new Menu(null, user, canvas);
-
 	    }
-System.out.println(canvas);
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 	    
 	    pCanva = new PCanva(toolbox, canvas);
