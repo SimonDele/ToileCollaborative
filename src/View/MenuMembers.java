@@ -35,15 +35,33 @@ public class MenuMembers extends JPanel{
 		inputAddMember = new JTextField("Ajouter un membre");
 		inputAddMember.addKeyListener(new ListenerAddMember(group, inputAddMember, listMembers, this));
 		this.add(inputAddMember);
+
+		this.refreshDisplay();
+	}
+	
+	public void setListMembers(ArrayList<Member> listMembers) {
+		this.listMembers = listMembers;
+		this.refreshDisplay();
+	}
+	
+	public void refreshDisplay() {
+		// Remove everything
+		for(int i=0; i<this.labMembers.size(); i++) {
+			this.remove(this.labMembers.get(i));
+		}
+		this.labMembers = new ArrayList<JLabel>();
 		
-		//Display all the member of the group
+		// Add the members
 		for (int i=0; i<this.listMembers.size(); i++) {
 			Member member = this.listMembers.get(i);
 			this.labMembers.add(new JLabel(""+member.getPseudo()));	
 			this.add(labMembers.get(i));	
 		}
+		this.revalidate();
+		this.repaint();
 	}
-	public void refreshDisplay() {
+	
+	public void addMember() {
 		if(this.labMembers.size() < this.listMembers.size()) { // Check if one label is missing (might be true all the time)
 			this.labMembers.add(new JLabel(""+this.listMembers.get(listMembers.size()-1).getPseudo())); // add to the arraylist of jbutton
 			this.add(this.labMembers.get(this.labMembers.size()-1)); // add the new jlabel to the panel

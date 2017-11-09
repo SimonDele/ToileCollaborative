@@ -34,7 +34,7 @@ public class ListenerAddMember implements KeyListener{
 			Member memberToAdd = Member.getMember(inputMember.getText());
 			if(memberToAdd != null) {
 				group.addMember(memberToAdd);
-				menuMembers.refreshDisplay();
+				menuMembers.addMember();
 				System.out.println("Membre ajouté");
 			}else {
 				System.out.println("Membre inexistant");

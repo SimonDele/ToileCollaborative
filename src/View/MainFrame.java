@@ -15,7 +15,7 @@ import Modele.Toolbox;
 public class MainFrame extends JFrame{
 	private String title;
 	//Different Panels :
-	private Menu menu;
+	public static Menu menu;
 	public static PCanva pCanva;
 	private PToolBox pToolBox;
 	public static Canvas canvas;

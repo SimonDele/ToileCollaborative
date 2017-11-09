@@ -9,8 +9,8 @@ import Modele.Group;
 import Modele.Member;
 
 public class Menu extends JPanel {
-	MenuMembers menuMembers;
-	MenuGroups menuGroups;
+	public static MenuMembers menuMembers;
+	public static MenuGroups menuGroups;
 
 	public Menu(Group group, Member member, Canvas canvas) {
 		menuMembers = new MenuMembers(group);
