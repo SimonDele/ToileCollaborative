@@ -33,6 +33,7 @@ public class ListenerAddMember implements KeyListener{
 		if(arg0.getKeyCode() == 10) { //Enter key
 			Member memberToAdd = Member.getMember(inputMember.getText());
 			if(memberToAdd != null) {
+				System.out.println(group);
 				group.addMember(memberToAdd);
 				menuMembers.addMember();
 				System.out.println("Membre ajouté");
