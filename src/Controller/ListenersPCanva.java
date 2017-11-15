@@ -45,7 +45,7 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-			
+		this.path = new ArrayList<Point>();	
 	}
 
 	@Override
