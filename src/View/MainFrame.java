@@ -1,16 +1,15 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Controller.SaveOnWindowClosed;
-import Modele.Canvas;
 import Modele.Member;
 import Modele.Toolbox;
+import Modele.rmi.CanvasRMIServerImpl;
 
 public class MainFrame extends JFrame{
 	private String title;
@@ -18,7 +17,7 @@ public class MainFrame extends JFrame{
 	public static Menu menu;
 	public static PCanva pCanva;
 	private PToolBox pToolBox;
-	public static Canvas canvas;
+	public static CanvasRMIServerImpl canvasServer;
 	
 	public MainFrame(Toolbox toolbox, Member user) {
 		//Things related to JFrame properties
@@ -33,16 +32,21 @@ public class MainFrame extends JFrame{
 	    container.setLayout(new BorderLayout()); // BorderLayout enables to have 4 Panels define by WEST, CENTER, EAST, NORTH and SOUTH 
 	    
 	    if(user.getGroupList().size() > 0) {
-		    canvas = user.getGroupList().get(0).getCanvas();
-		    menu = new Menu(user.getGroupList().get(0), user, canvas);
+		    canvasServer = user.getGroupList().get(0).getCanvas();
+		    menu = new Menu(user.getGroupList().get(0), user, canvasServer);
 		    System.out.println("size>0");
 	    }else {
-	    	canvas = new Canvas();
-	    	menu = new Menu(null, user, canvas);
+	    	try {
+				canvasServer = new CanvasRMIServerImpl(null, "public");
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	menu = new Menu(null, user, canvasServer);
 	    }
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 	    
-	    pCanva = new PCanva(toolbox, canvas);
+	    pCanva = new PCanva(toolbox, canvasServer);
 	    container.add(pCanva, BorderLayout.CENTER);
 	    
 	    pToolBox = new PToolBox(toolbox);

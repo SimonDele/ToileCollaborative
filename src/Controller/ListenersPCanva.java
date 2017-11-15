@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import View.PCanva;
@@ -51,7 +52,12 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		this.path.add(new Point(e.getX(), e.getY()));
-		pCanva.drawPath();
+		try {
+			pCanva.drawPath();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

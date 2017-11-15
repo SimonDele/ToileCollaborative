@@ -4,15 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.rmi.RemoteException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import Controller.ListenersPCanva;
-import Modele.Canvas;
 import Modele.Toolbox;
+import Modele.rmi.CanvasRMIServerImpl;
 
 public class PCanva extends JPanel {
 	
@@ -20,21 +18,26 @@ public class PCanva extends JPanel {
 	private Boolean toDrawPath;
 	private ListenersPCanva listenersPCanva;
 	private Toolbox toolbox;
-	private Canvas canvas;
+	private CanvasRMIServerImpl canvasServer;
 	
-	public PCanva(Toolbox toolbox, Canvas canvas) {
+	public PCanva(Toolbox toolbox, CanvasRMIServerImpl canvasServer) {
 		toDrawPath = false;
-		drawing = MainFrame.canvas.getDrawing();
-		//canvas.setDrawing(drawing);
+		try {
+			drawing = MainFrame.canvasServer.getDrawing();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//canvasServer.setDrawing(drawing);
 		this.toolbox = toolbox;
-		this.canvas = MainFrame.canvas;
+		this.canvasServer = MainFrame.canvasServer;
 		//Listeners
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
 		this.addMouseListener(listenersPCanva);
 	}
 	
-	public void drawPath() {
+	public void drawPath() throws RemoteException {
 		toDrawPath = true;
 		this.updatePaint();
 	}
@@ -42,15 +45,20 @@ public class PCanva extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(MainFrame.canvas.getDrawing(), 0, 0, null);  
+		try {
+			g.drawImage(MainFrame.canvasServer.getDrawing(), 0, 0, null);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
 	}
 
     // draw painting
-    public void updatePaint(){
-    	if(MainFrame.canvas.getDrawing() == null) {
+    public void updatePaint() throws RemoteException{
+    	if(MainFrame.canvasServer.getDrawing() == null) {
         	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
     	}else {
-    		drawing = MainFrame.canvas.getDrawing();
+    		drawing = MainFrame.canvasServer.getDrawing();
     	}
 
         Graphics g = drawing.createGraphics();
@@ -66,7 +74,7 @@ public class PCanva extends JPanel {
         // repaint panel with new modified paint
         repaint();
         //Save in Canvas
-        MainFrame.canvas.setDrawing(drawing);
+        MainFrame.canvasServer.setDrawing(drawing);
     }
 /*
     public void save() throws IOException{

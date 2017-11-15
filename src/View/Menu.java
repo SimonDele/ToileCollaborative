@@ -4,15 +4,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import Modele.Canvas;
 import Modele.Group;
 import Modele.Member;
+import Modele.rmi.CanvasRMIServerImpl;
 
 public class Menu extends JPanel {
 	public static MenuMembers menuMembers;
 	public static MenuGroups menuGroups;
 
-	public Menu(Group group, Member member, Canvas canvas) {
+	public Menu(Group group, Member member, CanvasRMIServerImpl canvas) {
 		menuMembers = new MenuMembers(group);
 		menuGroups = new MenuGroups(member.getGroupList(), canvas);
 		
