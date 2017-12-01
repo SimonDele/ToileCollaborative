@@ -64,7 +64,6 @@ public class Member implements Serializable {
 		Iterator iterator = listMember.iterator();
 		boolean found = false;
 		while(!found && iterator.hasNext()) {
-
 			Member member = (Member) iterator.next();
 			if((password.equals(member.password)) && (pseudo.equals(member.pseudo))) {
 				found = true;

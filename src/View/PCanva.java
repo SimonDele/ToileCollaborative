@@ -9,8 +9,8 @@ import java.rmi.RemoteException;
 import javax.swing.JPanel;
 
 import Controller.ListenersPCanva;
+import Modele.Canvas;
 import Modele.Toolbox;
-import Modele.rmi.CanvasRMIServerImpl;
 
 public class PCanva extends JPanel {
 	
@@ -18,19 +18,16 @@ public class PCanva extends JPanel {
 	private Boolean toDrawPath;
 	private ListenersPCanva listenersPCanva;
 	private Toolbox toolbox;
-	private CanvasRMIServerImpl canvasServer;
+	private Canvas canvas;
 	
-	public PCanva(Toolbox toolbox, CanvasRMIServerImpl canvasServer) {
+	public PCanva(Toolbox toolbox, Canvas canvas) {
 		toDrawPath = false;
-		try {
-			drawing = MainFrame.canvasServer.getDrawing();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		drawing = MainFrame.canvas.getDrawing();
+
 		//canvasServer.setDrawing(drawing);
 		this.toolbox = toolbox;
-		this.canvasServer = MainFrame.canvasServer;
+		this.canvas = MainFrame.canvas;
 		//Listeners
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
@@ -45,20 +42,17 @@ public class PCanva extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		try {
-			g.drawImage(MainFrame.canvasServer.getDrawing(), 0, 0, null);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
+		
+		g.drawImage(MainFrame.canvas.getDrawing(), 0, 0, null);
+		
 	}
 
     // draw painting
     public void updatePaint() throws RemoteException{
-    	if(MainFrame.canvasServer.getDrawing() == null) {
+    	if(MainFrame.canvas.getDrawing() == null) {
         	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
     	}else {
-    		drawing = MainFrame.canvasServer.getDrawing();
+    		drawing = MainFrame.canvas.getDrawing();
     	}
 
         Graphics g = drawing.createGraphics();
@@ -74,7 +68,7 @@ public class PCanva extends JPanel {
         // repaint panel with new modified paint
         repaint();
         //Save in Canvas
-        MainFrame.canvasServer.setDrawing(drawing);
+        MainFrame.canvas.setDrawing(drawing);
     }
 /*
     public void save() throws IOException{

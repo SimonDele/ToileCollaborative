@@ -10,8 +10,8 @@ import javax.swing.JTextField;
 
 import Controller.ListenerAddGroup;
 import Controller.ListenerSwitchGroup;
+import Modele.Canvas;
 import Modele.Group;
-import Modele.rmi.CanvasRMIServerImpl;
 
 public class MenuGroups extends JPanel{
 	
@@ -19,7 +19,7 @@ public class MenuGroups extends JPanel{
 	private JTextField inputAddGroup;
 	private ArrayList<JButton> buttonGroups;
 	
-	public MenuGroups(ArrayList<Group> listGroups, CanvasRMIServerImpl canvas) {
+	public MenuGroups(ArrayList<Group> listGroups, Canvas canvas) {
 		
 		try {
 			this.listGroups = listGroups;			
@@ -46,7 +46,7 @@ public class MenuGroups extends JPanel{
 	public void refreshDisplay() {
 		if(this.buttonGroups.size() < this.listGroups.size()) { // Check if one label is missing (might be true all the time)
 			this.buttonGroups.add(new JButton(""+this.listGroups.get(listGroups.size()-1).getName())); // add to the arraylist of jbutton
-			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(MainFrame.canvasServer, this.listGroups.get(this.listGroups.size()-1)));
+			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(MainFrame.canvas, this.listGroups.get(this.listGroups.size()-1)));
 			this.add(this.buttonGroups.get(this.buttonGroups.size()-1)); // add the new jlabel to the panel
 		}
 
