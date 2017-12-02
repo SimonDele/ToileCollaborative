@@ -22,11 +22,15 @@ public class SignIn_Up extends JDialog {
 	JLabel labpassword;
 	JTextField pseudo;
 	JTextField password;
-	JButton signIn, signUp, submit;
+	JButton changeState, submit;
 	JButton buttonColor;
 	JPanel pPseudo;
 	JPanel pPassword;
 	JDialog signIn_Up;
+	public String textSignUp= "Not yet sign up ? Click to sign up.";
+	public String textSignIn = "Already got an account ? Click to sign in.";
+	String textSubmitSignIn = "Sign In";
+	String textSubmitSignUp = "Sign Up";
 	
 	public SignIn_Up(JFrame parent) {
 		super(parent, "Sign In or Sign Up", true);
@@ -52,7 +56,7 @@ public class SignIn_Up extends JDialog {
 		pPseudo.add(pseudo);
 		pPseudo.setAlignmentX(LEFT_ALIGNMENT);
 		//Password
-		labpassword = new JLabel("Mot de passe :");
+		labpassword = new JLabel("Password :");
 		password = new JTextField();
 		password.setMaximumSize(new Dimension(100,25));
 		pPassword = new JPanel();
@@ -62,7 +66,7 @@ public class SignIn_Up extends JDialog {
 		pPassword.setAlignmentX(LEFT_ALIGNMENT);
 		
 		//Pick Color
-		buttonColor = new JButton("Couleur");
+		buttonColor = new JButton("Color");
 		buttonColor.setVisible(false);
 		buttonColor.addActionListener(new ActionListener() {
 			@Override
@@ -71,7 +75,9 @@ public class SignIn_Up extends JDialog {
 			}
 			
 		});
-		
+		this.changeState = new JButton(this.textSignUp);
+		this.changeState.addActionListener(new ChangeStateListener());
+		/*
 		signIn = new JButton("Connexion");
 		signIn.setEnabled(false); // Sign In by default
 		signIn.addActionListener(new ActionListener() { //Change to Sign In 
@@ -92,14 +98,15 @@ public class SignIn_Up extends JDialog {
 
 			}
 		});
-		
-		submit = new JButton("Valider");
-		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, signUp,this));
+		*/
+		submit = new JButton(textSubmitSignIn);
+		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, submit,this, textSubmitSignUp));
 		title = new JPanel();
 		title.setLayout(new BoxLayout(title, BoxLayout.LINE_AXIS));
 		title.setAlignmentX(CENTER_ALIGNMENT);
-		title.add(signIn);
-		title.add(signUp);
+		//title.add(changeState);
+		//title.add(signIn);
+		//title.add(signUp);
 		
 		
 		body = new JPanel();
@@ -110,6 +117,7 @@ public class SignIn_Up extends JDialog {
 		
 		content.add(title);
 		content.add(body);
+		content.add(changeState);
 		content.add(submit);
 		
 		//Add everything in the JDialog
@@ -121,5 +129,21 @@ public class SignIn_Up extends JDialog {
 		res[0] = pseudo.getText();
 		res[1] = password.getText();
 		return res; 
+	}
+	public class ChangeStateListener implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if(arg0.getActionCommand() == textSignIn){
+				((JButton) arg0.getSource()).setText(textSignUp);
+				submit.setText("Sign In");
+				buttonColor.setVisible(false); // Must pick up a color to Sign Up
+			}else {
+				((JButton) arg0.getSource()).setText(textSignIn);
+				submit.setText("Sign Up");
+				buttonColor.setVisible(true); // Must pick up a color to Sign Up
+			}
+		}
+		
 	}
 }

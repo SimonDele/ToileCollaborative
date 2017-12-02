@@ -11,18 +11,22 @@ import Main.Main;
 import Modele.Member;
 
 public class ListenerSignIn_Up implements ActionListener {
-	JButton signUp;
 	JTextField pseudo, password;
 	JDialog jDialog;
-	public ListenerSignIn_Up(JTextField pseudo, JTextField password, JButton signUp, JDialog jDialog) {
-		this.signUp = signUp;
+	JButton submit;
+	String textSignUp;
+	
+	public ListenerSignIn_Up(JTextField pseudo, JTextField password,JButton submit, JDialog jDialog, String textSignUp) {
 		this.password = password;
 		this.pseudo = pseudo;
+		this.submit = submit;
 		this.jDialog = jDialog;
+		this.textSignUp = textSignUp;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(this.signUp.isEnabled() == false) { //If it is a sign Up
+		System.out.println(((JButton)e.getSource()).getActionCommand() );
+		if(((JButton)e.getSource()).getActionCommand() == textSignUp) { //If it is a sign Up
 			Member member = new Member(pseudo.getText(), password.getText());
 			Main.USER = member;
 			System.out.println("Sign Up");
