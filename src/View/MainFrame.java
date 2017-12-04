@@ -37,7 +37,7 @@ public class MainFrame extends JFrame{
 		    menu = new Menu(user.getGroupList().get(0), user, canvas);
 		    System.out.println("size>0");
 	    }else {
-	    	canvas = new Canvas();
+	    	canvas = new Canvas("public");
 	    	menu = new Menu(null, user, canvas);
 	    }
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left

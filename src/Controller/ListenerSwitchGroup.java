@@ -27,7 +27,7 @@ public class ListenerSwitchGroup implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		MainFrame.canvas = this.newGroup.getCanvas();
-		MainFrame.pCanva.repaint();
+		MainFrame.pCanva.switchCanvas();
 		System.out.println(this.newGroup.getMemberList());
 		Menu.menuMembers.setListMembers(this.newGroup.getMemberList());
 		System.out.println("Switch group");

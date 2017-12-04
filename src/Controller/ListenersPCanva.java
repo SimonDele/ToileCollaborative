@@ -4,17 +4,45 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import View.PCanva;
+import server.ServerGroup;
+import server.ServerGroupImpl;
 
 public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	private ArrayList<Point> path;
 	private PCanva pCanva;
+	private ServerGroup serverGroup;
 	
 	public ListenersPCanva(PCanva pCanva) {
 		this.pCanva = pCanva;
 		path = new ArrayList<Point>();
+		
+		Registry registry;
+		try {
+			registry = LocateRegistry.getRegistry();
+			this.serverGroup = (ServerGroup) registry.lookup(pCanva.canvas.name);
+		} catch (RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	public void changeServer(String name) {
+		Registry registry;
+		System.out.println("change server");
+		try {
+			registry = LocateRegistry.getRegistry();
+			this.serverGroup = (ServerGroup) registry.lookup(name);
+		} catch (RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public ArrayList<Point> getPath(){
 		return path;
@@ -45,13 +73,20 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		try {
+			this.serverGroup.draw(path);
+			System.out.println("draw");
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
 		this.path = new ArrayList<Point>();	
+		
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		this.path.add(new Point(e.getX(), e.getY()));
-		pCanva.drawPath();
+		//pCanva.drawPath();
 	}
 
 	@Override

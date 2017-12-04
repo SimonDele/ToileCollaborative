@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import Controller.ListenersPCanva;
@@ -16,12 +14,11 @@ import Modele.Toolbox;
 
 public class PCanva extends JPanel {
 	
-	private BufferedImage drawing;	
+	private transient BufferedImage drawing;	
 	private Boolean toDrawPath;
 	private ListenersPCanva listenersPCanva;
 	private Toolbox toolbox;
-	private Canvas canvas;
-	
+	public Canvas canvas;
 	public PCanva(Toolbox toolbox, Canvas canvas) {
 		toDrawPath = false;
 		drawing = MainFrame.canvas.getDrawing();
@@ -37,6 +34,28 @@ public class PCanva extends JPanel {
 	public void drawPath() {
 		toDrawPath = true;
 		this.updatePaint();
+	}
+	public void drawPath(ArrayList<Point> path) {
+		if(MainFrame.canvas.getDrawing() == null) {
+        	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
+    	}else {
+    		drawing = MainFrame.canvas.getDrawing();
+    	}
+
+        Graphics g = drawing.createGraphics();
+
+       
+		for(Point p : path) { //We iterate over our list of point in the path ArrayList
+			 g.setColor(Color.red); //A changer 
+			 g.fillRect((int)p.getX(),(int) p.getY(), toolbox.getSize(), toolbox.getSize());
+		}
+		
+
+        g.dispose();
+        // repaint panel with new modified paint
+        repaint();
+        //Save in Canvas
+        MainFrame.canvas.setDrawing(drawing);
 	}
 	
 	@Override
@@ -67,6 +86,10 @@ public class PCanva extends JPanel {
         repaint();
         //Save in Canvas
         MainFrame.canvas.setDrawing(drawing);
+    }
+    public void switchCanvas() {
+    	this.repaint();
+    	this.listenersPCanva.changeServer(MainFrame.canvas.getName());
     }
 /*
     public void save() throws IOException{

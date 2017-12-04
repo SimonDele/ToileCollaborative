@@ -3,9 +3,12 @@ package Modele;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import server.ServerGroupImpl;
 
 public class Group implements Serializable {
 	
@@ -18,7 +21,12 @@ public class Group implements Serializable {
 		this.name = name;
 		memberList = new ArrayList<Member>();
 		adminList = new ArrayList<Boolean>();
-		canvas = new Canvas();
+		canvas = new Canvas(name);
+		try {
+			ServerGroupImpl serverGroup = new ServerGroupImpl(this, null);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList<Member> getMemberList(){
@@ -37,11 +45,11 @@ public class Group implements Serializable {
 	}
 	public void loadImg() {
 		try {
-			this.canvas = new Canvas();		
+			this.canvas = new Canvas(this.name);		
 			this.canvas.setDrawing(ImageIO.read(new File("drawings/" + name+".png")));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }
