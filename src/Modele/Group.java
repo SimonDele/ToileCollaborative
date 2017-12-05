@@ -44,12 +44,7 @@ public class Group implements Serializable {
 		return canvas;
 	}
 	public void loadImg() {
-		try {
-			this.canvas = new Canvas(this.name);		
-			this.canvas.setDrawing(ImageIO.read(new File("drawings/" + name+".png")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
+		this.canvas = new Canvas(this.name);		
+		//this.canvas.setDrawing(ImageIO.read(new File("drawings/" + name+".png")));
 	}
 }

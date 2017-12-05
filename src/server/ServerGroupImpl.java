@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import Modele.Canvas;
 import Modele.Group;
 import View.PCanva;
 
 public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 
 	byte[] drawing;
-	HashSet<PCanva> pCanvaMembers;
+	HashSet<Canvas> canvaMembers;
 	public ServerGroupImpl(Group group, String arg) throws RemoteException {
 		super();
-		pCanvaMembers = new HashSet<PCanva>();
+		canvaMembers = new HashSet<Canvas>();
 		
 		if(arg != null) {
 			Registry registry = LocateRegistry.getRegistry(arg);
@@ -31,19 +32,19 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	}
 
 	@Override
-	public void addMember(PCanva pCanva) throws RemoteException {
+	public void addMember(Canvas canvas) throws RemoteException {
 		//pCanva.canvas
-		this.pCanvaMembers.add(pCanva);
+		this.canvaMembers.add(canvas);
 		
 		
 	}
 
 	@Override
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
-		for (Iterator iterator = this.pCanvaMembers.iterator(); iterator.hasNext();) {
+		for (Iterator iterator = this.canvaMembers.iterator(); iterator.hasNext();) {
 			System.out.println("iterate over pcanvas");
-			PCanva pCanva = (PCanva) iterator.next();
-			pCanva.drawPath(pixelsToDraw);
+			Canvas canva = (Canvas) iterator.next();
+			//canva.drawPath(pixelsToDraw);
 		}
 		
 	}

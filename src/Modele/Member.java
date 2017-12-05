@@ -122,9 +122,11 @@ public class Member implements Serializable {
 	}
 	
 	public void createNewGroup(String name) {
+		//Create the group and add it to the list of groups
 		this.groupList.add(new Group(name));
 		ArrayList<Member> members = readFileMembers(); // Get the list of all the members
 		
+		// Then updating of the file
 		for(int i=0; i<members.size();i++) { //Modify the current User
 			if(members.get(i).pseudo.equals(this.pseudo) && members.get(i).password.equals(this.password)) {
 				members.set(i,this);
@@ -132,6 +134,9 @@ public class Member implements Serializable {
 		}
 		
 		writeFileMembers(members); //And rewrite everything
+		
+		
+		
 	}
 	
 	public void saveBeforeExit() {
