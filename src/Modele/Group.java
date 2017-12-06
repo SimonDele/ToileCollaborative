@@ -21,12 +21,13 @@ public class Group implements Serializable {
 		this.name = name;
 		memberList = new ArrayList<Member>();
 		adminList = new ArrayList<Boolean>();
-		canvas = new Canvas(name);
+
 		try {
 			ServerGroupImpl serverGroup = new ServerGroupImpl(this, null);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		canvas = new Canvas(name);
 	}
 
 	public ArrayList<Member> getMemberList(){

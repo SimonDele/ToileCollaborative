@@ -28,9 +28,8 @@ public class PCanva extends JPanel {
 	public Converter converter;
 	
 	public PCanva(Toolbox toolbox, Canvas canvas) {
-		converter = new Converter();
 		toDrawPath = false;
-		//drawing = converter.toBufferedImage(MainFrame.canvas.getDrawing());
+		//drawing = Converter.toBufferedImage(MainFrame.canvas.getDrawing());
 		//canvas.setDrawing(drawing);
 		this.toolbox = toolbox;
 		this.canvas = MainFrame.canvas;
@@ -47,10 +46,11 @@ public class PCanva extends JPanel {
 		this.updatePaint();
 	}
 	public void drawPath(ArrayList<Point> path) {
+		System.out.println(path.size());
 		if(MainFrame.canvas.getDrawing() == null) {
         	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
     	}else {
-    		drawing = converter.toBufferedImage(MainFrame.canvas.getDrawing());
+    		drawing = Converter.toBufferedImage(MainFrame.canvas.getDrawing());
     	}
 
         Graphics g = drawing.createGraphics();
@@ -66,13 +66,19 @@ public class PCanva extends JPanel {
         // repaint panel with the modified painting
         repaint();
         //Save in Canvas
-        MainFrame.canvas.setDrawing(converter.toByte(drawing));
+        MainFrame.canvas.setDrawing(Converter.toIcon(drawing));
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(converter.toBufferedImage(MainFrame.canvas.getDrawing()), 0, 0, null);  
+		if(MainFrame.canvas.getDrawing() == null) {
+			System.out.println("bug");
+		}else {
+			System.out.println("pas bug");
+			g.drawImage(Converter.toBufferedImage(MainFrame.canvas.getDrawing()), 0, 0, null);  
+		}
+		
 	}
 
     // draw painting
@@ -80,7 +86,7 @@ public class PCanva extends JPanel {
     	if(MainFrame.canvas.getDrawing() == null) {
         	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
     	}else {
-    		drawing = converter.toBufferedImage(MainFrame.canvas.getDrawing());
+    		drawing = Converter.toBufferedImage(MainFrame.canvas.getDrawing());
     	}
 
         Graphics g = drawing.createGraphics();
@@ -96,7 +102,7 @@ public class PCanva extends JPanel {
         // repaint panel with new modified paint
         repaint();
         //Save in Canvas
-        MainFrame.canvas.setDrawing(converter.toByte(drawing));
+        MainFrame.canvas.setDrawing(Converter.toIcon(drawing));
     }
     public void switchCanvas() {
     	this.repaint();

@@ -1,29 +1,22 @@
 package Modele;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Converter {
-	public BufferedImage toBufferedImage(byte[] bytes) {
-		try {
-			return ImageIO.read(new ByteArrayInputStream(bytes));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}	
+	public static BufferedImage toBufferedImage(ImageIcon icon) {
+		BufferedImage bimg = new BufferedImage(
+			    icon.getIconWidth(),
+			    icon.getIconHeight(),BufferedImage.TYPE_3BYTE_BGR);
+		Graphics g = bimg.createGraphics();
+        // paint the Icon to the BufferedImage.
+        icon.paintIcon(null, g, 0,0);
+        g.dispose();
+        return bimg;
 	}
-	public byte[] toByte(BufferedImage image){
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			ImageIO.write(image, "jpg", baos);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return baos.toByteArray();
+	public static ImageIcon toIcon(BufferedImage image){
+		return new ImageIcon(image);
 	}
 }

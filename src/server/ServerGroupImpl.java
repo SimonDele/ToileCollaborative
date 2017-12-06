@@ -15,7 +15,7 @@ import View.PCanva;
 
 public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 
-	byte[] drawing;
+	//byte[] drawing;
 	HashSet<Canvas> canvaMembers;
 	public ServerGroupImpl(Group group, String arg) throws RemoteException {
 		super();
@@ -44,7 +44,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		for (Iterator iterator = this.canvaMembers.iterator(); iterator.hasNext();) {
 			System.out.println("iterate over pcanvas");
 			Canvas canva = (Canvas) iterator.next();
-			//canva.drawPath(pixelsToDraw);
+			canva.drawPath(pixelsToDraw);
 		}
 		
 	}

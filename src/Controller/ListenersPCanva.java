@@ -75,7 +75,6 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	public void mouseReleased(MouseEvent e) {
 		try {
 			this.serverGroup.draw(path);
-			System.out.println("draw");
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
