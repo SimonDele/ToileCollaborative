@@ -1,14 +1,13 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Controller.SaveOnWindowClosed;
 import Modele.Canvas;
+import Modele.Group;
 import Modele.Member;
 import Modele.Toolbox;
 
@@ -19,6 +18,7 @@ public class MainFrame extends JFrame{
 	public static PCanva pCanva;
 	private PToolBox pToolBox;
 	public static Canvas canvas;
+	public static Group currentGroup;
 	
 	public MainFrame(Toolbox toolbox, Member user) {
 		//Things related to JFrame properties
@@ -34,7 +34,8 @@ public class MainFrame extends JFrame{
 	    
 	    if(user.getGroupList().size() > 0) {
 		    canvas = user.getGroupList().get(0).getCanvas();
-		    menu = new Menu(user.getGroupList().get(0), user, canvas);
+		    MainFrame.currentGroup = user.getGroupList().get(0);
+		    menu = new Menu(MainFrame.currentGroup, user, canvas);
 		    System.out.println("size>0");
 	    }else {
 	    	canvas = new Canvas("public");

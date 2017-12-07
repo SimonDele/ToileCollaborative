@@ -12,8 +12,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import server.ServerApp;
 
 public class Member implements Serializable {
 	
@@ -60,6 +66,16 @@ public class Member implements Serializable {
 		return null; //If the member doesn't exist
 	}
 	public Member connection(String pseudo, String password) {
+		ServerApp serverApp = null;
+		Registry registry;
+		try {
+			registry = LocateRegistry.getRegistry();
+			serverApp = (ServerApp) registry.lookup("ServerApp");
+		} catch (RemoteException | NotBoundException e) {
+			System.out.println("Can't connect with the server");
+			e.printStackTrace();
+		}
+		
 		ArrayList<Member> listMember = readFileMembers();
 		Iterator iterator = listMember.iterator();
 		boolean found = false;
@@ -68,13 +84,21 @@ public class Member implements Serializable {
 			Member member = (Member) iterator.next();
 			if((password.equals(member.password)) && (pseudo.equals(member.pseudo))) {
 				found = true;
+				try {
+					serverApp.connection(member);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				for(int i=0; i<member.groupList.size(); i++) {
-					member.groupList.get(i).loadImg();
+					//member.groupList.get(i).loadImg();
 				}
 				return member;
 			}
 		}
 		return null;
+		
+		
+		
 	}
 	private static void writeFileMembers(ArrayList<Member> listMembers) {
 		try {
@@ -114,7 +138,7 @@ public class Member implements Serializable {
 				
 			ois.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	

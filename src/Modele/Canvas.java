@@ -42,9 +42,6 @@ public class Canvas implements Serializable{
 	public void setDrawing(ImageIcon image) {
 		this.drawing = image;
 	}
-	/*public BufferedImage getDrawing() {
-		return drawing;
-	}*/
 	public ImageIcon getDrawing() {
 		return this.drawing;
 	}
@@ -52,7 +49,7 @@ public class Canvas implements Serializable{
 		return name;
 	}
     public void save(String name) throws IOException{
-        //ImageIO.write(drawing, "PNG", new File("drawings/" + name +".png"));
+        ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + name +".png"));
     }
     public void drawPath(ArrayList<Point> path) {
     	MainFrame.pCanva.drawPath(path);

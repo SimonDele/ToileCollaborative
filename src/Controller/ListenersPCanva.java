@@ -28,7 +28,6 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 			registry = LocateRegistry.getRegistry();
 			this.serverGroup = (ServerGroup) registry.lookup(pCanva.canvas.name);
 		} catch (RemoteException | NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -40,12 +39,26 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 			registry = LocateRegistry.getRegistry();
 			this.serverGroup = (ServerGroup) registry.lookup(name);
 		} catch (RemoteException | NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	public ArrayList<Point> getPath(){
 		return path;
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		try {
+			this.serverGroup.draw(path);
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		this.path = new ArrayList<Point>();		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		this.path.add(new Point(e.getX(), e.getY()));
+		//pCanva.drawPath();
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -70,24 +83,6 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		try {
-			this.serverGroup.draw(path);
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
-		this.path = new ArrayList<Point>();	
-		
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		this.path.add(new Point(e.getX(), e.getY()));
-		//pCanva.drawPath();
-	}
-
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub

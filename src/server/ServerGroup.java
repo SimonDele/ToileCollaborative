@@ -11,4 +11,5 @@ import View.PCanva;
 public interface ServerGroup extends Remote{
 	public void addMember(Canvas canvas) throws RemoteException;
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException;
+	public String getName() throws RemoteException;
 }

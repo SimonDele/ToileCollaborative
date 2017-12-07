@@ -2,6 +2,10 @@ package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -9,16 +13,19 @@ import javax.swing.JTextField;
 
 import Main.Main;
 import Modele.Member;
+import server.ServerApp;
 
 public class ListenerSignIn_Up implements ActionListener {
 	JButton signUp;
 	JTextField pseudo, password;
 	JDialog jDialog;
+	
 	public ListenerSignIn_Up(JTextField pseudo, JTextField password, JButton signUp, JDialog jDialog) {
 		this.signUp = signUp;
 		this.password = password;
 		this.pseudo = pseudo;
-		this.jDialog = jDialog;
+		this.jDialog = jDialog;	
+		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

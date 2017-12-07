@@ -15,7 +15,7 @@ public class Group implements Serializable {
 	private String name;
 	private ArrayList<Member> memberList;
 	private ArrayList<Boolean> adminList;
-	private transient Canvas canvas;
+	private Canvas canvas;
 
 	public Group(String name) {
 		this.name = name;
@@ -46,6 +46,10 @@ public class Group implements Serializable {
 	}
 	public void loadImg() {
 		this.canvas = new Canvas(this.name);		
-		//this.canvas.setDrawing(ImageIO.read(new File("drawings/" + name+".png")));
+		try {
+			this.canvas.setDrawing(Converter.toIcon(ImageIO.read(new File("drawings/" + name+".png"))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
