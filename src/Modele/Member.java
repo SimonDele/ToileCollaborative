@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import server.ServerApp;
-
+import Main.Main;
 public class Member implements Serializable {
 	
 	private String pseudo;
@@ -44,18 +44,24 @@ public class Member implements Serializable {
 		//Writing in the dedicated file the new member.
 		this.pseudo = pseudo;
 		this.password = password;
+		this.setToolbox(new Toolbox());
 		
+		
+		/* Avant serveur
 		fileMembers = new File("listeMembers.txt");
 		
 		ArrayList<Member> listMembers = readFileMembers(); // Since we can't append a FileOuputStream, firtly we store all its content
 		//Then we rewrite it, and we add the new Member at the end
 		listMembers.add(this);
 		this.writeFileMembers(listMembers);
-	
-		this.toolbox = new Toolbox();
+		*/
+
 	}
 	public String getPseudo() {
 		return pseudo;
+	}
+	public String getPassword() {
+		return password;
 	}
 	public ArrayList<Group> getGroupList() {
 		return groupList;
@@ -63,7 +69,7 @@ public class Member implements Serializable {
 	public void setCurrentCanvas(Canvas canvas) {
 		this.currentCanvas = canvas;
 	}
-	
+	/*
 	public static Member getMember(String pseudo) {
 		ArrayList<Member> listMembers = readFileMembers();
 		for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
@@ -74,17 +80,18 @@ public class Member implements Serializable {
 		}
 		return null; //If the member doesn't exist
 	}
+	*/
 	public static Member connection(String pseudo, String password) {
-		ServerApp serverApp = null;
-		Registry registry;
+		
 		try {
-			registry = LocateRegistry.getRegistry();
-			serverApp = (ServerApp) registry.lookup("ServerApp");
-		} catch (RemoteException | NotBoundException e) {
-			System.out.println("Can't connect with the server");
+			return Main.serverApp.connection(pseudo, password);
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		
+		return null;
+		
+		/* Avant server
 		ArrayList<Member> listMember = readFileMembers();
 		Iterator iterator = listMember.iterator();
 		boolean found = false;
@@ -106,9 +113,10 @@ public class Member implements Serializable {
 		}
 		return null;
 		
-		
+		*/
 		
 	}
+	/*
 	private static void writeFileMembers(ArrayList<Member> listMembers) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
@@ -153,7 +161,7 @@ public class Member implements Serializable {
 		}	
 		return res;
 	}
-	
+	*/
 	public void createNewGroup(String name) {
 		//Create the group and add it to the list of groups
 		this.groupList.add(new Group(name));
@@ -186,6 +194,12 @@ public class Member implements Serializable {
 
 	public Canvas getCurrentCanvas() {
 		return this.currentCanvas;
+	}
+	public Toolbox getToolbox() {
+		return toolbox;
+	}
+	public void setToolbox(Toolbox toolbox) {
+		this.toolbox = toolbox;
 	}
 
 	

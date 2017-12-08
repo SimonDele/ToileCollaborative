@@ -30,10 +30,36 @@ public class ListenerSignIn_Up implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(this.signUp.isEnabled() == false) { //If it is a sign Up
+			System.out.println("Sign Up");
+			
+			try {
+				Main.USER = Main.serverApp.register(pseudo.getText(), password.getText());
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
+			
+			/* Avant serveur
 			Member member = new Member(pseudo.getText(), password.getText());
 			Main.USER = member;
-			System.out.println("Sign Up");
+			
+			*/
+
 		}else {// it is a sign In
+			
+			try {
+				Member member = Main.serverApp.connection(pseudo.getText(), password.getText());
+				if(member != null) {
+					System.out.println("Sign In");
+					Main.USER = member;
+					this.jDialog.dispose();
+				}else {
+					System.out.println("No yet Sign Up");
+				}
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
+			
+			/* Avant serveur
 			Member member = new Member();
 			member = member.connection(pseudo.getText(), password.getText());
 			if(member != null) {
@@ -43,6 +69,7 @@ public class ListenerSignIn_Up implements ActionListener {
 			}else {
 				System.out.println("No yet Sign Up");
 			}
+			*/
 
 		}
 		
