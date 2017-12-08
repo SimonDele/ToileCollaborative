@@ -1,6 +1,8 @@
 package Modele;
 
-public class Toolbox {
+import java.io.Serializable;
+
+public class Toolbox implements Serializable{
 	private String shapeSelected;
 	private int size;
 	

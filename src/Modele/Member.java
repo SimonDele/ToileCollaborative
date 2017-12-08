@@ -29,12 +29,15 @@ public class Member implements Serializable {
 	private ArrayList<Group> groupList;
 	
 	private static File fileMembers;
-	private transient Toolbox toolbox;
+	private Toolbox toolbox;
+	private Canvas currentCanvas;
 	
+	/*
 	public Member() {	
 		fileMembers = new File("listeMembers.txt");
 		groupList = new ArrayList<Group>(); // Creation of an empty groupList
-	}
+		toolbox = new Toolbox();
+	}*/
 	
 	public Member(String pseudo,String password) {
 		groupList = new ArrayList<Group>(); // Creation of an empty groupList
@@ -48,6 +51,8 @@ public class Member implements Serializable {
 		//Then we rewrite it, and we add the new Member at the end
 		listMembers.add(this);
 		this.writeFileMembers(listMembers);
+	
+		this.toolbox = new Toolbox();
 	}
 	public String getPseudo() {
 		return pseudo;
@@ -55,6 +60,10 @@ public class Member implements Serializable {
 	public ArrayList<Group> getGroupList() {
 		return groupList;
 	}
+	public void setCurrentCanvas(Canvas canvas) {
+		this.currentCanvas = canvas;
+	}
+	
 	public static Member getMember(String pseudo) {
 		ArrayList<Member> listMembers = readFileMembers();
 		for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
@@ -65,7 +74,7 @@ public class Member implements Serializable {
 		}
 		return null; //If the member doesn't exist
 	}
-	public Member connection(String pseudo, String password) {
+	public static Member connection(String pseudo, String password) {
 		ServerApp serverApp = null;
 		Registry registry;
 		try {
@@ -173,6 +182,10 @@ public class Member implements Serializable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public Canvas getCurrentCanvas() {
+		return this.currentCanvas;
 	}
 
 	

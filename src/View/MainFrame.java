@@ -20,7 +20,7 @@ public class MainFrame extends JFrame{
 	public static Canvas canvas;
 	public static Group currentGroup;
 	
-	public MainFrame(Toolbox toolbox, Member user) {
+	public MainFrame(Member user) {
 		//Things related to JFrame properties
 		title = "CanvUs";
 		this.setTitle(title);

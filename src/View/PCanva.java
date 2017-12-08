@@ -37,7 +37,7 @@ public class PCanva extends JPanel {
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
 		this.addMouseListener(listenersPCanva);
-		
+	
 
 	}
 	

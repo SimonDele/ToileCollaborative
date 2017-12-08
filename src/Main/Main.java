@@ -10,9 +10,8 @@ public class Main {
 	public static Member USER;
 	
 	public static void main(String[] args) {
-		Toolbox toolbox = new Toolbox();
 		SignIn_Up signIn_Up = new SignIn_Up(null);
-		MainFrame mainFrame = new MainFrame(toolbox, USER);
+		MainFrame mainFrame = new MainFrame(USER);
 		mainFrame.setVisible(true);
 		
 

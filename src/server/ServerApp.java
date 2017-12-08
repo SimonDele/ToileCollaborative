@@ -8,6 +8,6 @@ import Modele.Member;
 public interface ServerApp extends Remote {
 	
 	
-	public void connection(Member member) throws RemoteException;
-
+	public Member connection(String pseudo, String password) throws RemoteException;
+	public Member register(String pseudo, String password) throws RemoteException;
 }

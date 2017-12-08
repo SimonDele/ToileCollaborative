@@ -36,7 +36,7 @@ public class Group implements Serializable {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void addMember(Member toAdd) {
 		memberList.add(toAdd); // Add the toAdd member to the list of members of this group
 		toAdd.createNewGroup(this.getName()); // Add this group to the member added		

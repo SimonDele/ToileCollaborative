@@ -17,17 +17,19 @@ import javax.imageio.ImageIO;
 import Modele.Canvas;
 import Modele.Converter;
 import Modele.Group;
-import View.PCanva;
+import Modele.Member;
 
 public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 
 	//byte[] drawing;
 	private String name;
-	private HashSet<Canvas> canvaMembers;
+	private HashSet<Member> coMembers;
+	private Group group;
 	
 	public ServerGroupImpl(Group group, String arg) throws RemoteException {
 		super();
-		canvaMembers = new HashSet<Canvas>();
+		this.group = group;
+		coMembers = new HashSet<Member>();
 		this.name = group.getName();
 		if(arg != null) {
 			Registry registry = LocateRegistry.getRegistry(arg);
@@ -40,33 +42,21 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	}
 
 	@Override
-	public void addMember(Canvas canvas) throws RemoteException {
+	public void addMember(Member member) throws RemoteException {
 		
 		System.out.println("member added to the server");
 		// Send him the image
-		if(this.canvaMembers.size() > 0) {
-			//A revoir il faudrait lire sur le pc plutot
-			Iterator<Canvas> it = this.canvaMembers.iterator();
-			canvas.setDrawing(it.next().getDrawing());
-		}else { 
-			try {
-				canvas.setDrawing(Converter.toIcon(ImageIO.read(new File("drawings/" + name+".png"))));
-			} catch (IOException e) {
-				canvas.setDrawing(Converter.toIcon(new BufferedImage(500,500,BufferedImage.TYPE_INT_RGB)));
-				System.out.println("Drawing empty");
-				//e.printStackTrace();
-			}
-		}
-		this.canvaMembers.add(canvas);
+		member.setCurrentCanvas(this.group.getCanvas());
+		this.coMembers.add(member);
 
 	}
 
 	@Override
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
-		for (Iterator iterator = this.canvaMembers.iterator(); iterator.hasNext();) {
-			System.out.println("iterate over canvas");
-			Canvas canva = (Canvas) iterator.next();
-			canva.drawPath(pixelsToDraw);
+		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
+			System.out.println("iterate over members");
+			Member member = (Member) iterator.next();
+			member.getCurrentCanvas().drawPath(pixelsToDraw);
 		}
 		
 	}
@@ -74,6 +64,10 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public String getName() throws RemoteException{
 		return this.name;
+	}
+	@Override
+	public boolean equals(String name) throws RemoteException {
+		return name == this.name;
 	}
 
 }
