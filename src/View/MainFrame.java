@@ -43,10 +43,10 @@ public class MainFrame extends JFrame{
 	    	menu = new Menu(null, user, canvas);
 	    }
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
-	    
+
 	    pCanva = new PCanva(user.getToolbox(), canvas);
 	    container.add(pCanva, BorderLayout.CENTER);
-	    
+	    System.out.println(pCanva);
 	    pToolBox = new PToolBox(user.getToolbox());
 	    container.add(pToolBox, BorderLayout.NORTH);
 	    

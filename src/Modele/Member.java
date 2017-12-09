@@ -163,17 +163,34 @@ public class Member implements Serializable {
 	}
 	public void createNewGroup(String name) {
 		//Create the group and add it to the list of groups
-		this.groupList.add(new Group(name));
-		ArrayList<Member> members = readFileMembers(); // Get the list of all the members
+		Group newgroup = new Group(name);
+		this.groupList.add(newgroup);
 		
-		// Then updating of the file
-		for(int i=0; i<members.size();i++) { //Modify the current User
-			if(members.get(i).pseudo.equals(this.pseudo) && members.get(i).password.equals(this.password)) {
-				members.set(i,this);
-			}
+		try {
+			Main.serverApp.addNewServerGroup(this,newgroup);
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
 		}
 		
-		writeFileMembers(members); //And rewrite everything
+		//Update the file on the server
+		ArrayList<Member> members;
+		try {
+			// Get the list of all the members
+			members = Main.serverApp.readFileMembers();
+			// Then updating of the file
+			for(int i=0; i<members.size();i++) { //Modify the current User
+				if(members.get(i).pseudo.equals(this.pseudo) && members.get(i).password.equals(this.password)) {
+					members.set(i,this);
+				}
+			}
+			
+			Main.serverApp.writeFileMembers(members); //And rewrite everything
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} 
+		
+		
 		
 		
 		

@@ -34,8 +34,10 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 
 
 		//Create public canvas.
-		Group group = new Group(nameGroupPublic);
-		this.addNewServerGroup(group);
+		Group groupPublic = new Group(nameGroupPublic);
+		ServerGroupImpl newServerGroup = new ServerGroupImpl(groupPublic,null);
+		this.listServerGroup.add(newServerGroup);
+		
 		Registry registry = LocateRegistry.getRegistry();
 		ServerGroup serverGroupPublic;
 		try {
@@ -137,9 +139,13 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 
 	}
-	public void addNewServerGroup(Group group) throws RemoteException {
-		ServerGroupImpl newServerGroup = new ServerGroupImpl(group,null);		
+	public void addNewServerGroup(Member creator, Group group) throws RemoteException {
+		ServerGroupImpl newServerGroup = new ServerGroupImpl(group,null);
+		newServerGroup.addMember(creator);
 		this.listServerGroup.add(newServerGroup);
+		
+		
+		
 	}
 	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException{
 		try {

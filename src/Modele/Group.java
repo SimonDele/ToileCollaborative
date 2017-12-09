@@ -23,11 +23,7 @@ public class Group implements Serializable {
 		memberList = new ArrayList<Member>();
 		adminList = new ArrayList<Boolean>();
 
-		try {
-			Main.serverApp.addNewServerGroup(this);
-		} catch (NullPointerException | RemoteException e) {
-			e.printStackTrace();
-		}
+
 		canvas = new Canvas(name);
 	}
 

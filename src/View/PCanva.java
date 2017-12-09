@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -17,7 +13,6 @@ import Main.Main;
 import Modele.Canvas;
 import Modele.Converter;
 import Modele.Toolbox;
-import server.ServerGroup;
 
 public class PCanva extends JPanel {
 	

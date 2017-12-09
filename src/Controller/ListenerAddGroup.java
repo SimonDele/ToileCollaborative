@@ -35,6 +35,7 @@ public class ListenerAddGroup implements KeyListener{
 		if(arg0.getKeyCode() == 10) {// Enter key
 			//this.listGroups.add(new Group(inputGroupName.getText()));
 			Main.USER.createNewGroup(this.inputGroupName.getText());
+			
 			this.menuGroups.refreshDisplay();
 		}
 		
