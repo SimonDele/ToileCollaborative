@@ -10,10 +10,12 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import View.MainFrame;
+import View.PCanva;
 
 public class Canvas implements Serializable{
 	public String name;
 	public ImageIcon drawing;
+	public PCanva pcanva;
 	
 	public Canvas(String name) {
 		this.name = name;
@@ -40,6 +42,9 @@ public class Canvas implements Serializable{
 	public ImageIcon getDrawing() {
 		return this.drawing;
 	}
+	public void setPCanvas(PCanva pcanvas) {
+		this.pcanva = pcanvas;
+	}
 	public String getName() {
 		return name;
 	}
@@ -47,7 +52,7 @@ public class Canvas implements Serializable{
         ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + name +".png"));
     }
     public void drawPath(ArrayList<Point> path) {
-    	System.out.println(MainFrame.pCanva);
-    	MainFrame.pCanva.drawPath(path);
+    	System.out.println(pcanva);
+    	pcanva.drawPath(path);
     }
 }

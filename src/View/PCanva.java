@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -14,13 +15,13 @@ import Modele.Canvas;
 import Modele.Converter;
 import Modele.Toolbox;
 
-public class PCanva extends JPanel {
+public class PCanva extends JPanel implements Serializable{
 	
-	private BufferedImage drawing;	
+	private transient BufferedImage drawing;	
 	private Boolean toDrawPath;
-	private ListenersPCanva listenersPCanva;
+	private transient ListenersPCanva listenersPCanva;
 	private Toolbox toolbox;
-	public Canvas canvas;
+	public transient Canvas canvas;
 	public Converter converter;
 	
 	public PCanva(Toolbox toolbox, Canvas canvas) {
@@ -29,12 +30,11 @@ public class PCanva extends JPanel {
 		//canvas.setDrawing(drawing);
 		this.toolbox = toolbox;
 		this.canvas = Main.USER.getCurrentCanvas();
+		Main.USER.getCurrentCanvas().setPCanvas(this);
 		//Listeners
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
 		this.addMouseListener(listenersPCanva);
-	
-
 	}
 	
 	public void drawPath() {

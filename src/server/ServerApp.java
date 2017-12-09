@@ -13,7 +13,8 @@ public interface ServerApp extends Remote {
 	public Member connection(String pseudo, String password) throws RemoteException;
 	public Member register(String pseudo, String password) throws RemoteException;
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException;
-	//EN a t'on besoin ??
+	public void connectToServerGroup(String serverName, Member member) throws RemoteException;
+	
 	public ArrayList<Member> readFileMembers() throws RemoteException;
 	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException;
 }

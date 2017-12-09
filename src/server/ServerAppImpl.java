@@ -82,7 +82,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		return member;
 	}
 	
-	public void connectToServerGroup(String serverName, Member member) {
+	public void connectToServerGroup(String serverName, Member member) throws RemoteException{
 		boolean serverFound = false;
 		Iterator iteratorServer = listServerGroup.iterator();
 		ServerGroup serverGroup = null;

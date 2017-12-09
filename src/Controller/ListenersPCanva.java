@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import View.PCanva;
 import server.ServerGroup;
 import server.ServerGroupImpl;
-
+import Main.Main;
 public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	private ArrayList<Point> path;
 	private PCanva pCanva;
@@ -26,7 +26,7 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
-			this.serverGroup = (ServerGroup) registry.lookup(pCanva.canvas.name);
+			this.serverGroup = (ServerGroup) registry.lookup(Main.USER.getCurrentCanvas().getName());
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
