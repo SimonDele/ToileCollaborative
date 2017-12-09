@@ -10,7 +10,7 @@ import Modele.Canvas;
 import Modele.Group;
 import Modele.Member;
 import Modele.Toolbox;
-
+import Main.Main;
 public class MainFrame extends JFrame{
 	private String title;
 	//Different Panels :
@@ -33,12 +33,13 @@ public class MainFrame extends JFrame{
 	    container.setLayout(new BorderLayout()); // BorderLayout enables to have 4 Panels define by WEST, CENTER, EAST, NORTH and SOUTH 
 	    
 	    if(user.getGroupList().size() > 0) {
-		    canvas = user.getGroupList().get(0).getCanvas();
+		    Main.USER.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
 		    MainFrame.currentGroup = user.getGroupList().get(0);
 		    menu = new Menu(MainFrame.currentGroup, user, canvas);
 		    System.out.println("size>0");
 	    }else {
-	    	canvas = new Canvas("public");
+	    	//Useless maintenant ??
+	    	Main.USER.setCurrentCanvas(new Canvas("public"));
 	    	menu = new Menu(null, user, canvas);
 	    }
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left

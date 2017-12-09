@@ -58,7 +58,6 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 			Member member = (Member) iterator.next();
 			member.getCurrentCanvas().drawPath(pixelsToDraw);
 		}
-		
 	}
 
 	@Override

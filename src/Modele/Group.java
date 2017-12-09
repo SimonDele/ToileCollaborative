@@ -1,6 +1,7 @@
 package Modele;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import server.ServerGroupImpl;
-
+import Main.Main;
 public class Group implements Serializable {
 	
 	private String name;
@@ -23,8 +24,8 @@ public class Group implements Serializable {
 		adminList = new ArrayList<Boolean>();
 
 		try {
-			ServerGroupImpl serverGroup = new ServerGroupImpl(this, null);
-		} catch (RemoteException e) {
+			Main.serverApp.addNewServerGroup(this);
+		} catch (NullPointerException | RemoteException e) {
 			e.printStackTrace();
 		}
 		canvas = new Canvas(name);

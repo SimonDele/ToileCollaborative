@@ -116,7 +116,7 @@ public class Member implements Serializable {
 		*/
 		
 	}
-	/*
+	
 	private static void writeFileMembers(ArrayList<Member> listMembers) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
@@ -161,7 +161,6 @@ public class Member implements Serializable {
 		}	
 		return res;
 	}
-	*/
 	public void createNewGroup(String name) {
 		//Create the group and add it to the list of groups
 		this.groupList.add(new Group(name));

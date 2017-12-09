@@ -2,7 +2,9 @@ package server;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import Modele.Group;
 import Modele.Member;
 
 public interface ServerApp extends Remote {
@@ -10,4 +12,8 @@ public interface ServerApp extends Remote {
 	
 	public Member connection(String pseudo, String password) throws RemoteException;
 	public Member register(String pseudo, String password) throws RemoteException;
+	public void addNewServerGroup(Group group) throws RemoteException;
+	//EN a t'on besoin ??
+	public ArrayList<Member> readFileMembers() throws RemoteException;
+	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException;
 }

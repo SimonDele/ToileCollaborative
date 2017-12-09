@@ -31,10 +31,11 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	protected ServerAppImpl() throws RemoteException {
 		super();
 		listServerGroup = new HashSet<ServerGroup>();
-		System.out.println("Server App running");
-		
+
+
 		//Create public canvas.
 		Group group = new Group(nameGroupPublic);
+		this.addNewServerGroup(group);
 		Registry registry = LocateRegistry.getRegistry();
 		ServerGroup serverGroupPublic;
 		try {
@@ -44,7 +45,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void main(String[] args) throws RemoteException {
@@ -61,7 +61,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("Server App running");
 	}
 	@Override
 	public Member register(String pseudo, String password) throws RemoteException {
@@ -72,7 +72,11 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		//Add him to the group/server public 
 		connectToServerGroup(nameGroupPublic, member);
 
-		//TODO update file
+		//Update file
+		ArrayList<Member> listMembers = this.readFileMembers();
+		listMembers.add(member);
+		this.writeFileMembers(listMembers);		
+		
 		return member;
 	}
 	
@@ -105,7 +109,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		
 		System.out.println("connection to the server...");
 		
-		
 		//
 		ArrayList<Member> listMembers = this.readFileMembers();
 		ArrayList<Member> listMember = readFileMembers();
@@ -132,11 +135,13 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			//Not yet registered
 			return null;
 		}
-		
-		
 
 	}
-	private void writeFileMembers(ArrayList<Member> listMembers) {
+	public void addNewServerGroup(Group group) throws RemoteException {
+		ServerGroupImpl newServerGroup = new ServerGroupImpl(group,null);		
+		this.listServerGroup.add(newServerGroup);
+	}
+	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException{
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
 			          new BufferedOutputStream(
@@ -153,7 +158,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			e.printStackTrace();
 		}	          		
 	}
-	private ArrayList<Member> readFileMembers(){
+	public ArrayList<Member> readFileMembers() throws RemoteException{
 		ArrayList<Member> res = new ArrayList<Member>();
 		ObjectInputStream ois;
 

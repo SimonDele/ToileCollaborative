@@ -30,6 +30,7 @@ public class Canvas implements Serializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}*/
+		/*
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
@@ -37,7 +38,7 @@ public class Canvas implements Serializable{
 			serverGroup.addMember(this);
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	public void setDrawing(ImageIcon image) {
 		this.drawing = image;
