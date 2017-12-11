@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Controller.ListenerSignIn_Up;
+import Modele.Member;
 
 public class SignIn_Up extends JDialog {
 	
@@ -27,6 +28,7 @@ public class SignIn_Up extends JDialog {
 	JPanel pPseudo;
 	JPanel pPassword;
 	JDialog signIn_Up;
+	private Member member;
 	
 	public SignIn_Up(JFrame parent) {
 		super(parent, "Sign In or Sign Up", true);
@@ -121,5 +123,11 @@ public class SignIn_Up extends JDialog {
 		res[0] = pseudo.getText();
 		res[1] = password.getText();
 		return res; 
+	}
+	public Member getMember() {
+		return this.member;
+	}
+	public void setMember(Member member) {
+		this.member = member;		
 	}
 }

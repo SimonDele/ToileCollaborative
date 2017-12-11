@@ -9,7 +9,11 @@ import Modele.Member;
 import View.MainFrame;
 import View.SignIn_Up;
 import server.ServerApp;
-
+/**
+ * @author s1m0n
+ * Entry point of the app
+ *
+ */
 public class Main {
 	public static Member USER;
 	public static ServerApp serverApp;
@@ -26,6 +30,8 @@ public class Main {
 		
 		
 		SignIn_Up signIn_Up = new SignIn_Up(null);
+		USER = signIn_Up.getMember();
+		
 		MainFrame mainFrame = new MainFrame(USER);
 		mainFrame.setVisible(true);
 		

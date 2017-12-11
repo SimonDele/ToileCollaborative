@@ -1,7 +1,6 @@
 package server;
 
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -14,7 +13,6 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
-import Modele.Canvas;
 import Modele.Converter;
 import Modele.Group;
 import Modele.Member;
@@ -48,7 +46,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		// Send him the image
 		member.setCurrentCanvas(this.group.getCanvas());
 		this.coMembers.add(member);
-
+	
 	}
 
 	@Override
@@ -56,6 +54,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			System.out.println("iterate over members");
 			Member member = (Member) iterator.next();
+			System.out.println(member.getPseudo());
 			member.getCurrentCanvas().drawPath(pixelsToDraw);
 		}
 	}

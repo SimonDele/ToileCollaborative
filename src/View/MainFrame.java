@@ -28,12 +28,12 @@ public class MainFrame extends JFrame{
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setSize(500, 500);
 	    	    
-	    //Containt
+	    //Content
 	    JPanel container = new JPanel(); //will contain all other JPanel
 	    container.setLayout(new BorderLayout()); // BorderLayout enables to have 4 Panels define by WEST, CENTER, EAST, NORTH and SOUTH 
 	    
 	    if(user.getGroupList().size() > 0) {
-		    Main.USER.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
+		    user.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
 		    MainFrame.currentGroup = user.getGroupList().get(0);
 		    menu = new Menu(MainFrame.currentGroup, user, canvas);
 		    System.out.println("size>0");

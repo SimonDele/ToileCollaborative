@@ -4,14 +4,23 @@ import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import View.MainFrame;
 import View.PCanva;
-
+import server.ServerGroup;
+/**
+ * Class representing the drawing
+ * The image is stored in a variable ImageIcon since it can be serialized
+ * @author Simon
+ * 
+ */
 public class Canvas implements Serializable{
 	public String name;
 	public ImageIcon drawing;
@@ -43,7 +52,9 @@ public class Canvas implements Serializable{
 		return this.drawing;
 	}
 	public void setPCanvas(PCanva pcanvas) {
+		System.out.println("dans setPCanvas" + pcanvas);
 		this.pcanva = pcanvas;
+		
 	}
 	public String getName() {
 		return name;
@@ -53,6 +64,8 @@ public class Canvas implements Serializable{
     }
     public void drawPath(ArrayList<Point> path) {
     	System.out.println(pcanva);
-    	pcanva.drawPath(path);
+		
+        // repaint panel with the modified painting
+        pcanva.drawPath(path);
     }
 }

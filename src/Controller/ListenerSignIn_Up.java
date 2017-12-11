@@ -2,10 +2,7 @@ package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,18 +10,18 @@ import javax.swing.JTextField;
 
 import Main.Main;
 import Modele.Member;
-import server.ServerApp;
+import View.SignIn_Up;
 
 public class ListenerSignIn_Up implements ActionListener {
 	JButton signUp;
 	JTextField pseudo, password;
-	JDialog jDialog;
+	SignIn_Up signIn_Up;
 	
-	public ListenerSignIn_Up(JTextField pseudo, JTextField password, JButton signUp, JDialog jDialog) {
+	public ListenerSignIn_Up(JTextField pseudo, JTextField password, JButton signUp, SignIn_Up signIn_Up) {
 		this.signUp = signUp;
 		this.password = password;
 		this.pseudo = pseudo;
-		this.jDialog = jDialog;	
+		this.signIn_Up = signIn_Up;	
 		
 	}
 	@Override
@@ -33,8 +30,8 @@ public class ListenerSignIn_Up implements ActionListener {
 			System.out.println("Sign Up");
 			
 			try {
-				Main.USER = Main.serverApp.register(pseudo.getText(), password.getText());
-				this.jDialog.dispose();
+				signIn_Up.setMember(Main.serverApp.register(pseudo.getText(), password.getText()));
+				this.signIn_Up.dispose();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
@@ -51,8 +48,8 @@ public class ListenerSignIn_Up implements ActionListener {
 				Member member = Main.serverApp.connection(pseudo.getText(), password.getText());
 				if(member != null) {
 					System.out.println("Sign In");
-					Main.USER = member;
-					this.jDialog.dispose();
+					signIn_Up.setMember(member);
+					this.signIn_Up.dispose();
 				}else {
 					System.out.println("No yet Sign Up");
 				}
@@ -66,7 +63,7 @@ public class ListenerSignIn_Up implements ActionListener {
 			if(member != null) {
 				System.out.println("Sign In");
 				Main.USER = member;
-				this.jDialog.dispose();
+				this.signIn_Up.dispose();
 			}else {
 				System.out.println("No yet Sign Up");
 			}
