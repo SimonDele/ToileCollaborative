@@ -48,7 +48,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
 		// TODO: Draw on the image 
-		this.group.getCanvas().drawPath(pixelsToDraw);
+//		this.group.getCanvas().drawPath(pixelsToDraw);
 		//Update the drawing of each member connected
 		Registry registry;
 		registry = LocateRegistry.getRegistry();
