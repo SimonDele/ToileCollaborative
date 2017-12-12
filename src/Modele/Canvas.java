@@ -4,24 +4,14 @@ import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import View.PCanva;
-import server.ServerGroup;
-/**
- * Class representing the drawing
- * The image is stored in a variable ImageIcon since it can be serialized
- * @author Simon
- * 
- */
-public class Canvas implements Serializable{
+public class Canvas implements Serializable {
 	public String name;
 	public ImageIcon drawing;
 	public PCanva pcanva;
@@ -62,7 +52,7 @@ public class Canvas implements Serializable{
     public void save(String name) throws IOException{
         ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + name +".png"));
     }
-    public void drawPath(ArrayList<Point> path) {
+    public void drawPath(ArrayList<Point> path) throws RemoteException {
     	System.out.println(pcanva);
 		
         // repaint panel with the modified painting

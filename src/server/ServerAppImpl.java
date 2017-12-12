@@ -192,4 +192,18 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		return res;
 	}
 
+	@Override
+	public Member getMember(String pseudo) throws RemoteException {
+		
+		ArrayList<Member> listMembers = readFileMembers();
+		for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
+			Member member = (Member) iterator.next();
+			if(member.getPseudo().equals(pseudo)) {
+				return member;
+			}
+		}
+		return null; //If the member doesn't exist
+		
+	}
+
 }

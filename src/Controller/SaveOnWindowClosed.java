@@ -24,7 +24,7 @@ public class SaveOnWindowClosed implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		user.saveBeforeExit();
+		//user.saveBeforeExit();
 		System.out.println("Saved");
 		
 	}

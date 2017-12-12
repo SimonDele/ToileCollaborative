@@ -2,6 +2,7 @@ package Controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -9,6 +10,7 @@ import javax.swing.JTextField;
 import Modele.Group;
 import Modele.Member;
 import View.MenuMembers;
+import Main.Main;
 
 public class ListenerAddMember implements KeyListener{
 	private Group group;
@@ -27,15 +29,19 @@ public class ListenerAddMember implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		if(arg0.getKeyCode() == 10) { //Enter key
-			Member memberToAdd = Member.getMember(inputMember.getText());
-			if(memberToAdd != null) {
-				group.addMember(memberToAdd);
-				menuMembers.addMember();
-				System.out.println("Membre ajouté");
-			}else {
-				System.out.println("Membre inexistant");
+			Member memberToAdd;
+			try {
+				memberToAdd = Main.serverApp.getMember(inputMember.getText());
+				if(memberToAdd != null) {
+					group.addMember(memberToAdd);
+					menuMembers.addMember();
+					System.out.println("Membre ajouté");
+				}else {
+					System.out.println("Membre inexistant");
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
 			}
-			
 		}
 	}
 	@Override

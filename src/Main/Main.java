@@ -9,6 +9,7 @@ import Modele.Member;
 import View.MainFrame;
 import View.SignIn_Up;
 import server.ServerApp;
+import server.UserServerImpl;
 /**
  * @author s1m0n
  * Entry point of the app
@@ -20,7 +21,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Registry registry;
+		Registry registry = null;
 		try {
 			registry = LocateRegistry.getRegistry();
 			serverApp = (ServerApp) registry.lookup("ServerApp");
@@ -29,9 +30,18 @@ public class Main {
 		}
 		
 		
+		
 		SignIn_Up signIn_Up = new SignIn_Up(null);
 		USER = signIn_Up.getMember();
 		
+		UserServerImpl userServerImpl;
+		try {
+			userServerImpl = new UserServerImpl();
+			registry.rebind(USER.getPseudo(), userServerImpl);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+				
 		MainFrame mainFrame = new MainFrame(USER);
 		mainFrame.setVisible(true);
 		

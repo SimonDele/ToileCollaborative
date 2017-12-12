@@ -1,8 +1,7 @@
 package server;
 
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -11,15 +10,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
-import Modele.Converter;
 import Modele.Group;
 import Modele.Member;
 
 public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 
-	//byte[] drawing;
+	private ImageIcon drawing;
 	private String name;
 	private HashSet<Member> coMembers;
 	private Group group;
@@ -51,11 +49,25 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 
 	@Override
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
+		//Draw on the image 
+		
+		
+		
+		//Update the drawing of each member connected
+		
+		Registry registry;
+		registry = LocateRegistry.getRegistry();
+		
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			System.out.println("iterate over members");
 			Member member = (Member) iterator.next();
 			System.out.println(member.getPseudo());
-			member.getCurrentCanvas().drawPath(pixelsToDraw);
+			try {
+				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
+				userServer.lookForUpdates(pixelsToDraw);
+			} catch (NotBoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
