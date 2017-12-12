@@ -56,6 +56,7 @@ public class Member implements Serializable {
 	public void setCurrentGroup(Group currentGroup) {
 		this.currentGroup = currentGroup;
 	}
+/*
 	public static Member connection(String pseudo, String password) {
 		
 		try {
@@ -65,7 +66,7 @@ public class Member implements Serializable {
 		}
 		return null;		
 	}
-	
+
 	private static void writeFileMembers(ArrayList<Member> listMembers) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
@@ -108,6 +109,7 @@ public class Member implements Serializable {
 		}	
 		return res;
 	}
+	*/
 	public void createNewGroup(String name) {
 		//Create the group and add it to the list of groups
 		Group newgroup = new Group(name);
@@ -136,7 +138,7 @@ public class Member implements Serializable {
 			e.printStackTrace();
 		} 
 	}
-	
+/*
 	public void saveBeforeExit() {
 		ArrayList<Member> member = readFileMembers(); // Get the list of all the members
 		writeFileMembers(member); //And rewrite it
@@ -148,6 +150,7 @@ public class Member implements Serializable {
 			}
 		}
 	}
+*/
 	public Toolbox getToolbox() {
 		return toolbox;
 	}

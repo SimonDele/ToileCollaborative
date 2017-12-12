@@ -35,13 +35,6 @@ public class ListenerSignIn_Up implements ActionListener {
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
-			
-			/* Avant serveur
-			Member member = new Member(pseudo.getText(), password.getText());
-			Main.USER = member;
-			
-			*/
-
 		}else {// it is a sign In
 			
 			try {
@@ -56,19 +49,6 @@ public class ListenerSignIn_Up implements ActionListener {
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			}
-			
-			/* Avant serveur
-			Member member = new Member();
-			member = member.connection(pseudo.getText(), password.getText());
-			if(member != null) {
-				System.out.println("Sign In");
-				Main.USER = member;
-				this.signIn_Up.dispose();
-			}else {
-				System.out.println("No yet Sign Up");
-			}
-			*/
-
 		}
 		
 	}

@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import javax.imageio.ImageIO;
+
+import Modele.Converter;
 import Modele.Group;
 import Modele.Member;
 
@@ -32,7 +35,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	protected ServerAppImpl() throws RemoteException {
 		super();
 		listServerGroup = new HashSet<ServerGroup>();
-
 
 		//Create public canvas.
 		this.groupPublic = new Group(nameGroupPublic);
@@ -49,6 +51,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			e.printStackTrace();
 		}
 	}
+ 
 
 	@Override
 	public Member register(String pseudo, String password) throws RemoteException {
@@ -56,7 +59,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		//Create member
 		Member member = new Member(pseudo, password);
 		member.setCurrentGroup(groupPublic);
-		
+		member.getGroupList().add(groupPublic);
 		//Add him to the group/server public 
 		connectToServerGroup(nameGroupPublic, member);
 
@@ -97,7 +100,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		
 		System.out.println("connection to the server...");
 		
-		ArrayList<Member> listMembers = this.readFileMembers();
 		ArrayList<Member> listMember = readFileMembers();
 		Iterator iterator = listMember.iterator();
 		boolean found = false;
@@ -173,7 +175,8 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}	
 		return res;
 	}
-
+	
+	
 	@Override
 	public Member getMember(String pseudo) throws RemoteException {
 		
@@ -203,4 +206,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 		System.out.println("Server App running");
 	}
+
+
+
 }

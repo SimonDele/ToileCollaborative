@@ -18,9 +18,7 @@ public class UserServerImpl extends UnicastRemoteObject implements UserServer {
 	@Override
 	public void drawPath(ArrayList<Point> path) throws RemoteException{
 		System.out.println("update");
-		System.out.println(MainFrame.pCanva);
 		Main.USER.getCurrentGroup().getCanvas().drawPath(path);
-//		MainFrame.pCanva.repaint();
 	}
 
 	@Override

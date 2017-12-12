@@ -30,7 +30,7 @@ public class Main {
 				
 		SignIn_Up signIn_Up = new SignIn_Up(null);
 		USER = signIn_Up.getMember();
-		
+
 		UserServerImpl userServerImpl;
 		try {
 			userServerImpl = new UserServerImpl();

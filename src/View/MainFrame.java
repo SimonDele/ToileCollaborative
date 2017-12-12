@@ -9,8 +9,7 @@ import Controller.SaveOnWindowClosed;
 import Modele.Canvas;
 import Modele.Group;
 import Modele.Member;
-import Modele.Toolbox;
-import Main.Main;
+
 public class MainFrame extends JFrame{
 	private String title;
 	//Different Panels :
