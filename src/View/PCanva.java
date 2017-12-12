@@ -69,9 +69,9 @@ public class PCanva extends JPanel implements Serializable{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(Main.USER.getCurrentCanvas().getDrawing() == null) {
-			System.out.println("bug");
+			//System.out.println("bug");
 		}else {
-			System.out.println("pas bug");
+			//System.out.println("pas bug");
 			g.drawImage(Converter.toBufferedImage(Main.USER.getCurrentCanvas().getDrawing()), 0, 0, null);  
 		}
 		

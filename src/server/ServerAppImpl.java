@@ -132,11 +132,11 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 				System.out.println("group");
 				this.connectToServerGroup(group.getName(), member);
 			}
-			return member;
 		}else {
 			//Not yet registered
-			return null;
+		
 		}
+		return member;
 
 	}
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException {

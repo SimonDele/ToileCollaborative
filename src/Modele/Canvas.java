@@ -42,7 +42,7 @@ public class Canvas implements Serializable {
 		return this.drawing;
 	}
 	public void setPCanvas(PCanva pcanvas) {
-		System.out.println("dans setPCanvas" + pcanvas);
+		//System.out.println("dans setPCanvas" + pcanvas);
 		this.pcanva = pcanvas;
 		
 	}
@@ -53,7 +53,7 @@ public class Canvas implements Serializable {
         ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + name +".png"));
     }
     public void drawPath(ArrayList<Point> path) throws RemoteException {
-    	System.out.println(pcanva);
+    	//System.out.println(pcanva);
 		
         // repaint panel with the modified painting
         pcanva.drawPath(path);
