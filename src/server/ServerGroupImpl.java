@@ -42,19 +42,14 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		
 		System.out.println("member added to the server");
 		// Send him the image
-		member.setCurrentCanvas(this.group.getCanvas());
 		this.coMembers.add(member);
-	
 	}
 
 	@Override
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
-		//Draw on the image 
-		
-		
-		
+		// TODO: Draw on the image 
+		this.group.getCanvas().drawPath(pixelsToDraw);
 		//Update the drawing of each member connected
-		
 		Registry registry;
 		registry = LocateRegistry.getRegistry();
 		
@@ -62,12 +57,17 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 			System.out.println("iterate over members");
 			Member member = (Member) iterator.next();
 			System.out.println(member.getPseudo());
-			try {
-				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
-				userServer.lookForUpdates(pixelsToDraw);
-			} catch (NotBoundException e) {
-				e.printStackTrace();
+			if (member.getCurrentGroup().getName()==this.group.getName()) { // unique groupnames
+				try {
+					UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
+					userServer.drawPath(pixelsToDraw);
+				} catch (NotBoundException e) {
+					e.printStackTrace();
+				}
+			} else {
+				// TODO : notify of change
 			}
+			
 		}
 	}
 
@@ -78,6 +78,11 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public boolean equals(String name) throws RemoteException {
 		return name == this.name;
+	}
+
+	@Override
+	public Group getGroup() throws RemoteException {
+		return this.group;
 	}
 
 }

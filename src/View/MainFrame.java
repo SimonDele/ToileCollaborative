@@ -31,22 +31,16 @@ public class MainFrame extends JFrame{
 	    //Content
 	    JPanel container = new JPanel(); //will contain all other JPanel
 	    container.setLayout(new BorderLayout()); // BorderLayout enables to have 4 Panels define by WEST, CENTER, EAST, NORTH and SOUTH 
-	    
-	    if(user.getGroupList().size() > 0) {
-		    user.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
-		    MainFrame.currentGroup = user.getGroupList().get(0);
-		    menu = new Menu(MainFrame.currentGroup, user, canvas);
-		    System.out.println("size>0");
-	    }else {
-	    	//Useless maintenant ??
-	    	Main.USER.setCurrentCanvas(new Canvas("public"));
-	    	menu = new Menu(null, user, canvas);
-	    }
+    
+//	    user.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
+	    MainFrame.currentGroup = user.getCurrentGroup();
+	    MainFrame.canvas = currentGroup.getCanvas();
+	    menu = new Menu(MainFrame.currentGroup, user, canvas);
+
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 
-	    pCanva = new PCanva(user.getToolbox(), canvas);
+	    pCanva = new PCanva(user.getToolbox());
 	    container.add(pCanva, BorderLayout.CENTER);
-	    System.out.println(pCanva);
 	    pToolBox = new PToolBox(user.getToolbox());
 	    container.add(pToolBox, BorderLayout.NORTH);
 	    

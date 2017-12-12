@@ -21,32 +21,22 @@ public class PCanva extends JPanel implements Serializable{
 	private Boolean toDrawPath;
 	private transient ListenersPCanva listenersPCanva;
 	private Toolbox toolbox;
-	public transient Canvas canvas;
 	public Converter converter;
 	
-	public PCanva(Toolbox toolbox, Canvas canvas) {
+	public PCanva(Toolbox toolbox) {
 		toDrawPath = false;
-		//drawing = Converter.toBufferedImage(MainFrame.canvas.getDrawing());
-		//canvas.setDrawing(drawing);
 		this.toolbox = toolbox;
-		this.canvas = Main.USER.getCurrentCanvas();
-		Main.USER.getCurrentCanvas().setPCanvas(this);
 		//Listeners
 		listenersPCanva = new ListenersPCanva(this);
 		this.addMouseMotionListener(listenersPCanva);
 		this.addMouseListener(listenersPCanva);
 	}
 	
-	public void drawPath() {
-		toDrawPath = true;
-		this.updatePaint();
-	}
 	public void drawPath(ArrayList<Point> path) {
-		System.out.println(path.size());
-		if(Main.USER.getCurrentCanvas().getDrawing() == null) {
+		if(Main.USER.getCurrentGroup().getCanvas().getDrawing() == null) {
         	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
     	}else {
-    		drawing = Converter.toBufferedImage(Main.USER.getCurrentCanvas().getDrawing());
+    		drawing = Converter.toBufferedImage(Main.USER.getCurrentGroup().getCanvas().getDrawing());
     	}
 
         Graphics g = drawing.createGraphics();
@@ -62,27 +52,27 @@ public class PCanva extends JPanel implements Serializable{
         // repaint panel with the modified painting
         repaint();
         //Save in Canvas
-        Main.USER.getCurrentCanvas().setDrawing(Converter.toIcon(drawing));
+        Main.USER.getCurrentGroup().getCanvas().setDrawing(Converter.toIcon(drawing));
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(Main.USER.getCurrentCanvas().getDrawing() == null) {
+		if(Main.USER.getCurrentGroup().getCanvas().getDrawing() == null) {
 			System.out.println("bug");
 		}else {
 			System.out.println("pas bug");
-			g.drawImage(Converter.toBufferedImage(Main.USER.getCurrentCanvas().getDrawing()), 0, 0, null);  
+			g.drawImage(Converter.toBufferedImage(Main.USER.getCurrentGroup().getCanvas().getDrawing()), 0, 0, null);  
 		}
 		
 	}
 
     // draw painting
     public void updatePaint(){
-    	if(Main.USER.getCurrentCanvas().getDrawing() == null) {
+    	if(Main.USER.getCurrentGroup().getCanvas().getDrawing() == null) {
         	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
     	}else {
-    		drawing = Converter.toBufferedImage(Main.USER.getCurrentCanvas().getDrawing());
+    		drawing = Converter.toBufferedImage(Main.USER.getCurrentGroup().getCanvas().getDrawing());
     	}
 
         Graphics g = drawing.createGraphics();
@@ -98,11 +88,11 @@ public class PCanva extends JPanel implements Serializable{
         // repaint panel with new modified paint
         repaint();
         //Save in Canvas
-        Main.USER.getCurrentCanvas().setDrawing(Converter.toIcon(drawing));
+        Main.USER.getCurrentGroup().getCanvas().setDrawing(Converter.toIcon(drawing));
     }
     public void switchCanvas() {
     	this.repaint();
-    	this.listenersPCanva.changeServer(Main.USER.getCurrentCanvas().getName());
+    	this.listenersPCanva.changeServer(Main.USER.getCurrentGroup().getName());
     }
 /*
     public void save() throws IOException{

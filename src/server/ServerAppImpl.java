@@ -26,6 +26,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	
 	HashSet<ServerGroup> listServerGroup;
 	final String nameGroupPublic = "public"; 
+	Group groupPublic;
 	final File fileMembers = new File("listeMembers.txt");
 	
 	protected ServerAppImpl() throws RemoteException {
@@ -34,7 +35,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 
 
 		//Create public canvas.
-		Group groupPublic = new Group(nameGroupPublic);
+		this.groupPublic = new Group(nameGroupPublic);
 		ServerGroupImpl newServerGroup = new ServerGroupImpl(groupPublic,null);
 		this.listServerGroup.add(newServerGroup);
 		
@@ -49,27 +50,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 	}
 
-	public static void main(String[] args) throws RemoteException {
-		try {
-			ServerAppImpl serverAppImpl = new ServerAppImpl();
-			if(args.length > 0) {
-				Registry registry = LocateRegistry.getRegistry(args[0]);
-				registry.rebind("ServerApp", serverAppImpl);
-			}else {
-				Registry registry = LocateRegistry.getRegistry();
-				registry.rebind("ServerApp", serverAppImpl);
-			}
-			
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Server App running");
-	}
 	@Override
 	public Member register(String pseudo, String password) throws RemoteException {
 		System.out.println("registered");
 		//Create member
 		Member member = new Member(pseudo, password);
+		member.setCurrentGroup(groupPublic);
 		
 		//Add him to the group/server public 
 		connectToServerGroup(nameGroupPublic, member);
@@ -77,7 +63,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		//Update file
 		ArrayList<Member> listMembers = this.readFileMembers();
 		listMembers.add(member);
-		this.writeFileMembers(listMembers);		
+		this.writeFileMembers(listMembers);	
 		
 		return member;
 	}
@@ -111,7 +97,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		
 		System.out.println("connection to the server...");
 		
-		//
 		ArrayList<Member> listMembers = this.readFileMembers();
 		ArrayList<Member> listMember = readFileMembers();
 		Iterator iterator = listMember.iterator();
@@ -119,9 +104,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		Member member = null;
 		while(!found && iterator.hasNext()) {
 			member = (Member) iterator.next();
-			if((password.equals(member.getPassword())) && (pseudo.equals(member.getPseudo()))) {
-				found = true;
-			}
+			found = ((password.equals(member.getPassword())) && (pseudo.equals(member.getPseudo())));
 		}
 		if(found) {
 			//Check if all the group of member.getGroupList() have a "ServerGroup" otherwise it must be created 
@@ -132,6 +115,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 				System.out.println("group");
 				this.connectToServerGroup(group.getName(), member);
 			}
+			member.setCurrentGroup(groupPublic);
 			return member;
 		}else {
 			//Not yet registered
@@ -141,11 +125,9 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	}
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException {
 		ServerGroupImpl newServerGroup = new ServerGroupImpl(group,null);
+		creator.setCurrentGroup(group);
 		newServerGroup.addMember(creator);
 		this.listServerGroup.add(newServerGroup);
-		
-		
-		
 	}
 	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException{
 		try {
@@ -162,7 +144,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	          		
+		}
 	}
 	public ArrayList<Member> readFileMembers() throws RemoteException{
 		ArrayList<Member> res = new ArrayList<Member>();
@@ -203,7 +185,22 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			}
 		}
 		return null; //If the member doesn't exist
-		
 	}
 
+	public static void main(String[] args) throws RemoteException {
+		try {
+			ServerAppImpl serverAppImpl = new ServerAppImpl();
+			if(args.length > 0) {
+				Registry registry = LocateRegistry.getRegistry(args[0]);
+				registry.rebind("ServerApp", serverAppImpl);
+			}else {
+				Registry registry = LocateRegistry.getRegistry();
+				registry.rebind("ServerApp", serverAppImpl);
+			}
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Server App running");
+	}
 }

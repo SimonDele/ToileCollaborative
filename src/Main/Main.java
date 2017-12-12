@@ -1,5 +1,4 @@
 package Main;
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -28,9 +27,7 @@ public class Main {
 		} catch (RemoteException | NotBoundException e) {
 			System.out.println("Can't connect to the Server App");
 		}
-		
-		
-		
+				
 		SignIn_Up signIn_Up = new SignIn_Up(null);
 		USER = signIn_Up.getMember();
 		
@@ -43,9 +40,6 @@ public class Main {
 		}
 				
 		MainFrame mainFrame = new MainFrame(USER);
-		mainFrame.setVisible(true);
-		
-
+		mainFrame.setVisible(true);		
 	}
-
 }

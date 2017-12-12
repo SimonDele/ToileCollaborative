@@ -26,7 +26,7 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
-			this.serverGroup = (ServerGroup) registry.lookup(Main.USER.getCurrentCanvas().getName());
+			this.serverGroup = (ServerGroup) registry.lookup(Main.USER.getCurrentGroup().getName());
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}

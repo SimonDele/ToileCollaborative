@@ -2,12 +2,17 @@ package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import Main.Main;
 import Modele.Canvas;
 import Modele.Group;
 import View.MainFrame;
 import View.Menu;
+import server.ServerGroup;
 
 public class ListenerSwitchGroup implements ActionListener {
 /*
@@ -27,13 +32,24 @@ public class ListenerSwitchGroup implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		MainFrame.currentGroup = this.newGroup;
-		Main.USER.setCurrentCanvas(this.newGroup.getCanvas());
-		Main.USER.getCurrentCanvas().setPCanvas(MainFrame.pCanva);
-		MainFrame.pCanva.switchCanvas();
-		System.out.println(this.newGroup.getMemberList());
-		Menu.menuMembers.setListMembers(this.newGroup.getMemberList());
-		System.out.println("Switch group");
+		Registry registry;
+		try {
+			// retrieve the newGroup on the server
+			registry = LocateRegistry.getRegistry();
+			ServerGroup serverGroup = (ServerGroup) registry.lookup(this.newGroup.getName());
+			this.newGroup = serverGroup.getGroup();
+			
+			// set all variables
+			Main.USER.setCurrentGroup(this.newGroup);
+			MainFrame.currentGroup = this.newGroup;
+			MainFrame.pCanva.switchCanvas();
+			System.out.println(this.newGroup.getMemberList());
+			Menu.menuMembers.setListMembers(this.newGroup.getMemberList());
+			System.out.println("Switch group");
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

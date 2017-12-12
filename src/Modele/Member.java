@@ -30,14 +30,8 @@ public class Member implements Serializable {
 	
 	private static File fileMembers;
 	private Toolbox toolbox;
-	private Canvas currentCanvas;
-	
-	/*
-	public Member() {	
-		fileMembers = new File("listeMembers.txt");
-		groupList = new ArrayList<Group>(); // Creation of an empty groupList
-		toolbox = new Toolbox();
-	}*/
+//	private Canvas currentCanvas;
+	private Group currentGroup;
 	
 	public Member(String pseudo,String password) {
 		groupList = new ArrayList<Group>(); // Creation of an empty groupList
@@ -45,16 +39,6 @@ public class Member implements Serializable {
 		this.pseudo = pseudo;
 		this.password = password;
 		this.setToolbox(new Toolbox());
-		
-		
-		/* Avant serveur
-		fileMembers = new File("listeMembers.txt");
-		
-		ArrayList<Member> listMembers = readFileMembers(); // Since we can't append a FileOuputStream, firtly we store all its content
-		//Then we rewrite it, and we add the new Member at the end
-		listMembers.add(this);
-		this.writeFileMembers(listMembers);
-		*/
 
 	}
 	public String getPseudo() {
@@ -66,21 +50,12 @@ public class Member implements Serializable {
 	public ArrayList<Group> getGroupList() {
 		return groupList;
 	}
-	public void setCurrentCanvas(Canvas canvas) {
-		this.currentCanvas = canvas;
+	public Group getCurrentGroup() {
+		return currentGroup;
 	}
-	/*
-	public static Member getMember(String pseudo) {
-		ArrayList<Member> listMembers = readFileMembers();
-		for (Iterator iterator = listMembers.iterator(); iterator.hasNext();) {
-			Member member = (Member) iterator.next();
-			if(member.getPseudo().equals(pseudo)) {
-				return member;
-			}
-		}
-		return null; //If the member doesn't exist
+	public void setCurrentGroup(Group currentGroup) {
+		this.currentGroup = currentGroup;
 	}
-	*/
 	public static Member connection(String pseudo, String password) {
 		
 		try {
@@ -88,33 +63,7 @@ public class Member implements Serializable {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
-		return null;
-		
-		/* Avant server
-		ArrayList<Member> listMember = readFileMembers();
-		Iterator iterator = listMember.iterator();
-		boolean found = false;
-		while(!found && iterator.hasNext()) {
-
-			Member member = (Member) iterator.next();
-			if((password.equals(member.password)) && (pseudo.equals(member.pseudo))) {
-				found = true;
-				try {
-					serverApp.connection(member);
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				for(int i=0; i<member.groupList.size(); i++) {
-					//member.groupList.get(i).loadImg();
-				}
-				return member;
-			}
-		}
-		return null;
-		
-		*/
-		
+		return null;		
 	}
 	
 	private static void writeFileMembers(ArrayList<Member> listMembers) {
@@ -142,17 +91,15 @@ public class Member implements Serializable {
 			ois = new ObjectInputStream(
 			          new BufferedInputStream(
 			            new FileInputStream(fileMembers)));
-				while(true) {
-					try {
-						Member obj = (Member)ois.readObject();
-						res.add(obj);
-					}catch(EOFException | ClassNotFoundException e) { // Catch if we have reached the end of the file
-						ois.close();
-						break;
-					}
-
+			while(true) {
+				try {
+					Member obj = (Member)ois.readObject();
+					res.add(obj);
+				}catch(EOFException | ClassNotFoundException e) { // Catch if we have reached the end of the file
+					ois.close();
+					break;
 				}
-				
+			}
 			ois.close();
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
@@ -168,7 +115,6 @@ public class Member implements Serializable {
 		
 		try {
 			Main.serverApp.addNewServerGroup(this,newgroup);
-			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -189,11 +135,6 @@ public class Member implements Serializable {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} 
-		
-		
-		
-		
-		
 	}
 	
 	public void saveBeforeExit() {
@@ -207,16 +148,10 @@ public class Member implements Serializable {
 			}
 		}
 	}
-
-	public Canvas getCurrentCanvas() {
-		return this.currentCanvas;
-	}
 	public Toolbox getToolbox() {
 		return toolbox;
 	}
 	public void setToolbox(Toolbox toolbox) {
 		this.toolbox = toolbox;
 	}
-
-	
 }
