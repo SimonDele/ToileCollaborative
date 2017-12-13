@@ -13,6 +13,7 @@ import Controller.ListenersPCanva;
 import Main.Main;
 import Modele.Canvas;
 import Modele.Converter;
+import Modele.Member;
 import Modele.Toolbox;
 
 public class PCanva extends JPanel implements Serializable{
@@ -22,7 +23,7 @@ public class PCanva extends JPanel implements Serializable{
 	private transient ListenersPCanva listenersPCanva;
 	private Toolbox toolbox;
 	public Converter converter;
-	
+
 	public PCanva(Toolbox toolbox) {
 		toDrawPath = false;
 		this.toolbox = toolbox;
@@ -32,9 +33,9 @@ public class PCanva extends JPanel implements Serializable{
 		this.addMouseListener(listenersPCanva);
 	}
 	
-	public void drawPath(ArrayList<Point> path) {
+	public void drawPath(Member drawer, ArrayList<Point> path) {
 		if(Main.USER.getCurrentGroup().getCanvas().getDrawing() == null) {
-        	drawing = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);  		
+        	drawing = new BufferedImage(Canvas.width, Canvas.height, BufferedImage.TYPE_INT_RGB);  		
     	}else {
     		drawing = Converter.toBufferedImage(Main.USER.getCurrentGroup().getCanvas().getDrawing());
     	}
@@ -44,7 +45,7 @@ public class PCanva extends JPanel implements Serializable{
        
 		for(Point p : path) { //We iterate over our list of point in the path ArrayList
 			 g.setColor(Color.red); //A changer 
-			 g.fillRect((int)p.getX(),(int) p.getY(), toolbox.getSize(), toolbox.getSize());
+			 g.fillRect((int)p.getX(),(int) p.getY(), drawer.getToolbox().getSize(), drawer.getToolbox().getSize());
 		}
 		
 

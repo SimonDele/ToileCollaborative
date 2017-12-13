@@ -8,6 +8,7 @@ import Modele.Member;
 import View.MainFrame;
 import View.SignIn_Up;
 import server.ServerApp;
+import server.ServerGroup;
 import server.UserServerImpl;
 /**
  * @author s1m0n
@@ -36,6 +37,14 @@ public class Main {
 			userServerImpl = new UserServerImpl();
 			registry.rebind(USER.getPseudo(), userServerImpl);
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		//Load the public drawing 
+		try {
+			ServerGroup serverPublic = (ServerGroup) registry.lookup(serverApp.getNameGroupPublic());
+			serverPublic.sendDrawing(USER);
+		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
 				

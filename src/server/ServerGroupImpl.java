@@ -18,6 +18,7 @@ import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import Modele.Canvas;
 import Modele.Converter;
 import Modele.Group;
 import Modele.Member;
@@ -66,22 +67,29 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		
 		System.out.println(member.getPseudo() +" added to the server");
 		// TODO Send him the image
+		
+
+		
 		this.coMembers.add(member);
 		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
 			Member memberit = (Member) iterator.next();
 			System.out.println(memberit.getPseudo());
 		}
+		
+		// Send him the image if the current group of the member is this one
+		if(member.getCurrentGroup().equals(this.group)) {
+			//this.sendDrawing(member);
+		}
 	}
 
 	@Override
-	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
-		// TODO: Draw on the image 
-//  Pb on ne connait pas la toolbox ni taille panel
-/*		BufferedImage image;
+	public void draw(Member drawer, ArrayList<Point> pixelsToDraw) throws RemoteException {
+		// Draw on the server drawing 
+		BufferedImage image;
 		if( drawing != null) {
 			image = Converter.toBufferedImage(drawing);
 		}else {
-			image = new BufferedImage(500,500,BufferedImage.TYPE_INT_RGB);
+			image = new BufferedImage(Canvas.width,Canvas.height,BufferedImage.TYPE_INT_RGB);
 		}
 		
         Graphics g = image.createGraphics();
@@ -89,34 +97,34 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
         
 		for(Point p : pixelsToDraw) { //We iterate over our list of point in the path ArrayList
 			 g.setColor(Color.red); //A changer 
-			 g.fillRect((int)p.getX(),(int) p.getY(), 20, 20);
+			 g.fillRect((int)p.getX(),(int) p.getY(), drawer.getToolbox().getSize(), drawer.getToolbox().getSize());
 		}
 		
 
         g.dispose();
 		this.drawing = Converter.toIcon(image);
-*/
+
 		
-//		this.group.getCanvas().drawPath(pixelsToDraw);
+		
+		
 		//Update the drawing of each member connected
 		Registry registry;
 		registry = LocateRegistry.getRegistry();
 		System.out.println("iterate over members");
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
-			System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());
-			if (member.getCurrentGroup().getName()==this.group.getName()) { // unique groupnames
-				try {
-					System.out.println(member.getPseudo() + "connected");
-					UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
-					userServer.drawPath(pixelsToDraw);
-				} catch (NotBoundException e) {
-					e.printStackTrace();
+			try {
+				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
+				System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());
+				if (userServer.getCurrentGroup().getName().equals(this.group.getName())) { // unique groupnames
+						System.out.println(member.getPseudo() + "connected");
+						userServer.drawPath(drawer, pixelsToDraw);
+				} else {
+					// TODO : notify of change
 				}
-			} else {
-				// TODO : notify of change
+			} catch (NotBoundException e) {
+				e.printStackTrace();
 			}
-			
 		}
 	}
 	@Override
@@ -148,6 +156,18 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public Group getGroup() throws RemoteException {
 		return this.group;
+	}
+
+	@Override
+	public void sendDrawing(Member member) throws RemoteException {
+		Registry registry;
+		registry = LocateRegistry.getRegistry();
+		try {
+			UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
+			userServer.loadDrawing(drawing);
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

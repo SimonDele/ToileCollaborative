@@ -25,7 +25,7 @@ import Modele.Member;
 public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	
 	HashSet<ServerGroup> listServerGroup;
-	final String nameGroupPublic = "public"; 
+	public final String nameGroupPublic = "public"; 
 	Group groupPublic;
 	final File fileMembers = new File("listeMembers.txt");
 	
@@ -59,7 +59,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		member.getGroupList().add(groupPublic);
 		//Add him to the group/server public 
 		connectToServerGroup(groupPublic, member);
-
+		
 		//Update file
 		ArrayList<Member> listMembers = this.readFileMembers();
 		listMembers.add(member);
@@ -207,6 +207,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			e.printStackTrace();
 		}
 		System.out.println("Server App running");
+	}
+
+
+	@Override
+	public String getNameGroupPublic() throws RemoteException {
+		return this.nameGroupPublic;
 	}
 
 

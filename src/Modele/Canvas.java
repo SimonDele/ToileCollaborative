@@ -15,6 +15,8 @@ import View.PCanva;
 public class Canvas implements Serializable {
 //	public String name;
 	public ImageIcon drawing;
+	public final static Integer width = 500;
+	public final static Integer height = 500;
 	
 	public Canvas() {}
 	
@@ -28,8 +30,8 @@ public class Canvas implements Serializable {
     public void save(String name) throws IOException{
         ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + name +".png"));
     }
-    public void drawPath(ArrayList<Point> path) throws RemoteException {
+    public void drawPath(Member drawer, ArrayList<Point> path) throws RemoteException {
         // repaint panel with the modified painting
-        MainFrame.pCanva.drawPath(path);
+        MainFrame.pCanva.drawPath(drawer, path);
     }
 }

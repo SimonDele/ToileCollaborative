@@ -47,6 +47,9 @@ public class ListenerSwitchGroup implements ActionListener {
 			Menu.menuMembers.setListMembers(this.newGroup.getMemberList());
 			System.out.println(Main.USER.getCurrentGroup().getName() + "current group");
 		
+			// load Drawing
+			serverGroup.sendDrawing(Main.USER);
+			
 			//update member
 			
 			serverGroup.updateMember(Main.USER);
