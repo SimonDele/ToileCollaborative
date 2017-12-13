@@ -14,4 +14,5 @@ public interface ServerGroup extends Remote{
 	public String getName() throws RemoteException;
 	public boolean equals(String name) throws RemoteException;
 	public Group getGroup() throws RemoteException;
+	public void updateMember(Member member) throws RemoteException;
 }

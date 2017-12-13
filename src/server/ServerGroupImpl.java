@@ -64,9 +64,13 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public void addMember(Member member) throws RemoteException {
 		
-		System.out.println("member added to the server");
+		System.out.println(member.getPseudo() +" added to the server");
 		// TODO Send him the image
 		this.coMembers.add(member);
+		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
+			Member memberit = (Member) iterator.next();
+			System.out.println(memberit.getPseudo());
+		}
 	}
 
 	@Override
@@ -100,9 +104,10 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		System.out.println("iterate over members");
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
-			System.out.println(member.getPseudo());
+			System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());
 			if (member.getCurrentGroup().getName()==this.group.getName()) { // unique groupnames
 				try {
+					System.out.println(member.getPseudo() + "connected");
 					UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
 					userServer.drawPath(pixelsToDraw);
 				} catch (NotBoundException e) {
@@ -114,7 +119,23 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 			
 		}
 	}
-
+	@Override
+	public void updateMember(Member member) throws RemoteException {
+		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
+			Member memberit = (Member) iterator.next();
+			if(memberit.getPseudo().equals(member.getPseudo())) {
+				memberit = member;
+				System.out.println(memberit.getPseudo() + " current group " + memberit.getCurrentGroup().getName());
+			}
+		}
+/* Work
+		System.out.println("after update");
+		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
+			Member memberit = (Member) iterator.next();
+			System.out.println(member.getPseudo() + " current group " + member.getCurrentGroup().getName());
+		}
+*/
+	}
 	@Override
 	public String getName() throws RemoteException{
 		return this.name;

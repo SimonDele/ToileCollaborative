@@ -48,6 +48,14 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		Registry registry;
+		try {
+			registry = LocateRegistry.getRegistry();
+			this.serverGroup = (ServerGroup) registry.lookup(Main.USER.getCurrentGroup().getName());
+		} catch (RemoteException | NotBoundException e2) {
+			e2.printStackTrace();
+		}
+
 		try {
 			this.serverGroup.draw(path);
 		} catch (RemoteException e1) {

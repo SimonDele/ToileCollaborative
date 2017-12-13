@@ -45,7 +45,13 @@ public class ListenerSwitchGroup implements ActionListener {
 			MainFrame.pCanva.switchCanvas();
 			System.out.println(this.newGroup.getMemberList());
 			Menu.menuMembers.setListMembers(this.newGroup.getMemberList());
-			System.out.println("Switch group");
+			System.out.println(Main.USER.getCurrentGroup().getName() + "current group");
+		
+			//update member
+			
+			serverGroup.updateMember(Main.USER);
+			
+		
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}

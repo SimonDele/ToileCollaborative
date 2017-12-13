@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
-
-import Modele.Converter;
 import Modele.Group;
 import Modele.Member;
 
@@ -77,23 +74,27 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		ServerGroup serverGroup = null;
 		while(!serverFound && iteratorServer.hasNext()){
 			serverGroup = (ServerGroup) iteratorServer.next();
+			System.out.println("while " + serverGroup.getName());
 			try {
-				serverFound = serverGroup.equals(group.getName());
+				serverFound = (serverGroup.getName().equals(group.getName()));
+				System.out.println(serverGroup.getName() +" " + group.getName() + " " + serverFound);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}
 		if(serverFound) {
 			try {
-				System.out.println(member.getPseudo() + " ajouté au server "+ serverGroup.getName());
+				System.out.println("(ServerApp connectoserver)" + member.getPseudo() + " ajouté au server "+ serverGroup.getName());
 				serverGroup.addMember(member);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}	
 		}else {
 			// TODO create a server
-// Erreur ici quelque part 			
-			listServerGroup.add(new ServerGroupImpl(group, null));
+// Erreur ici quelque part 
+			ServerGroup newServerGroup = new ServerGroupImpl(group, null);
+			newServerGroup.addMember(member);
+			listServerGroup.add(newServerGroup);
 		}
 
 	}
