@@ -61,7 +61,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		member.setCurrentGroup(groupPublic);
 		member.getGroupList().add(groupPublic);
 		//Add him to the group/server public 
-		connectToServerGroup(nameGroupPublic, member);
+		connectToServerGroup(groupPublic, member);
 
 		//Update file
 		ArrayList<Member> listMembers = this.readFileMembers();
@@ -71,27 +71,29 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		return member;
 	}
 	
-	public void connectToServerGroup(String serverName, Member member) throws RemoteException{
+	public void connectToServerGroup(Group group, Member member) throws RemoteException{
 		boolean serverFound = false;
 		Iterator iteratorServer = listServerGroup.iterator();
 		ServerGroup serverGroup = null;
 		while(!serverFound && iteratorServer.hasNext()){
 			serverGroup = (ServerGroup) iteratorServer.next();
 			try {
-				serverFound = serverGroup.equals(serverName);
+				serverFound = serverGroup.equals(group.getName());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}
 		if(serverFound) {
 			try {
+				System.out.println(member.getPseudo() + " ajouté au server "+ serverGroup.getName());
 				serverGroup.addMember(member);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}	
 		}else {
 			// TODO create a server
-			//listServerGroup.add(new ServerGroupImpl(group, null));
+// Erreur ici quelque part 			
+			listServerGroup.add(new ServerGroupImpl(group, null));
 		}
 
 	}
@@ -114,8 +116,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			//For Each group
 			for (Iterator itGroup = member.getGroupList().iterator(); itGroup.hasNext();) {
 				Group group = (Group) itGroup.next();
-				System.out.println("group");
-				this.connectToServerGroup(group.getName(), member);
+				this.connectToServerGroup(group, member);
 			}
 			member.setCurrentGroup(groupPublic);
 			return member;

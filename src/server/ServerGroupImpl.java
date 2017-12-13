@@ -73,7 +73,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	public void draw(ArrayList<Point> pixelsToDraw) throws RemoteException {
 		// TODO: Draw on the image 
 //  Pb on ne connait pas la toolbox ni taille panel
-		BufferedImage image;
+/*		BufferedImage image;
 		if( drawing != null) {
 			image = Converter.toBufferedImage(drawing);
 		}else {
@@ -91,14 +91,14 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 
         g.dispose();
 		this.drawing = Converter.toIcon(image);
+*/
 		
 //		this.group.getCanvas().drawPath(pixelsToDraw);
 		//Update the drawing of each member connected
 		Registry registry;
 		registry = LocateRegistry.getRegistry();
-		
+		System.out.println("iterate over members");
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
-			System.out.println("iterate over members");
 			Member member = (Member) iterator.next();
 			System.out.println(member.getPseudo());
 			if (member.getCurrentGroup().getName()==this.group.getName()) { // unique groupnames

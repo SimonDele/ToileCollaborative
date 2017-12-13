@@ -33,7 +33,7 @@ public class MenuMembers extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		inputAddMember = new JTextField("Ajouter un membre");
-		inputAddMember.addKeyListener(new ListenerAddMember(group, inputAddMember, listMembers, this));
+		inputAddMember.addKeyListener(new ListenerAddMember(inputAddMember, this));
 		this.add(inputAddMember);
 
 		this.refreshDisplay();
