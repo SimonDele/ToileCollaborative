@@ -25,24 +25,25 @@ public class Member implements Serializable {
 	
 	private String pseudo;
 	private String password;
-	private Color color; // Not used yet
+	private Color color; 
 	private ArrayList<Group> groupList;
 	
-	private static File fileMembers;
 	private Toolbox toolbox;
-//	private Canvas currentCanvas;
 	private Group currentGroup;
 	
-	public Member(String pseudo,String password) {
+	public Member(String pseudo,String password, Color color) {
 		groupList = new ArrayList<Group>(); // Creation of an empty groupList
-		//Writing in the dedicated file the new member.
 		this.pseudo = pseudo;
 		this.password = password;
+		this.color = color;
 		this.setToolbox(new Toolbox());
 
 	}
 	public String getPseudo() {
 		return pseudo;
+	}
+	public Color getColor() {
+		return color;
 	}
 	public String getPassword() {
 		return password;
@@ -56,60 +57,7 @@ public class Member implements Serializable {
 	public void setCurrentGroup(Group currentGroup) {
 		this.currentGroup = currentGroup;
 	}
-/*
-	public static Member connection(String pseudo, String password) {
-		
-		try {
-			return Main.serverApp.connection(pseudo, password);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return null;		
-	}
 
-	private static void writeFileMembers(ArrayList<Member> listMembers) {
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(
-			          new BufferedOutputStream(
-			            new FileOutputStream(fileMembers)));
-		    for (int i=0; i<listMembers.size();i++) {
-				Member member = listMembers.get(i);
-				oos.writeObject(member);	
-			}
-			oos.close();
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	          		
-	}
-	private static ArrayList<Member> readFileMembers(){
-		ArrayList<Member> res = new ArrayList<Member>();
-		ObjectInputStream ois;
-
-		try {
-			ois = new ObjectInputStream(
-			          new BufferedInputStream(
-			            new FileInputStream(fileMembers)));
-			while(true) {
-				try {
-					Member obj = (Member)ois.readObject();
-					res.add(obj);
-				}catch(EOFException | ClassNotFoundException e) { // Catch if we have reached the end of the file
-					ois.close();
-					break;
-				}
-			}
-			ois.close();
-		} catch (FileNotFoundException e) {
-			//e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-		return res;
-	}
-	*/
 	public void createNewGroup(String name) {
 		//Create the group and add it to the list of groups
 		Group newgroup = new Group(name);

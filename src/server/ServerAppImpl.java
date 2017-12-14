@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
@@ -51,10 +52,10 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
  
 
 	@Override
-	public Member register(String pseudo, String password) throws RemoteException {
+	public Member register(String pseudo, String password,  Color color) throws RemoteException {
 		System.out.println("registered");
 		//Create member
-		Member member = new Member(pseudo, password);
+		Member member = new Member(pseudo, password, color);
 		member.setCurrentGroup(groupPublic);
 		member.getGroupList().add(groupPublic);
 		//Add him to the group/server public 

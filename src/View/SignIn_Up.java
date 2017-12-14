@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,8 +30,8 @@ public class SignIn_Up extends JDialog {
 	JPanel pPassword;
 	JDialog signIn_Up;
 	private Member member;
+	public Color color;
 	JDialogColorChooser jDialogColorChooser;
-	
 	public SignIn_Up(JFrame parent) {
 		super(parent, "Sign In or Sign Up", true);
 		this.setSize(500,500);
@@ -67,14 +68,7 @@ public class SignIn_Up extends JDialog {
 		//Pick Color
 		buttonColor = new JButton("Couleur");
 		buttonColor.setVisible(false);
-		buttonColor.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				jDialogColorChooser = new JDialogColorChooser(signIn_Up);
-				System.out.println(jDialogColorChooser.jcolorchooser.getColor());
-			}
-			
-		});
+		buttonColor.addActionListener(new ColorActionListener(this));
 		
 		signIn = new JButton("Connexion");
 		signIn.setEnabled(false); // Sign In by default
@@ -98,7 +92,7 @@ public class SignIn_Up extends JDialog {
 		});
 		
 		submit = new JButton("Valider");
-		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, signUp,this));
+		submit.addActionListener(new ListenerSignIn_Up(pseudo, password, signUp,this, this.jDialogColorChooser));
 		title = new JPanel();
 		title.setLayout(new BoxLayout(title, BoxLayout.LINE_AXIS));
 		title.setAlignmentX(CENTER_ALIGNMENT);
@@ -120,16 +114,29 @@ public class SignIn_Up extends JDialog {
 		this.getContentPane().add(content);
 		this.setVisible(true);
 	}
-	public String[] getOutput() {
-		String[] res = new String[2];
-		res[0] = pseudo.getText();
-		res[1] = password.getText();
-		return res; 
+	public Color getColor() {
+		return color; 
 	}
 	public Member getMember() {
 		return this.member;
 	}
 	public void setMember(Member member) {
 		this.member = member;		
+	}
+	public class ColorActionListener implements ActionListener{
+		
+		SignIn_Up signIn_Up;
+		
+		public ColorActionListener(SignIn_Up signIn_Up) {
+			this.signIn_Up = signIn_Up;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			jDialogColorChooser = new JDialogColorChooser(signIn_Up);
+			this.signIn_Up.color = jDialogColorChooser.jcolorchooser.getColor();
+			System.out.println(this.signIn_Up.color);
+			
+		}
+		
 	}
 }

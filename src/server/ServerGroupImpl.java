@@ -94,9 +94,8 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		
         Graphics g = image.createGraphics();
 
-        
+		 g.setColor(drawer.getColor());
 		for(Point p : pixelsToDraw) { //We iterate over our list of point in the path ArrayList
-			 g.setColor(Color.red); //A changer 
 			 g.fillRect((int)p.getX(),(int) p.getY(), drawer.getToolbox().getSize(), drawer.getToolbox().getSize());
 		}
 		

@@ -41,10 +41,9 @@ public class PCanva extends JPanel implements Serializable{
     	}
 
         Graphics g = drawing.createGraphics();
-
-       
+        System.out.println(drawer.getColor());
+		g.setColor(drawer.getColor()); 
 		for(Point p : path) { //We iterate over our list of point in the path ArrayList
-			 g.setColor(Color.red); //A changer 
 			 g.fillRect((int)p.getX(),(int) p.getY(), drawer.getToolbox().getSize(), drawer.getToolbox().getSize());
 		}
 		
