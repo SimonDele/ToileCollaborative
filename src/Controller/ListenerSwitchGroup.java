@@ -49,10 +49,7 @@ public class ListenerSwitchGroup implements ActionListener {
 		
 			// load Drawing
 			serverGroup.sendDrawing(Main.USER);
-			
-			//update member
-			
-			serverGroup.updateMember(Main.USER);
+						
 			
 		
 		} catch (RemoteException | NotBoundException e) {

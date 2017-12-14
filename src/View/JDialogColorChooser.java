@@ -6,7 +6,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 
 public class JDialogColorChooser extends JDialog{
-	private JColorChooser jcolorchooser;
+	public JColorChooser jcolorchooser;
 	
 	public JDialogColorChooser(JDialog parent){
 		super(parent, "Connexion/Inscription", true);

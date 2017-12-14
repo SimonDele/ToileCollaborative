@@ -31,6 +31,8 @@ public class ListenerSignIn_Up implements ActionListener {
 			
 			try {
 				signIn_Up.setMember(Main.serverApp.register(pseudo.getText(), password.getText()));
+				
+				
 				this.signIn_Up.dispose();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();

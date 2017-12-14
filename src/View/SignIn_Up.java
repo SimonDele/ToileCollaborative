@@ -29,6 +29,7 @@ public class SignIn_Up extends JDialog {
 	JPanel pPassword;
 	JDialog signIn_Up;
 	private Member member;
+	JDialogColorChooser jDialogColorChooser;
 	
 	public SignIn_Up(JFrame parent) {
 		super(parent, "Sign In or Sign Up", true);
@@ -69,7 +70,8 @@ public class SignIn_Up extends JDialog {
 		buttonColor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JDialogColorChooser jDialogColorChooser = new JDialogColorChooser(signIn_Up);
+				jDialogColorChooser = new JDialogColorChooser(signIn_Up);
+				System.out.println(jDialogColorChooser.jcolorchooser.getColor());
 			}
 			
 		});

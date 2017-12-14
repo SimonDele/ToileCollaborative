@@ -128,23 +128,6 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		}
 	}
 	@Override
-	public void updateMember(Member member) throws RemoteException {
-		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
-			Member memberit = (Member) iterator.next();
-			if(memberit.getPseudo().equals(member.getPseudo())) {
-				memberit = member;
-				System.out.println(memberit.getPseudo() + " current group " + memberit.getCurrentGroup().getName());
-			}
-		}
-/* Work
-		System.out.println("after update");
-		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
-			Member memberit = (Member) iterator.next();
-			System.out.println(member.getPseudo() + " current group " + member.getCurrentGroup().getName());
-		}
-*/
-	}
-	@Override
 	public String getName() throws RemoteException{
 		return this.name;
 	}
