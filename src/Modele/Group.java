@@ -49,4 +49,14 @@ public class Group implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	public boolean isMember(String nameMember) {
+		boolean is = false;
+		for (Member member : memberList) {
+			if (member.getPseudo().equals(nameMember)) {
+				is = true;
+				break;
+			}
+		}
+		return is;
+	}
 }

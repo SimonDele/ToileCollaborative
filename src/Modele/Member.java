@@ -105,4 +105,14 @@ public class Member implements Serializable {
 	public void setToolbox(Toolbox toolbox) {
 		this.toolbox = toolbox;
 	}
+	public boolean isInGroup(String groupName) {
+		boolean is = false;
+		for (Group group : groupList) {
+			if (group.getName().equals(groupName)) {
+				is = true;
+				break;
+			}
+		}
+		return is;
+	}
 }

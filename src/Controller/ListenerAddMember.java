@@ -30,10 +30,15 @@ public class ListenerAddMember implements KeyListener{
 			try {
 				memberToAdd = Main.serverApp.getMember(inputMember.getText());
 				if(memberToAdd != null) {
-					Main.USER.getCurrentGroup().addMember(memberToAdd);
-					menuMembers.addMember();
-					memberToAdd.getGroupList().add(Main.USER.getCurrentGroup());
-					System.out.println(memberToAdd.getPseudo() + " ajout� dans " + Main.USER.getCurrentGroup().getName());
+					
+					if (memberToAdd.isInGroup(Main.USER.getCurrentGroup().getName())) {
+						System.out.println("Ce membre est déjà dans le groupe");
+					} else {
+						Main.USER.getCurrentGroup().addMember(memberToAdd);
+						menuMembers.addMember();
+						memberToAdd.getGroupList().add(Main.USER.getCurrentGroup());
+						System.out.println(memberToAdd.getPseudo() + " ajout� dans " + Main.USER.getCurrentGroup().getName());
+					}
 				}else {
 					System.out.println("Membre inexistant");
 				}
