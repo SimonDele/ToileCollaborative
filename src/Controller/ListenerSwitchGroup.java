@@ -32,6 +32,7 @@ public class ListenerSwitchGroup implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
 		Registry registry;
 		try {
 			// retrieve the newGroup on the server
@@ -53,13 +54,9 @@ public class ListenerSwitchGroup implements ActionListener {
 		
 			// load Drawing
 			serverGroup.sendDrawing(Main.USER);
-						
-			
-		
+					
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }

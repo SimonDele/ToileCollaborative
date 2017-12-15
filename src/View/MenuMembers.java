@@ -20,15 +20,16 @@ public class MenuMembers extends JPanel{
 	private ArrayList<Member> listMembers;
 	private JTextField inputAddMember;
 	private ArrayList<JLabel> labMembers;
-
+	private Group group;
 	public MenuMembers(Group group) {
 		this.labMembers = new ArrayList<JLabel>();
+		this.group = group;
 		try {
 			this.listMembers = group.getMemberList();			
 		}catch(NullPointerException e) {
 			this.listMembers = new ArrayList<Member>();
 		}
-		
+
 		this.setSize(new Dimension(200,200));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
@@ -43,7 +44,9 @@ public class MenuMembers extends JPanel{
 		this.listMembers = listMembers;
 		this.refreshDisplay();
 	}
-	
+	public void setGroup(Group group) {
+		this.group = group;
+	}
 	public void refreshDisplay() {
 		// Remove everything
 		for(int i=0; i<this.labMembers.size(); i++) {
