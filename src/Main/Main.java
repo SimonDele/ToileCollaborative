@@ -18,12 +18,18 @@ import server.UserServerImpl;
 public class Main {
 	public static Member USER;
 	public static ServerApp serverApp;
+	public static String adress;
 	
 	public static void main(String[] args) {
-		
+
 		Registry registry = null;
 		try {
-			registry = LocateRegistry.getRegistry();
+			if(args.length > 0) {
+				adress = args[0];
+				registry = LocateRegistry.getRegistry(args[0]);
+			}else {
+				registry = LocateRegistry.getRegistry();	
+			}
 			serverApp = (ServerApp) registry.lookup("ServerApp");
 		} catch (RemoteException | NotBoundException e) {
 			System.out.println("Can't connect to the Server App");

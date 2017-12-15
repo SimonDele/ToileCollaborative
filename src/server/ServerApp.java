@@ -19,4 +19,5 @@ public interface ServerApp extends Remote {
 	public ArrayList<Member> readFileMembers() throws RemoteException;
 	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException;
 	public String getNameGroupPublic() throws RemoteException;
+	public void logOut(Member user) throws RemoteException;
 }

@@ -217,5 +217,19 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	}
 
 
+	@Override
+	public void logOut(Member user) throws RemoteException {
+		for (Iterator iterator = user.getGroupList().iterator(); iterator.hasNext();) {
+			Group group = (Group) iterator.next();
+			for (Iterator iterator2 = listServerGroup.iterator(); iterator2.hasNext();) {
+				ServerGroup serverGroup = (ServerGroup) iterator2.next();
+				if(serverGroup.getName().equals(group.getName())) {
+					serverGroup.logOut(user);
+				}
+			}
+		}
+	}
+
+
 
 }

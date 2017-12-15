@@ -66,8 +66,6 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	public void addMember(Member member) throws RemoteException {
 		
 		System.out.println(member.getPseudo() +" added to the server");
-		// TODO Send him the image
-		
 
 		
 		this.coMembers.add(member);
@@ -150,6 +148,21 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void logOut(Member user) throws RemoteException {
+		Iterator iterator = coMembers.iterator();
+		Boolean isFound = false;
+		while ( !isFound &&  iterator.hasNext()) {
+			Member member = (Member) iterator.next();
+			if(member.getPseudo().equals(user.getPseudo())) {
+				isFound = true;
+				member = null;
+			}
+		}
+		
+		//System.out.println("removed " + user.getPseudo() + " from " + this.group.getName() + coMembers.remove(user));
 	}
 
 }

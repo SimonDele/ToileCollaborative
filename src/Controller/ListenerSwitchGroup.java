@@ -35,7 +35,11 @@ public class ListenerSwitchGroup implements ActionListener {
 		Registry registry;
 		try {
 			// retrieve the newGroup on the server
-			registry = LocateRegistry.getRegistry();
+			if(Main.adress != null) {
+				registry = LocateRegistry.getRegistry(Main.adress);
+			}else {
+				registry = LocateRegistry.getRegistry();	
+			}
 			ServerGroup serverGroup = (ServerGroup) registry.lookup(this.newGroup.getName());
 			this.newGroup = serverGroup.getGroup();
 			

@@ -2,6 +2,7 @@ package Controller;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.rmi.RemoteException;
 
 import Modele.Member;
 
@@ -25,6 +26,13 @@ public class SaveOnWindowClosed implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		//user.saveBeforeExit();
+		
+		try {
+			Main.Main.serverApp.logOut(this.user);
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		
 		System.out.println("Saved");
 		
 	}
