@@ -73,11 +73,6 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 			Member memberit = (Member) iterator.next();
 			System.out.println(memberit.getPseudo());
 		}
-		
-		// Send him the image if the current group of the member is this one
-		if(member.getCurrentGroup().equals(this.group)) {
-			//this.sendDrawing(member);
-		}
 	}
 
 	@Override
@@ -101,8 +96,6 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
         g.dispose();
 		this.drawing = Converter.toIcon(image);
 
-		
-		
 		
 		//Update the drawing of each member connected
 		Registry registry;
