@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -17,7 +19,7 @@ import javax.swing.JTextField;
 import Controller.ListenerSignIn_Up;
 import Modele.Member;
 
-public class SignIn_Up extends JDialog {
+public class SignIn_Up extends JDialog implements WindowListener {
 	
 	JPanel content, title, body;
 	JLabel labpseudo;
@@ -32,13 +34,14 @@ public class SignIn_Up extends JDialog {
 	private Member member;
 	public Color color;
 	JDialogColorChooser jDialogColorChooser;
+	
 	public SignIn_Up(JFrame parent) {
 		super(parent, "Sign In or Sign Up", true);
 		this.setSize(500,500);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		//this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		
+		addWindowListener(this);
 		signIn_Up = this;
 		
 		content = new JPanel();
@@ -113,6 +116,9 @@ public class SignIn_Up extends JDialog {
 		//Add everything in the JDialog
 		this.getContentPane().add(content);
 		this.setVisible(true);
+		
+		
+
 	}
 	public Color getColor() {
 		return color; 
@@ -133,10 +139,27 @@ public class SignIn_Up extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			jDialogColorChooser = new JDialogColorChooser(signIn_Up);
-			this.signIn_Up.color = jDialogColorChooser.jcolorchooser.getColor();
-			System.out.println(this.signIn_Up.color);
-			
+			this.signIn_Up.color = jDialogColorChooser.jcolorchooser.getColor();			
 		}
 		
 	}
+	
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		System.out.println("application closed");
+		System.exit(0);
+	}
+	
+	@Override
+	public void windowActivated(WindowEvent arg0) {}
+	@Override
+	public void windowClosed(WindowEvent arg0) {}
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {}
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {}
+	@Override
+	public void windowIconified(WindowEvent arg0) {}
+	@Override
+	public void windowOpened(WindowEvent arg0) {}
 }

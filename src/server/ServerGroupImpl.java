@@ -45,7 +45,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		
 		//Load the drawing 
 		try {
-			drawing = Converter.toIcon(ImageIO.read(new File(this.group.getName()+".png")));
+			drawing = this.loadDrawing();
 		} catch (IOException e) {
 			drawing = Converter.toIcon(new BufferedImage(500,500,BufferedImage.TYPE_INT_RGB));
 		}
@@ -53,13 +53,18 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		System.out.println("Server Group \"" + group.getName()+"\" Running");
 	}
 	
-	/* TODO
-    public void save() throws IOException{
-        ImageIO.write(drawing, "PNG", new File("filename.png"));
+	
+    public void save() throws RemoteException{
+        try {
+			ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + this.getName()+ ".png"));
+	        System.out.println(this.getName() + " image saved");
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
     }
-   */
-    public void load() throws IOException {
-        
+   
+    public ImageIcon loadDrawing() throws IOException {
+        return Converter.toIcon(ImageIO.read(new File("drawings/" + this.getName() + ".png")));
     }
 
 	@Override

@@ -16,4 +16,5 @@ public interface ServerGroup extends Remote{
 	public Group getGroup() throws RemoteException;
 	public void sendDrawing(Member member) throws RemoteException;
 	public void logOut(Member user) throws RemoteException;
+	public void  save() throws RemoteException;
 }

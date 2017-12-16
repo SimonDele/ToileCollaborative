@@ -91,8 +91,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 				e.printStackTrace();
 			}	
 		}else {
-			// TODO create a server
-// Erreur ici quelque part 
 			ServerGroup newServerGroup = new ServerGroupImpl(group, null);
 			newServerGroup.addMember(member);
 			listServerGroup.add(newServerGroup);
@@ -194,6 +192,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	}
 
 	public static void main(String[] args) throws RemoteException {
+		
 		try {
 			ServerAppImpl serverAppImpl = new ServerAppImpl();
 			if(args.length > 0) {
@@ -203,11 +202,14 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 				Registry registry = LocateRegistry.getRegistry();
 				registry.rebind("ServerApp", serverAppImpl);
 			}
-			
+			FrameServer frameServer = new FrameServer(serverAppImpl);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		System.out.println("Server App running");
+		
+
+		
 	}
 
 
@@ -226,6 +228,17 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 				if(serverGroup.getName().equals(group.getName())) {
 					serverGroup.logOut(user);
 				}
+			}
+		}
+	}
+	
+	public void saveAll() {
+		for (Iterator iterator = listServerGroup.iterator(); iterator.hasNext();) {
+			ServerGroup serverGroup = (ServerGroup) iterator.next();
+			try {
+				serverGroup.save();
+			} catch (RemoteException e) {
+				e.printStackTrace();
 			}
 		}
 	}
