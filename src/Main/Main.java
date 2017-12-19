@@ -18,14 +18,14 @@ import server.UserServerImpl;
 public class Main {
 	public static Member USER;
 	public static ServerApp serverApp;
-	public static String adress;
+	public static String serverIP;
 	
 	public static void main(String[] args) {
 
 		Registry registry = null;
 		try {
 			if(args.length > 0) {
-				adress = args[0];
+				serverIP = args[0];
 				registry = LocateRegistry.getRegistry(args[0]);
 			}else {
 				registry = LocateRegistry.getRegistry();	

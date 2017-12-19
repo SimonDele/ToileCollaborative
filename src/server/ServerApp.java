@@ -10,7 +10,6 @@ import Modele.Member;
 
 public interface ServerApp extends Remote {
 	
-	
 	public Member connection(String pseudo, String password) throws RemoteException;
 	public Member register(String pseudo, String password, Color color) throws RemoteException;
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException;
@@ -20,5 +19,6 @@ public interface ServerApp extends Remote {
 	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException;
 	public String getNameGroupPublic() throws RemoteException;
 	public void logOut(Member user) throws RemoteException;
-	
+	public void printCurrentGroups() throws RemoteException;
+	public boolean hasGroup(String newGroupName) throws RemoteException;
 }

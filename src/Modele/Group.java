@@ -36,7 +36,6 @@ public class Group implements Serializable {
 
 	public void addMember(Member toAdd) {
 		memberList.add(toAdd); // Add the toAdd member to the list of members of this group
-		toAdd.createNewGroup(this.getName()); // Add this group to the member added		
 	}
 	public Canvas getCanvas() {
 		return canvas;
@@ -49,7 +48,7 @@ public class Group implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	public boolean isMember(String nameMember) {
+	public boolean hasMember(String nameMember) {
 		boolean is = false;
 		for (Member member : memberList) {
 			if (member.getPseudo().equals(nameMember)) {
@@ -58,5 +57,13 @@ public class Group implements Serializable {
 			}
 		}
 		return is;
+	}
+	public String toString() {
+		return this.getName();
+	}
+	public void printMembers() {
+		for (Member memberI : memberList) {
+			System.out.println("- " + memberI.getPseudo());
+		}
 	}
 }

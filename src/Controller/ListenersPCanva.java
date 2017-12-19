@@ -37,8 +37,8 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 		System.out.println("change server");
 
 		try {
-			if(Main.adress != null) {
-				registry = LocateRegistry.getRegistry(Main.adress);
+			if(Main.serverIP != null) {
+				registry = LocateRegistry.getRegistry(Main.serverIP);
 			}else {
 				registry = LocateRegistry.getRegistry();	
 			}

@@ -1,6 +1,8 @@
 package server;
 
 import java.awt.Point;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -16,5 +18,6 @@ public interface ServerGroup extends Remote{
 	public Group getGroup() throws RemoteException;
 	public void sendDrawing(Member member) throws RemoteException;
 	public void logOut(Member user) throws RemoteException;
-	public void  save() throws RemoteException;
+	public void save() throws RemoteException;
+	public void addNewMember(Member memberToAdd) throws RemoteException;
 }

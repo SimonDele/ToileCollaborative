@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 import Main.Main;
 import Modele.Group;
 import Modele.Member;
+import View.MainFrame;
+import View.Menu;
 
 public class UserServerImpl extends UnicastRemoteObject implements UserServer {
 
@@ -37,6 +39,24 @@ public class UserServerImpl extends UnicastRemoteObject implements UserServer {
 	@Override
 	public Group getCurrentGroup() throws RemoteException {
 		return Main.USER.getCurrentGroup();
+	}
+
+	@Override
+	public void updateCurrentGroupInfo(Group group) throws RemoteException {
+		// directly just replace it
+		Main.USER.setCurrentGroup(group);
+		// TODO erase following debugging display
+		System.out.println("in member " + Main.USER.getPseudo() + " memberList of " + group.getName() + " is :");
+		Main.USER.getCurrentGroup().printMembers();
+		
+		Menu.menuMembers.refreshDisplay();
+	}
+
+	@Override
+	public void updateListGroup(Group group) throws RemoteException {
+		// set new group in list and update display
+		Main.USER.addedTo(group);
+		Menu.menuGroups.refreshDisplay();
 	}
 
 }

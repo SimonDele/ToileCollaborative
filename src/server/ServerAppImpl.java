@@ -38,16 +38,6 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		this.groupPublic = new Group(nameGroupPublic);
 		ServerGroupImpl newServerGroup = new ServerGroupImpl(groupPublic,null);
 		this.listServerGroup.add(newServerGroup);
-		
-		Registry registry = LocateRegistry.getRegistry();
-		ServerGroup serverGroupPublic;
-		try {
-			serverGroupPublic = (ServerGroup) registry.lookup(nameGroupPublic);
-			//And add it to the listServerGroup
-			listServerGroup.add(serverGroupPublic);
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		}
 	}
  
 
@@ -85,7 +75,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 		if(serverFound) {
 			try {
-				System.out.println("(ServerApp connectoserver)" + member.getPseudo() + " ajouté au server "+ serverGroup.getName());
+				System.out.println("(ServerApp connectoserver)" + member.getPseudo() + " ajoutï¿½ au server "+ serverGroup.getName());
 				serverGroup.addMember(member);
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -243,6 +233,25 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 	}
 
+	@Override
+	public void printCurrentGroups() throws RemoteException {
+		System.out.println("liste groupes :");
+		for (ServerGroup serverGroup : listServerGroup) {
+			System.out.println(serverGroup.getName());
+		}
+	}
 
+
+	@Override
+	public boolean hasGroup(String groupName) throws RemoteException {
+		boolean is = false;
+		for (ServerGroup serverGroup : listServerGroup) {
+			if (serverGroup.getName().equals(groupName)) {
+				is = true;
+				break;
+			}
+		}
+		return is;
+	}
 
 }

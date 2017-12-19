@@ -1,11 +1,11 @@
 package server;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -96,23 +96,22 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		for(Point p : pixelsToDraw) { //We iterate over our list of point in the path ArrayList
 			 g.fillRect((int)p.getX(),(int) p.getY(), drawer.getToolbox().getSize(), drawer.getToolbox().getSize());
 		}
-		
 
         g.dispose();
 		this.drawing = Converter.toIcon(image);
-
 		
 		//Update the drawing of each member connected
 		Registry registry;
 		registry = LocateRegistry.getRegistry();
-		System.out.println("iterate over members");
+		System.out.println("(in SvGrI.draw) Iterate over members");
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
 			try {
 				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
-				System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());
-				if (userServer.getCurrentGroup().getName().equals(this.group.getName())) { // unique groupnames
-						System.out.println(member.getPseudo() + "connected");
+				System.out.println("(in SvGrI.draw) member " +member.getPseudo() + " " + member.getCurrentGroup().getName());
+//				if (userServer.getCurrentGroup().getName().equals(this.group.getName())) { // unique groupnames
+				if (member.isOn(this.group)) {
+					System.out.println("(in SvGrI.draw) sending draw order to " +member.getPseudo());
 						userServer.drawPath(drawer, pixelsToDraw);
 				} else {
 					// TODO : notify of change
@@ -159,8 +158,35 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 				member = null;
 			}
 		}
-		
 		//System.out.println("removed " + user.getPseudo() + " from " + this.group.getName() + coMembers.remove(user));
 	}
 
+	@Override
+	public void addNewMember(Member memberToAdd) throws RemoteException {
+		this.group.addMember(memberToAdd);
+		// TODO  erase debugging lines
+		System.out.println("(in SGI.addNewMember) After addition to the serv's group, list of members:");
+		this.group.printMembers();
+		
+		// TODO MultiMachines : entrer la recherche de registre dans la boucle et chercher en fonction de l'IP
+		Registry reg = null;
+		reg = LocateRegistry.getRegistry();
+		
+		for (Member memberI : coMembers) {
+			try {
+				UserServer userServerI = (UserServer) reg.lookup(memberI.getPseudo());
+				System.out.println("(in SGI.addNewMember) inside for loop after lookup");
+				if (memberI.is(memberToAdd)) {
+					System.out.println("(in SGI.addNewMember) it's mister " + memberToAdd.getPseudo());
+					userServerI.updateListGroup(this.group);
+				} else if (memberI.isOn(this.group)) {
+					System.out.println("(in SGI.addNewMember) update group info of mister " + memberI.getPseudo());
+					userServerI.updateCurrentGroupInfo(this.group);
+				}
+			} catch (NotBoundException e) {
+				System.out.println("in addNewMember, unable to lookup userServer of " + memberI.getPseudo());
+				e.printStackTrace();
+			}
+		}
+	}
 }

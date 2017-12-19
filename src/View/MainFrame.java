@@ -34,7 +34,7 @@ public class MainFrame extends JFrame{
 //	    user.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
 	    MainFrame.currentGroup = user.getCurrentGroup();
 	    MainFrame.canvas = currentGroup.getCanvas();
-	    menu = new Menu(MainFrame.currentGroup, user, canvas);
+	    menu = new Menu(MainFrame.currentGroup, user);
 
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 

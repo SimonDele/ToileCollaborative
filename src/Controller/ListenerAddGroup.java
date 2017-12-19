@@ -2,14 +2,19 @@ package Controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
+import Main.Main;
 import Modele.Group;
 import Modele.Member;
 import View.MenuGroups;
-import Main.Main;
+import server.ServerApp;
 
 public class ListenerAddGroup implements KeyListener{
 	
@@ -33,10 +38,20 @@ public class ListenerAddGroup implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		if(arg0.getKeyCode() == 10) {// Enter key
-			//this.listGroups.add(new Group(inputGroupName.getText()));
-			Main.USER.createNewGroup(this.inputGroupName.getText());
-			
-			this.menuGroups.refreshDisplay();
+			// TODO ? lookup the latest ServerApp ?
+			// Now let's check if it's not already a group
+			String newGroupName = this.inputGroupName.getText();
+			try {
+				if (Main.serverApp.hasGroup(newGroupName)) {
+					System.out.println("Ce groupe existe déjà.");
+				} else {
+					System.out.println("Nom libre; groupe créé");
+					Main.USER.createNewGroup(this.inputGroupName.getText());
+					this.menuGroups.refreshDisplay();
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

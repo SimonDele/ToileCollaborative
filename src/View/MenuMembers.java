@@ -48,6 +48,7 @@ public class MenuMembers extends JPanel{
 		this.group = group;
 	}
 	public void refreshDisplay() {
+		System.out.println("in MenuMembers, refreshDisplay : surprised we've come this far !");
 		// Remove everything
 		for(int i=0; i<this.labMembers.size(); i++) {
 			this.remove(this.labMembers.get(i));

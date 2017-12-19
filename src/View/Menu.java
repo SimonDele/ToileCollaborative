@@ -12,9 +12,9 @@ public class Menu extends JPanel {
 	public static MenuMembers menuMembers;
 	public static MenuGroups menuGroups;
 
-	public Menu(Group group, Member member, Canvas canvas) {
+	public Menu(Group group, Member member) {
 		menuMembers = new MenuMembers(group);
-		menuGroups = new MenuGroups(member.getGroupList(), canvas);
+		menuGroups = new MenuGroups(member.getGroupList());
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(new JScrollPane(menuGroups));

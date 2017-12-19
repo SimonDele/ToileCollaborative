@@ -15,4 +15,6 @@ public interface UserServer extends Remote{
 	public void drawPath(Member drawer, ArrayList<Point> path) throws RemoteException;
 	public void loadDrawing(ImageIcon drawing) throws RemoteException;
 	public Group getCurrentGroup() throws RemoteException;
+	public void updateCurrentGroupInfo(Group group) throws RemoteException;
+	public void updateListGroup(Group group) throws RemoteException;
 }

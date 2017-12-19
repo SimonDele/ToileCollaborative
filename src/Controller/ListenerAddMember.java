@@ -13,7 +13,6 @@ import View.MenuMembers;
 import Main.Main;
 
 public class ListenerAddMember implements KeyListener{
-//	private Group group;
 	private JTextField inputMember;
 	private MenuMembers menuMembers;
 	
@@ -30,14 +29,14 @@ public class ListenerAddMember implements KeyListener{
 			try {
 				memberToAdd = Main.serverApp.getMember(inputMember.getText());
 				if(memberToAdd != null) {
-					
 					if (memberToAdd.isInGroup(Main.USER.getCurrentGroup().getName())) {
 						System.out.println("Ce membre est déjà dans le groupe");
 					} else {
-						Main.USER.getCurrentGroup().addMember(memberToAdd);
-						menuMembers.addMember();
-						memberToAdd.getGroupList().add(Main.USER.getCurrentGroup());
-						System.out.println(memberToAdd.getPseudo() + " ajout� dans " + Main.USER.getCurrentGroup().getName());
+//						Main.USER.getCurrentGroup().addMember(memberToAdd); // TODO erase
+//						menuMembers.addMember(); // TODO erase
+//						memberToAdd.getGroupList().add(Main.USER.getCurrentGroup()); // TODO erase
+						Main.USER.addMemberToCurrentGroup(memberToAdd);
+						System.out.println(memberToAdd.getPseudo() + " ajoute dans " + Main.USER.getCurrentGroup().getName());
 					}
 				}else {
 					System.out.println("Membre inexistant");
@@ -57,7 +56,4 @@ public class ListenerAddMember implements KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-
 }

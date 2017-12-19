@@ -23,11 +23,9 @@ public class ListenerSwitchGroup implements ActionListener {
 
  * 2) Not yet implemented
  */
-	Canvas canvas;
 	Group newGroup;
 	
-	public ListenerSwitchGroup(Canvas canvas, Group group) {
-		this.canvas = canvas;
+	public ListenerSwitchGroup(Group group) {
 		this.newGroup = group;
 	}
 	@Override
@@ -36,8 +34,8 @@ public class ListenerSwitchGroup implements ActionListener {
 		Registry registry;
 		try {
 			// retrieve the newGroup on the server
-			if(Main.adress != null) {
-				registry = LocateRegistry.getRegistry(Main.adress);
+			if(Main.serverIP != null) {
+				registry = LocateRegistry.getRegistry(Main.serverIP);
 			}else {
 				registry = LocateRegistry.getRegistry();	
 			}

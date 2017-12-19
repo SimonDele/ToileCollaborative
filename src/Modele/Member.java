@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import server.ServerApp;
+import server.ServerGroup;
 import Main.Main;
 public class Member implements Serializable {
 	
@@ -114,5 +115,30 @@ public class Member implements Serializable {
 			}
 		}
 		return is;
+	}
+	public void addMemberToCurrentGroup(Member memberToAdd) {
+		Registry registry = null;
+		try {
+			if(Main.serverIP != null) {
+				registry = LocateRegistry.getRegistry(Main.serverIP);
+			}else {
+				registry = LocateRegistry.getRegistry();	
+			}
+			ServerGroup svrCurrGroup= (ServerGroup) registry.lookup(this.currentGroup.getName());
+			System.out.println("(in Member.addMemberToCurrentGroup) let's add mister " + memberToAdd.getPseudo() + "on the serv" + svrCurrGroup.getName());
+			svrCurrGroup.addNewMember(memberToAdd);
+		} catch (RemoteException | NotBoundException e) {
+			System.out.println("Can't access current group to add member");
+		}
+	}
+	public boolean isOn(Group group) {
+		return this.currentGroup.getName().equals(group.getName());
+	}
+	public boolean is(Member memberCompare) {
+		return this.pseudo.equals(memberCompare.getPseudo());
+	}
+	public void addedTo(Group group) {
+		// added to this group so it's added to the list
+		this.groupList.add(group);
 	}
 }
