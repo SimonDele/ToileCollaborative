@@ -1,17 +1,15 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Controller.ListenerAddMember;
-import Controller.ListenerSwitchGroup;
 import Modele.Group;
 import Modele.Member;
 
@@ -20,6 +18,7 @@ public class MenuMembers extends JPanel{
 	private ArrayList<Member> listMembers;
 	private JTextField inputAddMember;
 	private ArrayList<JLabel> labMembers;
+	private String strAddMember;
 	private Group group;
 	public MenuMembers(Group group) {
 		this.labMembers = new ArrayList<JLabel>();
@@ -30,14 +29,17 @@ public class MenuMembers extends JPanel{
 			this.listMembers = new ArrayList<Member>();
 		}
 
-		this.setSize(new Dimension(200,200));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
-		inputAddMember = new JTextField("Ajouter un membre");
+		this.strAddMember = "+ New Member";
+		inputAddMember = new JTextField(this.strAddMember);
 		inputAddMember.addKeyListener(new ListenerAddMember(inputAddMember, this));
 		this.add(inputAddMember);
+		inputAddMember.setMaximumSize(new Dimension(Integer.MAX_VALUE, inputAddMember.getMinimumSize().height));
+
 
 		this.refreshDisplay();
+		this.setBackground(Color.gray);
 	}
 	
 	public void setListMembers(ArrayList<Member> listMembers) {
@@ -47,6 +49,14 @@ public class MenuMembers extends JPanel{
 	public void setGroup(Group group) {
 		this.group = group;
 	}
+	public String getStrAddMember() {
+		return strAddMember;
+	}
+
+	public void setStrAddMember(String sAddMember) {
+		this.strAddMember = sAddMember;
+	}
+
 	public void refreshDisplay() {
 		// Remove everything
 		for(int i=0; i<this.labMembers.size(); i++) {
@@ -60,6 +70,8 @@ public class MenuMembers extends JPanel{
 			this.labMembers.add(new JLabel(""+member.getPseudo()));	
 			this.add(labMembers.get(i));	
 		}
+		
+		this.inputAddMember.setText(strAddMember);
 		this.revalidate();
 		this.repaint();
 	}
@@ -70,6 +82,7 @@ public class MenuMembers extends JPanel{
 			this.add(this.labMembers.get(this.labMembers.size()-1)); // add the new jlabel to the panel
 		}
 
+		this.inputAddMember.setText(strAddMember);
 		this.revalidate();
 		this.repaint();
 	}

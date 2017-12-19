@@ -62,6 +62,7 @@ public class Member implements Serializable {
 		//Create the group and add it to the list of groups
 		Group newgroup = new Group(name);
 		this.groupList.add(newgroup);
+		this.currentGroup = newgroup;
 		
 		try {
 			Main.serverApp.addNewServerGroup(this,newgroup);
@@ -114,5 +115,8 @@ public class Member implements Serializable {
 			}
 		}
 		return is;
+	}
+	public boolean is(String memberCompare) {
+		return this.pseudo.equals(memberCompare);
 	}
 }

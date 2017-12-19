@@ -5,10 +5,13 @@ import java.io.Serializable;
 public class Toolbox implements Serializable{
 	private String shapeSelected;
 	private int size;
+	public final static int sizeS = 5;
+	public final static int sizeM = 10;
+	public final static int sizeL = 20;
 	
 	public Toolbox() {
 		shapeSelected = "CIRCLE";
-		size = 20;
+		size = sizeM;
 	}
 	
 	public void setShapeSelected(String s) {

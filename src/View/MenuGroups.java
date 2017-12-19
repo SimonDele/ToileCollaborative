@@ -1,8 +1,8 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import Controller.ListenerAddGroup;
 import Controller.ListenerSwitchGroup;
+import Main.Main;
 import Modele.Canvas;
 import Modele.Group;
 
@@ -19,6 +20,7 @@ public class MenuGroups extends JPanel{
 	private ArrayList<Group> listGroups;
 	private JTextField inputAddGroup;
 	private ArrayList<JButton> buttonGroups;
+	private String strAddGroup;
 	
 	public MenuGroups(ArrayList<Group> listGroups, Canvas canvas) {
 		
@@ -28,12 +30,13 @@ public class MenuGroups extends JPanel{
 			this.listGroups = new ArrayList<Group>();
 		}
 		
-		this.setSize(new Dimension(200,200));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
-		inputAddGroup = new JTextField("Créer un groupe");
-		inputAddGroup.addKeyListener(new ListenerAddGroup(listGroups, inputAddGroup, this));
+		this.strAddGroup ="+ New Group" ;
+		inputAddGroup = new JTextField(this.strAddGroup);
+		inputAddGroup.addKeyListener(new ListenerAddGroup(inputAddGroup, this));
 		this.add(inputAddGroup);
+		inputAddGroup.setMaximumSize(new Dimension(Integer.MAX_VALUE, inputAddGroup.getMinimumSize().height));
 		
 		this.buttonGroups = new ArrayList<JButton>();
 		//Display all the group belonging to the user
@@ -43,6 +46,9 @@ public class MenuGroups extends JPanel{
 			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(canvas, this.listGroups.get(i)));
 			this.add(this.buttonGroups.get(this.buttonGroups.size()-1));
 		}	
+		
+		this.setBackground(Color.gray);
+		this.refresh();
 	}
 	public void refreshDisplay() {
 		if(this.buttonGroups.size() < this.listGroups.size()) { // Check if one label is missing (might be true all the time)
@@ -53,5 +59,18 @@ public class MenuGroups extends JPanel{
 
 		this.revalidate();
 		this.repaint();
+		this.refresh();
+	}
+	
+	public void refresh() {
+		for (JButton jbuttonI : this.buttonGroups) {
+			if ((jbuttonI.getText()).equals(Main.USER.getCurrentGroup().getName())) {
+				MainFrame.setSelected(jbuttonI);
+			} else {
+				MainFrame.setUnselected(jbuttonI);
+			}
+		}
+		this.inputAddGroup.setText(strAddGroup);
+		
 	}
 }

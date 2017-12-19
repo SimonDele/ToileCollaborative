@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import Modele.Group;
 import Modele.Member;
+import View.Menu;
 import View.MenuMembers;
 import Main.Main;
 
@@ -21,7 +22,6 @@ public class ListenerAddMember implements KeyListener{
 		this.inputMember = inputMember;
 		this.menuMembers = menuMembers;
 	}
-
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
@@ -37,11 +37,12 @@ public class ListenerAddMember implements KeyListener{
 						Main.USER.getCurrentGroup().addMember(memberToAdd);
 						menuMembers.addMember();
 						memberToAdd.getGroupList().add(Main.USER.getCurrentGroup());
-						System.out.println(memberToAdd.getPseudo() + " ajout� dans " + Main.USER.getCurrentGroup().getName());
+						System.out.println(memberToAdd.getPseudo() + " ajoute dans " + Main.USER.getCurrentGroup().getName());
 					}
-				}else {
+				} else {
 					System.out.println("Membre inexistant");
 				}
+				Menu.menuMembers.refreshDisplay();
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
