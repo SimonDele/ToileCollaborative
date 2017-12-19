@@ -52,10 +52,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
  
 
 	@Override
-	public Member register(String pseudo, String password,  Color color) throws RemoteException {
+	public Member register(String pseudo, String password,  Color color, String iPAdress) throws RemoteException {
 		System.out.println("registered");
 		//Create member
 		Member member = new Member(pseudo, password, color);
+		member.setIPAdress(iPAdress);
+		
 		member.setCurrentGroup(groupPublic);
 		member.getGroupList().add(groupPublic);
 		//Add him to the group/server public 
@@ -98,7 +100,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 
 	}
 	@Override
-	public Member connection(String pseudo, String password) throws RemoteException {
+	public Member connection(String pseudo, String password, String iPAdress) throws RemoteException {
 		
 		System.out.println("connection to the server...");
 		
@@ -111,6 +113,9 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			found = ((password.equals(member.getPassword())) && (pseudo.equals(member.getPseudo())));
 		}
 		if(found) {
+			
+			member.setIPAdress(iPAdress);
+			
 			//Check if all the group of member.getGroupList() have a "ServerGroup" otherwise it must be created 
 			
 			//For Each group

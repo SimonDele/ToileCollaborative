@@ -104,10 +104,11 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		
 		//Update the drawing of each member connected
 		Registry registry;
-		registry = LocateRegistry.getRegistry();
 		System.out.println("iterate over members");
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
+			System.out.println("(draw) IP member : " + member.getIPAdress());
+			registry = LocateRegistry.getRegistry(member.getIPAdress());
 			try {
 				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
 				System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());

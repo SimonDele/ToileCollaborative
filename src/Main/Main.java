@@ -1,4 +1,6 @@
 package Main;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -37,7 +39,12 @@ public class Main {
 				
 		SignIn_Up signIn_Up = new SignIn_Up(null);
 		USER = signIn_Up.getMember();
-
+		try {
+			System.out.println("IP Adress is : " + InetAddress.getLocalHost().getHostAddress());
+			USER.setIPAdress(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		UserServerImpl userServerImpl;
 		try {
 			userServerImpl = new UserServerImpl();

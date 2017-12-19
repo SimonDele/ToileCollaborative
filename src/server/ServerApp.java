@@ -11,8 +11,8 @@ import Modele.Member;
 public interface ServerApp extends Remote {
 	
 	
-	public Member connection(String pseudo, String password) throws RemoteException;
-	public Member register(String pseudo, String password, Color color) throws RemoteException;
+	public Member connection(String pseudo, String password, String iPAdress) throws RemoteException;
+	public Member register(String pseudo, String password, Color color, String iPAdress) throws RemoteException;
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException;
 	public void connectToServerGroup(Group group, Member member) throws RemoteException;
 	public Member getMember(String pseudo) throws RemoteException;

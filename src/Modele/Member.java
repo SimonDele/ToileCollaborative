@@ -30,7 +30,9 @@ public class Member implements Serializable {
 	
 	private Toolbox toolbox;
 	private Group currentGroup;
+	private String IPAdress;
 	
+
 	public Member(String pseudo,String password, Color color) {
 		groupList = new ArrayList<Group>(); // Creation of an empty groupList
 		this.pseudo = pseudo;
@@ -38,6 +40,12 @@ public class Member implements Serializable {
 		this.color = color;
 		this.setToolbox(new Toolbox());
 
+	}
+	public String getIPAdress() {
+		return IPAdress;
+	}
+	public void setIPAdress(String iPAdress) {
+		IPAdress = iPAdress;
 	}
 	public String getPseudo() {
 		return pseudo;

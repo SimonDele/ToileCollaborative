@@ -2,6 +2,8 @@ package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -28,11 +30,18 @@ public class ListenerSignIn_Up implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String iPAdress = null;
+		try {
+			System.out.println("IP Adress is : " + InetAddress.getLocalHost().getHostAddress());
+			iPAdress = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		if(this.signUp.isEnabled() == false) { //If it is a sign Up
 			System.out.println("Sign Up");
 			
 			try {
-				signIn_Up.setMember(Main.serverApp.register(pseudo.getText(), password.getText(), signIn_Up.getColor()));
+				signIn_Up.setMember(Main.serverApp.register(pseudo.getText(), password.getText(), signIn_Up.getColor(), iPAdress));
 				this.signIn_Up.dispose();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
@@ -40,7 +49,7 @@ public class ListenerSignIn_Up implements ActionListener {
 		}else {// it is a sign In
 			
 			try {
-				Member member = Main.serverApp.connection(pseudo.getText(), password.getText());
+				Member member = Main.serverApp.connection(pseudo.getText(), password.getText(), iPAdress);
 				if(member != null) {
 					System.out.println("Sign In");
 					signIn_Up.setMember(member);
