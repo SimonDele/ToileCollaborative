@@ -16,11 +16,9 @@ import server.ServerGroupImpl;
 import Main.Main;
 public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	private ArrayList<Point> path;
-	private PCanva pCanva;
 	private ServerGroup serverGroup;
 	
-	public ListenersPCanva(PCanva pCanva) {
-		this.pCanva = pCanva;
+	public ListenersPCanva() {
 		path = new ArrayList<Point>();
 		
 		Registry registry;
@@ -53,12 +51,16 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Registry registry;
-
 		try {
-			this.serverGroup.draw(Main.USER, path);
-		} catch (RemoteException e1) {
+			registry = LocateRegistry.getRegistry();
+			ServerGroup serverG = (ServerGroup) registry.lookup(Main.USER.getCurrentGroup().getName());
+			System.out.println("(ListenerPC.released) Order to draw on "+ serverG.getName());
+			serverG.draw(Main.USER, path);
+		} catch (RemoteException | NotBoundException e1) {
 			e1.printStackTrace();
+			System.out.println("Remote Exc error in ListenPCanva.mouseReleased");
 		}
+
 		this.path = new ArrayList<Point>();		
 	}
 

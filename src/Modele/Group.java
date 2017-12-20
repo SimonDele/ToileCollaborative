@@ -59,4 +59,7 @@ public class Group implements Serializable {
 		}
 		return is;
 	}
+	public boolean is(Group group) {
+		return this.name.equals(group.getName());
+	}
 }

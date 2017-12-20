@@ -71,7 +71,6 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	public void addMember(Member member) throws RemoteException {
 		
 		System.out.println(member.getPseudo() +" added to the server");
-
 		
 		this.coMembers.add(member);
 		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
@@ -83,6 +82,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public void draw(Member drawer, ArrayList<Point> pixelsToDraw) throws RemoteException {
 		// Draw on the server drawing 
+		// First convert to bufferedImage (changeable)
 		BufferedImage image;
 		if( drawing != null) {
 			image = Converter.toBufferedImage(drawing);
@@ -91,35 +91,38 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		}
 		
         Graphics g = image.createGraphics();
-
+        // draw path
 		 g.setColor(drawer.getColor());
 		for(Point p : pixelsToDraw) { //We iterate over our list of point in the path ArrayList
 			 g.fillRect((int)p.getX(),(int) p.getY(), drawer.getToolbox().getSize(), drawer.getToolbox().getSize());
 		}
-		
-
-        g.dispose();
+        g.dispose(); 
+        // convert back
 		this.drawing = Converter.toIcon(image);
 
-		
 		//Update the drawing of each member connected
 		Registry registry;
 		System.out.println("iterate over members");
+<<<<<<< HEAD
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
 			System.out.println("(draw) IP member : " + member.getIPAdress());
 			registry = LocateRegistry.getRegistry(member.getIPAdress());
+=======
+		for (Member memberI: coMembers) {
+>>>>>>> marchePresque
 			try {
-				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
-				System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());
-				if (userServer.getCurrentGroup().getName().equals(this.group.getName())) { // unique groupnames
-						System.out.println(member.getPseudo() + "connected");
+				UserServer userServer = (UserServer) registry.lookup(memberI.getPseudo());
+				System.out.println(memberI.getPseudo() + " " + memberI.getCurrentGroup().getName());
+				if (userServer.getCurrentGroup().is(this.group)) { // unique groupnames
+						System.out.println(memberI.getPseudo() + "connected");
 						userServer.drawPath(drawer, pixelsToDraw);
 				} else {
 					// TODO : notify of change
 				}
 			} catch (NotBoundException e) {
 				e.printStackTrace();
+				System.out.println("Error on SGI.draw, NotBoundExc");
 			}
 		}
 	}

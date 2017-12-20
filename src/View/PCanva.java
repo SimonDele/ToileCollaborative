@@ -1,6 +1,6 @@
 package View;
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -28,9 +28,10 @@ public class PCanva extends JPanel implements Serializable{
 		toDrawPath = false;
 		this.toolbox = toolbox;
 		//Listeners
-		listenersPCanva = new ListenersPCanva(this);
+		listenersPCanva = new ListenersPCanva();
 		this.addMouseMotionListener(listenersPCanva);
 		this.addMouseListener(listenersPCanva);
+		this.setPreferredSize(new Dimension(Canvas.width,Canvas.height));
 	}
 	
 	public void drawPath(Member drawer, ArrayList<Point> path) {
@@ -59,7 +60,7 @@ public class PCanva extends JPanel implements Serializable{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(Main.USER.getCurrentGroup().getCanvas().getDrawing() == null) {
-
+			g.drawImage(new BufferedImage(Canvas.width,Canvas.height,BufferedImage.TYPE_INT_RGB), 0, 0, null);
 		}else {
 			g.drawImage(Converter.toBufferedImage(Main.USER.getCurrentGroup().getCanvas().getDrawing()), 0, 0, null);  
 		}

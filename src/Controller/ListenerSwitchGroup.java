@@ -54,6 +54,8 @@ public class ListenerSwitchGroup implements ActionListener {
 		
 			// load Drawing
 			serverGroup.sendDrawing(Main.USER);
+			
+			Menu.menuGroups.refresh();
 					
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
