@@ -45,10 +45,12 @@ public class Main {
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 		}
+		
 		UserServerImpl userServerImpl;
 		try {
 			userServerImpl = new UserServerImpl();
-			registry.rebind(USER.getPseudo(), userServerImpl);
+			Registry regU = LocateRegistry.getRegistry();
+			regU.rebind(USER.getPseudo(), userServerImpl);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

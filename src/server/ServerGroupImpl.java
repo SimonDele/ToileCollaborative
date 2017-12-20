@@ -140,7 +140,7 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	@Override
 	public void sendDrawing(Member member) throws RemoteException {
 		Registry registry;
-		registry = LocateRegistry.getRegistry();
+		registry = LocateRegistry.getRegistry(member.getIPAdress());
 		try {
 			UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
 			userServer.loadDrawing(drawing);
