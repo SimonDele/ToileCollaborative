@@ -53,7 +53,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 
 		//Create public canvas.
 		this.groupPublic = new Group(nameGroupPublic);
-		ServerGroupImpl newServerGroup = new ServerGroupImpl(groupPublic,null);
+		ServerGroupImpl newServerGroup = new ServerGroupImpl(groupPublic);
 		this.listServerGroup.add(newServerGroup);
 	}
  
@@ -113,7 +113,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 				e.printStackTrace();
 			}	
 		}else {
-			ServerGroup newServerGroup = new ServerGroupImpl(group, null);
+			ServerGroup newServerGroup = new ServerGroupImpl(group);
 			newServerGroup.addMember(member);
 			listServerGroup.add(newServerGroup);
 		}
@@ -164,7 +164,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 	 * @throws RemoteException as RMI method
 	 */
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException {
-		ServerGroupImpl newServerGroup = new ServerGroupImpl(group,null);
+		ServerGroupImpl newServerGroup = new ServerGroupImpl(group);
 		newServerGroup.addMember(creator);
 		this.listServerGroup.add(newServerGroup);
 	}

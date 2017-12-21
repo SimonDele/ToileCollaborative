@@ -46,7 +46,11 @@ public class ListenersPCanva implements MouseListener, MouseMotionListener  {
 	public void mouseReleased(MouseEvent e) {
 		Registry registry;
 		try {
-			registry = LocateRegistry.getRegistry();
+			if (Main.address != null) {
+				registry = LocateRegistry.getRegistry(Main.address);
+			} else {
+				registry = LocateRegistry.getRegistry();
+			}
 			ServerGroup serverG = (ServerGroup) registry.lookup(Main.USER.getCurrentGroup().getName());
 			System.out.println("(ListenerPC.released) Order to draw on "+ serverG.getName());
 			serverG.draw(Main.USER, path);

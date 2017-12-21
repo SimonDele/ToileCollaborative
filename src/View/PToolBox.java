@@ -9,19 +9,44 @@ import Controller.ListenerSize;
 import Controller.ListenersShapes;
 import Modele.Toolbox;
 
-
+/**
+ * The Panel that displays the Member's Toolbox; hence manages all its buttons.
+ */
 @SuppressWarnings("serial")
 public class PToolBox extends JPanel {
-
+	/**
+	 * Shape button : circle (not functional)
+	 */
 	JButton circle;
+	/**
+	 * Buttons for the choice of the brush's size
+	 */
 	JButton sizeSmall,sizeNormal,sizeLarge;
-
+	/**
+	 * Listener for the shapes of the Toolbox (not functional)
+	 */
 	ListenersShapes listenersToolBox;
+	/**
+	 * Listener associated with the buttons for the choice of the brush's size.
+	 */
 	ListenerSize listenerSize;
+	/**
+	 * String associated with the Small size Button
+	 */
 	String nameButtonS;
+	/**
+	 * String associated with the Medium size Button
+	 */
 	String nameButtonM;
+	/**
+	 * String associated with the Large size Button
+	 */
 	String nameButtonL;
 
+	/**
+	 * Constructor to initalize every field, the listeners associated with every button of the Toolbox and their position on the Panel.
+	 * @param toolbox
+	 */
 	public PToolBox(Toolbox toolbox) {
 		
 		this.nameButtonS = "Small";
@@ -58,30 +83,32 @@ public class PToolBox extends JPanel {
 		this.add(sizeLarge);
 	}
 
+	/**
+	 * Getter for the name of the "small" button
+	 * @return the name of the "small" button
+	 */
 	public String getNameButtonS() {
 		return nameButtonS;
 	}
-
-	public void setNameButtonS(String nameButtonS) {
-		this.nameButtonS = nameButtonS;
-	}
-
+	/**
+	 * Getter for the name of the "medium" button
+	 * @return the name of the "medium" button
+	 */
 	public String getNameButtonM() {
 		return nameButtonM;
 	}
-
-	public void setNameButtonM(String nameButtonM) {
-		this.nameButtonM = nameButtonM;
-	}
-
+	/**
+	 * Getter for the name of the "large" button
+	 * @return the name of the "large" button
+	 */
 	public String getNameButtonL() {
 		return nameButtonL;
 	}
 
-	public void setNameButtonL(String nameButtonL) {
-		this.nameButtonL = nameButtonL;
-	}
-
+	/**
+	 * Method to handle the coloring of the size buttons : black if selected, else gray
+	 * @param toolbox
+	 */
 	public void refresh(Toolbox toolbox) {
 		if (toolbox.getSize() == Toolbox.sizeM) {
 			MainFrame.setSelected(sizeNormal);

@@ -66,7 +66,7 @@ public class MainFrame extends JFrame{
 
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 
-	    pCanva = new PCanva(user.getToolbox());
+	    pCanva = new PCanva();
 	    container.add(pCanva, BorderLayout.CENTER);
 	    
 	    // North panel with welcome and toolbox

@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 /**
  * Class that represents a group of Members and the Canvas they draw on. A Group is named.
- *
  */
 @SuppressWarnings("serial")
 public class Group implements Serializable {

@@ -49,18 +49,14 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 	 * @param group the Group which needs a server
 	 * @throws RemoteException as RMI method
 	 */
-	public ServerGroupImpl(Group group, String arg) throws RemoteException {
+	public ServerGroupImpl(Group group) throws RemoteException {
 		super();
 		this.group = group;
 		coMembers = new HashSet<Member>();
 		this.name = group.getName();
-		if(arg != null) {
-			Registry registry = LocateRegistry.getRegistry(arg);
-			registry.rebind(group.getName(), this);
-		}else {
-			Registry registry = LocateRegistry.getRegistry();
-			registry.rebind(group.getName(), this);
-		}
+		
+		Registry registry = LocateRegistry.getRegistry();
+		registry.rebind(group.getName(), this);
 		
 		//Load the drawing 
 		try {
