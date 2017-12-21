@@ -15,6 +15,10 @@ import Main.Main;
 import Modele.Canvas;
 import Modele.Group;
 
+/**
+ * 
+ */
+@SuppressWarnings("serial")
 public class MenuGroups extends JPanel{
 	
 	private ArrayList<Group> listGroups;
@@ -22,8 +26,7 @@ public class MenuGroups extends JPanel{
 	private ArrayList<JButton> buttonGroups;
 	private String strAddGroup;
 	
-	public MenuGroups(ArrayList<Group> listGroups, Canvas canvas) {
-		
+	public MenuGroups(ArrayList<Group> listGroups) {
 		try {
 			this.listGroups = listGroups;			
 		}catch(NullPointerException e) {
@@ -39,11 +42,11 @@ public class MenuGroups extends JPanel{
 		inputAddGroup.setMaximumSize(new Dimension(Integer.MAX_VALUE, inputAddGroup.getMinimumSize().height));
 		
 		this.buttonGroups = new ArrayList<JButton>();
-		//Display all the group belonging to the user
+		//Display all the groups belonging to the user
 		for (int i=0 ; i<listGroups.size(); i++) {
 			Group group = this.listGroups.get(i);
 			this.buttonGroups.add(new JButton(""+group.getName()));
-			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(canvas, this.listGroups.get(i)));
+			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(this.listGroups.get(i)));
 			this.add(this.buttonGroups.get(this.buttonGroups.size()-1));
 		}	
 		
@@ -53,7 +56,7 @@ public class MenuGroups extends JPanel{
 	public void refreshDisplay() {
 		if(this.buttonGroups.size() < this.listGroups.size()) { // Check if one label is missing (might be true all the time)
 			this.buttonGroups.add(new JButton(""+this.listGroups.get(listGroups.size()-1).getName())); // add to the arraylist of jbutton
-			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(MainFrame.canvas, this.listGroups.get(this.listGroups.size()-1)));
+			this.buttonGroups.get(this.buttonGroups.size()-1).addActionListener(new ListenerSwitchGroup(this.listGroups.get(this.listGroups.size()-1)));
 			this.add(this.buttonGroups.get(this.buttonGroups.size()-1)); // add the new jlabel to the panel
 		}
 

@@ -10,6 +10,7 @@ import Controller.ListenersShapes;
 import Modele.Toolbox;
 
 
+@SuppressWarnings("serial")
 public class PToolBox extends JPanel {
 
 	JButton circle;

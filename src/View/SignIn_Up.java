@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import Controller.ListenerSignIn_Up;
 import Modele.Member;
 
+@SuppressWarnings("serial")
 public class SignIn_Up extends JDialog implements WindowListener {
 	
 	JPanel content, title, body;

@@ -6,6 +6,9 @@ import java.rmi.RemoteException;
 
 import Modele.Member;
 
+/**
+ * Listener on the client's Frame. Upon closing it, the ServerApp saves the Member's latest data.
+ */
 public class SaveOnWindowClosed implements WindowListener {
 	Member user;
 	public SaveOnWindowClosed(Member member) {
@@ -22,7 +25,10 @@ public class SaveOnWindowClosed implements WindowListener {
 
 		
 	}
-
+	
+	/**
+	 * When closing the window, the distant object of ServerApp in Main is called to log out this user.
+	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
 		//user.saveBeforeExit();

@@ -15,7 +15,14 @@ import Modele.Member;
 import View.JDialogColorChooser;
 import View.SignIn_Up;
 
+/**
+ * All the listeners from the first authentification window : input of pseudo/password, every button.
+ * @author Simon
+ */
 public class ListenerSignIn_Up implements ActionListener {
+	/**
+	 * 
+	 */
 	JButton signUp;
 	JTextField pseudo, password;
 	SignIn_Up signIn_Up;

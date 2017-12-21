@@ -13,21 +13,32 @@ import server.ServerApp;
 import server.ServerGroup;
 import server.UserServerImpl;
 /**
- * @author s1m0n
- * Entry point of the app
- *
+ * Main class launched by the client (acts as the application)
  */
 public class Main {
+	/**
+	 * Member with which the client has connected
+	 */
 	public static Member USER;
+	/**
+	 * ServerApp Distant object which, first of all, allows to register or connect 
+	 */
 	public static ServerApp serverApp;
-	public static String adress;
+	/**
+	 * Server's IP address, which has to be input by the client at launch
+	 */
+	public static String address;
 	
+	/**
+	 * Main method launched at the execution. Handles the connection, sets up the links with both {@link ServerApp ServerApp} and the "public" {@link ServerGroup ServerGroup} and initializes and holds the {@link MainFrame MainFrame}
+	 * @param args contains the IP address of the Server to connect to.
+	 */
 	public static void main(String[] args) {
 
 		Registry registry = null;
 		try {
 			if(args.length > 0) {
-				adress = args[0];
+				address = args[0];
 				registry = LocateRegistry.getRegistry(args[0]);
 			}else {
 				registry = LocateRegistry.getRegistry();	
@@ -41,7 +52,7 @@ public class Main {
 		USER = signIn_Up.getMember();
 		try {
 			System.out.println("IP Adress is : " + InetAddress.getLocalHost().getHostAddress());
-			USER.setIPAdress(InetAddress.getLocalHost().getHostAddress());
+			USER.setIPAddress(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 		}

@@ -21,18 +21,46 @@ import java.util.Iterator;
 
 import server.ServerApp;
 import Main.Main;
-public class Member implements Serializable {
-	
-	private String pseudo;
-	private String password;
-	private Color color; 
-	private ArrayList<Group> groupList;
-	
-	private Toolbox toolbox;
-	private Group currentGroup;
-	private String IPAdress;
-	
 
+/**
+ * Class that represents a member, having his name (pseudo) and password, as well as his groups and his own color.
+ */
+public class Member implements Serializable {
+	/**
+	 * the (unique) name of the Member. Used, for example, by another Member to add him to a group.
+	 */
+	private String pseudo;
+	/**
+	 * The Member's password - TODO : handle this securely.
+	 */
+	private String password;
+	/**
+	 * The unique color chosen by the member at creation, with which he draws and through which he can be recognized in the Canvas.
+	 */
+	private Color color; 
+	/**
+	 * The list of Groups the Member is part of.
+	 */
+	private ArrayList<Group> groupList;
+	/**
+	 * The toolbox the Member uses to draw on the miscellaneous Canvas
+	 */
+	private Toolbox toolbox;
+	/**
+	 * The Group (and by extension, the Canvas) the Member is currently on (displayed)
+	 */
+	private Group currentGroup;
+	/**
+	 * The last IPAddress with which the Member has connected - so the Server can find him back.
+	 */
+	private String iPAddress;
+	
+	/**
+	 * Constructor that takes the parameters filled by the client upon registration, and initializes the groupList and toolbox
+	 * @param pseudo the name chosen by the client
+	 * @param password the password chosen by the client
+	 * @param color the color chosen by the client 
+	 */
 	public Member(String pseudo,String password, Color color) {
 		groupList = new ArrayList<Group>(); // Creation of an empty groupList
 		this.pseudo = pseudo;
@@ -41,31 +69,69 @@ public class Member implements Serializable {
 		this.setToolbox(new Toolbox());
 
 	}
-	public String getIPAdress() {
-		return IPAdress;
+	
+	/**
+	 * Getter for the current IPAddress of the Member
+	 * @return the current IPAddress
+	 */
+	public String getIPAddress() {
+		return iPAddress;
 	}
-	public void setIPAdress(String iPAdress) {
-		IPAdress = iPAdress;
+	
+	/**
+	 * Setter for the IPAddress
+	 * @param iPAddress the new/latest IPAddress
+	 */
+	public void setIPAddress(String iPAddress) {
+		this.iPAddress = iPAddress;
 	}
+	/**
+	 * Getter for the pseudo of the Member
+	 * @return the member's pseudo (name)
+	 */
 	public String getPseudo() {
 		return pseudo;
 	}
+	/**
+	 * Getter for the color of the Member
+	 * @return the Member's color
+	 */
 	public Color getColor() {
 		return color;
 	}
+	/**
+	 * Getter for the Member's password - TODO security
+	 * @return the Member's password
+	 */
 	public String getPassword() {
 		return password;
 	}
+	/**
+	 * Getter for the Member's list of groups
+	 * @return the list of groups the Member is part of
+	 */
 	public ArrayList<Group> getGroupList() {
 		return groupList;
 	}
+	/**
+	 * Getter for the Group the Member is currently on
+	 * @return Member's current group
+	 */
 	public Group getCurrentGroup() {
 		return currentGroup;
 	}
+	/**
+	 * Setter for the Group the Member is currently on
+	 * @param currentGroup the new Group the Member is now on
+	 */
 	public void setCurrentGroup(Group currentGroup) {
 		this.currentGroup = currentGroup;
 	}
 
+	/**
+	 * Method to create a Group. The Group is named and added to the list, but above all sends the new Group's information to the ServerApp for the creation of a new server and editing of the file
+	 * @param name the name of the group chosen by the Member 
+	 */
 	public void createNewGroup(String name) {
 		//Create the group and add it to the list of groups
 		Group newgroup = new Group(name);
@@ -108,23 +174,41 @@ public class Member implements Serializable {
 		}
 	}
 */
+	/**
+	 * Getter for the Member's toolbox 
+	 * @return the Member's toolbox
+	 */
 	public Toolbox getToolbox() {
 		return toolbox;
 	}
+	/**
+	 * Setter for the Member's toolbox to a new one
+	 * @param toolbox the new toolbox
+	 */
 	public void setToolbox(Toolbox toolbox) {
 		this.toolbox = toolbox;
 	}
-	public boolean isInGroup(String groupName) {
+	/**
+	 * Checks whether the member is part of a given group
+	 * @param groupToCheck the group the member may be in
+	 * @return boolean : whether the Member is in the Group
+	 */
+	public boolean isInGroup(Group groupToCheck) {
 		boolean is = false;
 		for (Group group : groupList) {
-			if (group.getName().equals(groupName)) {
+			if (group.getName().equals(groupToCheck.getName())) {
 				is = true;
 				break;
 			}
 		}
 		return is;
 	}
-	public boolean is(String memberCompare) {
-		return this.pseudo.equals(memberCompare);
+	/**
+	 * Equivalent to an "equals" method using the fact that a Member's name is unique
+	 * @param memberCompare the Member this one may be
+	 * @return whether they are identical
+	 */
+	public boolean is(Member memberCompare) {
+		return this.pseudo.equals(memberCompare.getPseudo());
 	}
 }

@@ -14,30 +14,42 @@ import View.MainFrame;
 import View.Menu;
 import server.ServerGroup;
 
+/**
+ * Listener on the list of groups the user has, and can potentially choose amongst. 
+ */
 public class ListenerSwitchGroup implements ActionListener {
 /*
- * This listener is call when we want to switch from one group to another
+ * This listener is called when we want to switch from one group to another
  * It will change : 
  * 1) the current canvas 
  * 2) the list of members
 
  * 2) Not yet implemented
  */
-	Canvas canvas;
+	/**
+	 * The Group the user chooses 
+	 */
 	Group newGroup;
 	
-	public ListenerSwitchGroup(Canvas canvas, Group group) {
-		this.canvas = canvas;
+	/**
+	 * Simple constructor to set the values of the attribute
+	 * @param group
+	 */
+	public ListenerSwitchGroup(Group group) {
 		this.newGroup = group;
 	}
+	
+	/**
+	 * When clicking on a group, the associated ServerGroup is looked up and fetched; the user switches to this new group and retrieves its Canvas. This method should also update the display for the list of members 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
 		Registry registry;
 		try {
 			// retrieve the newGroup on the server
-			if(Main.adress != null) {
-				registry = LocateRegistry.getRegistry(Main.adress);
+			if(Main.address != null) {
+				registry = LocateRegistry.getRegistry(Main.address);
 			}else {
 				registry = LocateRegistry.getRegistry();	
 			}

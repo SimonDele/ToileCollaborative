@@ -14,15 +14,40 @@ import Modele.Canvas;
 import Modele.Group;
 import Modele.Member;
 
+/**
+ * The frame the client sees during his whole time on the application. It covers the Canvas, the list and adding of Members and Groups, as well as the toolbox.
+ */
 public class MainFrame extends JFrame{
+	/**
+	 * The title of the Frame the client sees.
+	 */
 	private String title;
 	//Different Panels :
+	/**
+	 * The Menu covering both the menu for Members and Groups
+	 */
 	public static Menu menu;
+	/**
+	 * The panel responsible for the managing of the Canvas, from the client's point of view.
+	 */
 	public static PCanva pCanva;
+	/**
+	 * The panel responsible for managing the Toolbox.
+	 */
 	public static PToolBox pToolBox;
+	/**
+	 * The canvas displayed, identical to the user's currentGroup's.
+	 */
 	public static Canvas canvas;
+	/**
+	 * The current group of the user. Identical to the Member's the client has selected.
+	 */
 	public static Group currentGroup;
 	
+	/**
+	 * Constructor for the MainFrame. Initializes every field of MainFrame and organizing them spacewise around the frame.
+	 * @param user
+	 */
 	public MainFrame(Member user) {
 		//Things related to JFrame properties
 		title = "Canv'Us";
@@ -37,7 +62,7 @@ public class MainFrame extends JFrame{
 //	    user.setCurrentCanvas(user.getGroupList().get(0).getCanvas());
 	    MainFrame.currentGroup = user.getCurrentGroup();
 	    MainFrame.canvas = currentGroup.getCanvas();
-	    menu = new Menu(MainFrame.currentGroup, user, canvas);
+	    menu = new Menu(MainFrame.currentGroup, user);
 
 	    container.add(menu, BorderLayout.WEST); //Say it will be displayed on the left
 
@@ -62,7 +87,7 @@ public class MainFrame extends JFrame{
 	    container.add(panelNorth, BorderLayout.NORTH);
 	    
 	    // south panel for text label
-	    JLabel colabel = new JLabel("CanvUs©Corporate",JLabel.RIGHT);
+	    JLabel colabel = new JLabel("Canv'Us Corporate",JLabel.RIGHT);
 	    Font fo = new Font("Arial", Font.BOLD, 15);
 	    colabel.setFont(fo);
 	    colabel.setOpaque(true);
@@ -76,19 +101,22 @@ public class MainFrame extends JFrame{
 	    this.pack();
 	}
 	
+	/**
+	 * Method for setting a button's color to black when pressed 
+	 * @param b the button to set
+	 */
 	public static void setSelected(JButton b) {
-
 		b.setBackground(Color.black);
 		b.setForeground(Color.gray);
 		b.setFocusPainted(false);
-
 	}
-
+	/**
+	 * Method for setting a button's color to gray when not pressed 
+	 * @param b the button to set
+	 */
 	public static void setUnselected(JButton b) {
-
 		b.setBackground(Color.gray);
 		b.setForeground(Color.black);
 		b.setFocusPainted(false);
-
 	}
 }

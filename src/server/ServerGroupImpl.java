@@ -23,13 +23,32 @@ import Modele.Converter;
 import Modele.Group;
 import Modele.Member;
 
+/**
+ * Implementation of the ServerGroup RMI Interface
+ */
 public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
-
+	/**
+	 * Server's drawing on which changes are also made (along with Members' actions)
+	 */
 	private ImageIcon drawing;
+	/**
+	 * Name of the Group (and of this ServerGroup by extension)
+	 */
 	private String name;
+	/**
+	 * list of connected Members (subset of the "listMembers" set of the group)
+	 */
 	private HashSet<Member> coMembers;
+	/**
+	 * Group associated with this ServerGroup
+	 */
 	private Group group;
 	
+	/**
+	 * Constructor based on a Group. Loads the drawing, and binds the ServerGroup to the registry.
+	 * @param group the Group which needs a server
+	 * @throws RemoteException as RMI method
+	 */
 	public ServerGroupImpl(Group group, String arg) throws RemoteException {
 		super();
 		this.group = group;
@@ -53,7 +72,9 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		System.out.println("Server Group \"" + group.getName()+"\" Running");
 	}
 	
-	
+	/**
+	 * Writes the drawing on the file (named after the group) to save it 
+	 */
     public void save() throws RemoteException{
         try {
 			ImageIO.write(Converter.toBufferedImage(drawing), "PNG", new File("drawings/" + this.getName()+ ".png"));
@@ -63,22 +84,37 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		}
     }
    
+    /**
+     * Loads the drawing from the file named after the group
+     * @return the drawing from the file
+     * @throws IOException from reading the file
+     */
     public ImageIcon loadDrawing() throws IOException {
         return Converter.toIcon(ImageIO.read(new File("drawings/" + this.getName() + ".png")));
     }
 
+    /**
+     * Adds a member to the list of connected members
+     * @param member the Member to add
+     */
 	@Override
 	public void addMember(Member member) throws RemoteException {
-		
 		System.out.println(member.getPseudo() +" added to the server");
 		
 		this.coMembers.add(member);
+		// debugging : print current list
 		for (Iterator iterator = coMembers.iterator(); iterator.hasNext();) {
 			Member memberit = (Member) iterator.next();
 			System.out.println(memberit.getPseudo());
 		}
 	}
 
+	/**
+	 * Method to draw a path of points when asked by a given drawer. The path is drawn on the group's Canvas, then the order is sent to every connected Member that is currently on this Group.
+	 * @param drawer the Member that has emitted the order to draw
+	 * @param pixelsToDraw the arraylist of pixels the drawer has sent
+	 * @throws RemoteException as RMI method
+	 */
 	@Override
 	public void draw(Member drawer, ArrayList<Point> pixelsToDraw) throws RemoteException {
 		// Draw on the server drawing 
@@ -106,8 +142,8 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		
 		for (Iterator iterator = this.coMembers.iterator(); iterator.hasNext();) {
 			Member member = (Member) iterator.next();
-			System.out.println("(draw) IP member : " + member.getIPAdress());
-			registry = LocateRegistry.getRegistry(member.getIPAdress());
+			System.out.println("(draw) IP member : " + member.getIPAddress());
+			registry = LocateRegistry.getRegistry(member.getIPAddress());
 			try {
 				UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
 				System.out.println(member.getPseudo() + " " + member.getCurrentGroup().getName());
@@ -123,24 +159,44 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 			}
 		}
 	}
+	
+	/**
+	 * Getter for the name of the Group/ServerGroup
+	 * @return the name of the Group
+	 */
 	@Override
 	public String getName() throws RemoteException{
 		return this.name;
 	}
+	
+	/**
+	 * Whether this ServerGroup has the same name as another (names are unique so this is an equality test)
+	 * @param name the name of the Group to compare itself to
+	 * @returns whether the groups are the same
+	 */
 	@Override
 	public boolean equals(String name) throws RemoteException {
-		return name == this.name;
+		return name.equals(this.name);
 	}
 
+	/**
+	 * Getter for the associated group
+	 * @return the ServerGroup's Group
+	 */
 	@Override
 	public Group getGroup() throws RemoteException {
 		return this.group;
 	}
 
+	/**
+	 * Sends the current drawing to a specified member by looking it up on his registry through IP. Called when changing group or at first arrival for public.
+	 * @param member The member to send the drawing to
+	 * @throws RemoteException as RMI method 
+	 */
 	@Override
 	public void sendDrawing(Member member) throws RemoteException {
 		Registry registry;
-		registry = LocateRegistry.getRegistry(member.getIPAdress());
+		registry = LocateRegistry.getRegistry(member.getIPAddress());
 		try {
 			UserServer userServer = (UserServer) registry.lookup(member.getPseudo());
 			userServer.loadDrawing(drawing);
@@ -149,6 +205,11 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 		}
 	}
 
+	/**
+	 * Locally logs a member out, that is - remove it from the list of connected members
+	 * @param user The Member to remove from the list
+	 * @throws RemoteException as RMI method
+	 */
 	@Override
 	public void logOut(Member user) throws RemoteException {
 		Iterator iterator = coMembers.iterator();
@@ -160,8 +221,5 @@ public class ServerGroupImpl extends UnicastRemoteObject implements ServerGroup{
 				member = null;
 			}
 		}
-		
-		//System.out.println("removed " + user.getPseudo() + " from " + this.group.getName() + coMembers.remove(user));
 	}
-
 }

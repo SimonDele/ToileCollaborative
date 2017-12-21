@@ -14,40 +14,34 @@ import View.PCanva;
 import server.ServerGroup;
 import server.ServerGroupImpl;
 import Main.Main;
+
+/**
+ * Listening the actions performed on the Canvas, such as drawPath
+ */
 public class ListenersPCanva implements MouseListener, MouseMotionListener  {
+	/**
+	 * The path drawn by the user (arraylist of points)
+	 */
 	private ArrayList<Point> path;
-	private ServerGroup serverGroup;
 	
+	/**
+	 * Constructor to simply initialize the path arraylist
+	 */
 	public ListenersPCanva() {
 		path = new ArrayList<Point>();
-		
-		Registry registry;
-		try {
-			registry = LocateRegistry.getRegistry();
-			this.serverGroup = (ServerGroup) registry.lookup(Main.USER.getCurrentGroup().getName());
-		} catch (RemoteException | NotBoundException e) {
-			e.printStackTrace();
-		}
 
 	}
-	public void changeServer(String name) {
-		Registry registry;
-		System.out.println("change server");
-
-		try {
-			if(Main.adress != null) {
-				registry = LocateRegistry.getRegistry(Main.adress);
-			}else {
-				registry = LocateRegistry.getRegistry();	
-			}
-			this.serverGroup = (ServerGroup) registry.lookup(name);
-		} catch (RemoteException | NotBoundException e) {
-			e.printStackTrace();
-		}
-	}
+	/**
+	 * Getter for the path of points
+	 * @return the path attribute
+	 */
 	public ArrayList<Point> getPath(){
 		return path;
 	}
+	
+	/**
+	 * Upon finishing the path drawn (releasing the mouseclick), the path is sent to the (looked up) ServerGroup of the user's current server, which relays the information.
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Registry registry;

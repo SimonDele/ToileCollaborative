@@ -22,13 +22,31 @@ import java.util.Iterator;
 import Modele.Group;
 import Modele.Member;
 
+/**
+ * Implementation of the ServerApp RMI Interface
+ */
 public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
-	
+	/**
+	 * HashSet containing every ServerGroup currently online 
+	 */
 	HashSet<ServerGroup> listServerGroup;
+	/**
+	 * Name of the most important group, "public", which every member is part of
+	 */
 	public final String nameGroupPublic = "public"; 
+	/**
+	 * The "public" Group which every member is part of
+	 */
 	Group groupPublic;
+	/**
+	 * The file containing each and every Member as an object (so with access to their Groups)
+	 */
 	final File fileMembers = new File("listeMembers.txt");
 	
+	/**
+	 * Initializes the HashSet of ServerGroup as well as the "public" group.
+	 * @throws RemoteException
+	 */
 	protected ServerAppImpl() throws RemoteException {
 		super();
 		listServerGroup = new HashSet<ServerGroup>();
@@ -39,13 +57,19 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		this.listServerGroup.add(newServerGroup);
 	}
  
-
-	@Override
-	public Member register(String pseudo, String password,  Color color, String iPAdress) throws RemoteException {
+	/**
+	 * Member registration : creates and initializes the associated Member, adds it to the "public" Group and finally adds it to the file.
+	 * @param pseudo the chosen name for the new Member
+	 * @param password the chosen password for the new Member
+	 * @param color the chosen color for the new Member
+	 * @param iPAddress the IPAddress the Member is now connected with
+	 * @throws RemoteException as RMI method
+	 */
+	public Member register(String pseudo, String password,  Color color, String iPAddress) throws RemoteException {
 		System.out.println("registered");
 		//Create member
 		Member member = new Member(pseudo, password, color);
-		member.setIPAdress(iPAdress);
+		member.setIPAddress(iPAddress);
 		
 		member.setCurrentGroup(groupPublic);
 		member.getGroupList().add(groupPublic);
@@ -60,6 +84,13 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		return member;
 	}
 	
+	/**
+	 * Connects a member to one of the Groups that was on his list ; creates the associated ServerGroup if it isn't online yet (no member connected)
+	 * @param group the Group to connect to
+	 * @param member the member to connect to the server
+	 * @throws RemoteException as RMI method
+	 */
+	@Override
 	public void connectToServerGroup(Group group, Member member) throws RemoteException{
 		boolean serverFound = false;
 		Iterator iteratorServer = listServerGroup.iterator();
@@ -76,7 +107,7 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 		if(serverFound) {
 			try {
-				System.out.println("(ServerApp connectoserver)" + member.getPseudo() + " ajout� au server "+ serverGroup.getName());
+				System.out.println("(ServerApp connectoserver)" + member.getPseudo() + " add to the server "+ serverGroup.getName());
 				serverGroup.addMember(member);
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -88,10 +119,18 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 
 	}
+	
+	/**
+	 * Connection of a Member after signing in, by checking in the Members file
+	 * @param pseudo name of the member trying to connect
+	 * @param password the password of the member trying to connect
+	 * @param iPAddress the new IPAddress of the Member
+	 * @throws RemoteException as RMI method
+	 * @return the associated Member
+	 */
 	@Override
-	public Member connection(String pseudo, String password, String iPAdress) throws RemoteException {
-		
-		System.out.println("connection to the server...");
+	public Member connection(String pseudo, String password, String iPAddress) throws RemoteException {
+				System.out.println("connection to the server...");
 		
 		ArrayList<Member> listMember = readFileMembers();
 		Iterator iterator = listMember.iterator();
@@ -102,11 +141,8 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			found = ((password.equals(member.getPassword())) && (pseudo.equals(member.getPseudo())));
 		}
 		if(found) {
-			
-			member.setIPAdress(iPAdress);
-			
+			member.setIPAddress(iPAddress);
 			//Check if all the group of member.getGroupList() have a "ServerGroup" otherwise it must be created 
-			
 			//For Each group
 			for (Iterator itGroup = member.getGroupList().iterator(); itGroup.hasNext();) {
 				Group group = (Group) itGroup.next();
@@ -120,12 +156,24 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 
 	}
+	
+	/**
+	 * The creation of a new ServerGroup based on a Member's order to create a Group
+	 * @param creator the Group's creator
+	 * @param group the group associated to this new ServerGroup
+	 * @throws RemoteException as RMI method
+	 */
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException {
 		ServerGroupImpl newServerGroup = new ServerGroupImpl(group,null);
-//		creator.setCurrentGroup(group);
 		newServerGroup.addMember(creator);
 		this.listServerGroup.add(newServerGroup);
 	}
+	
+	/**
+	 * Method to write the file based on the list of members
+	 * @param listMembers the list of Member to write on the file
+ 	 * @throws RemoteException as RMI method
+	 */
 	public void writeFileMembers(ArrayList<Member> listMembers) throws RemoteException{
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(
@@ -143,6 +191,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Method to get a list of members from the file
+ 	 * @throws RemoteException as RMI method
+ 	 * @return The Arraylist of Members found on the file
+	 */
 	public ArrayList<Member> readFileMembers() throws RemoteException{
 		ArrayList<Member> res = new ArrayList<Member>();
 		ObjectInputStream ois;
@@ -171,7 +225,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		return res;
 	}
 	
-	
+	/**
+	 * Method to get the member from the file of ServerApp at connection based on its name
+	 * @param pseudo the name to search on the file of ServerApp
+ 	 * @throws RemoteException as RMI method
+ 	 * @returns The searched Member, null if nonexistent
+	 */
 	@Override
 	public Member getMember(String pseudo) throws RemoteException {
 		
@@ -184,9 +243,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 		return null; //If the member doesn't exist
 	}
-
+	
+	/**
+	 * Main launched by the ServerApp administrator. The ServerApp is bound on the hosts' registry and its associated frame is launched.
+	 * @throws RemoteException as RMI method
+	 */
 	public static void main(String[] args) throws RemoteException {
-		
 		try {
 			ServerAppImpl serverAppImpl = new ServerAppImpl();
 			if(args.length > 0) {
@@ -201,18 +263,23 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 			e.printStackTrace();
 		}
 		System.out.println("Server App running");
-		
-
-		
 	}
-
-
+	
+	/**
+	 * Getter for the name of the public Group
+	 * @return The name of the public Group
+	 * @throws RemoteException as RMI method
+	 */
 	@Override
 	public String getNameGroupPublic() throws RemoteException {
 		return this.nameGroupPublic;
 	}
 
-
+	/**
+	 * Method to log out a given Member 
+	 * @param user the Member to disconnect
+	 * @throws RemoteException as RMI method
+	 */
 	@Override
 	public void logOut(Member user) throws RemoteException {
 		for (Iterator iterator = user.getGroupList().iterator(); iterator.hasNext();) {
@@ -226,6 +293,9 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 	}
 	
+	/**
+	 * Method to save all the Canvas before closing
+	 */
 	public void saveAll() {
 		for (Iterator iterator = listServerGroup.iterator(); iterator.hasNext();) {
 			ServerGroup serverGroup = (ServerGroup) iterator.next();
@@ -237,7 +307,12 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		}
 	}
 
-
+	/**
+	 * Whether the ServerApp already has a group named a given way
+	 * @param newGroupName the String chosen by the creator, to check
+	 * @return a boolean, whether the ServerApp already has this group
+	 * @throws RemoteException as RMI method
+	 */
 	@Override
 	public boolean hasGroup(String newGroupName) throws RemoteException {
 		boolean has = false;
@@ -250,6 +325,10 @@ public class ServerAppImpl extends UnicastRemoteObject implements ServerApp {
 		return has;
 	}
 
+	/**
+	 * Debugging method to simply print the ServerGroups that are currently on the ServerApp
+	 * @throws RemoteException as RMI method
+	 */
 	@Override
 	public void printCurrentGroups() throws RemoteException {
 		System.out.println("liste groupes :");

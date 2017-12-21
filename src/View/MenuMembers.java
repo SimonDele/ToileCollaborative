@@ -13,16 +13,15 @@ import Controller.ListenerAddMember;
 import Modele.Group;
 import Modele.Member;
 
+@SuppressWarnings("serial")
 public class MenuMembers extends JPanel{
-	
 	private ArrayList<Member> listMembers;
 	private JTextField inputAddMember;
 	private ArrayList<JLabel> labMembers;
 	private String strAddMember;
-	private Group group;
+	
 	public MenuMembers(Group group) {
 		this.labMembers = new ArrayList<JLabel>();
-		this.group = group;
 		try {
 			this.listMembers = group.getMemberList();			
 		}catch(NullPointerException e) {
@@ -45,9 +44,6 @@ public class MenuMembers extends JPanel{
 	public void setListMembers(ArrayList<Member> listMembers) {
 		this.listMembers = listMembers;
 		this.refreshDisplay();
-	}
-	public void setGroup(Group group) {
-		this.group = group;
 	}
 	public String getStrAddMember() {
 		return strAddMember;

@@ -1,10 +1,11 @@
 package View;
 
 import java.awt.Dimension;
+
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -16,17 +17,13 @@ import Modele.Converter;
 import Modele.Member;
 import Modele.Toolbox;
 
-public class PCanva extends JPanel implements Serializable{
+public class PCanva extends JPanel {
 	
 	private transient BufferedImage drawing;	
-	private Boolean toDrawPath;
 	private transient ListenersPCanva listenersPCanva;
-	private Toolbox toolbox;
 	public Converter converter;
 
 	public PCanva(Toolbox toolbox) {
-		toDrawPath = false;
-		this.toolbox = toolbox;
 		//Listeners
 		listenersPCanva = new ListenersPCanva();
 		this.addMouseMotionListener(listenersPCanva);
@@ -68,7 +65,6 @@ public class PCanva extends JPanel implements Serializable{
 	}
     public void switchCanvas() {
     	this.repaint();
-    	this.listenersPCanva.changeServer(Main.USER.getCurrentGroup().getName());
     }
 	
 }

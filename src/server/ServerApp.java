@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import Modele.Group;
 import Modele.Member;
 
+/**
+ * RMI Interface of the ServerApp to handle all actions like connection and registration, as well as group and member managing. The files are also handled here. Method details in the Implementation.
+ */
 public interface ServerApp extends Remote {
-	
-	
 	public Member connection(String pseudo, String password, String iPAdress) throws RemoteException;
 	public Member register(String pseudo, String password, Color color, String iPAdress) throws RemoteException;
 	public void addNewServerGroup(Member creator, Group group) throws RemoteException;
