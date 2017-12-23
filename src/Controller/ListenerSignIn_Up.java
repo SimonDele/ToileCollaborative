@@ -7,7 +7,6 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JTextField;
 
 import Main.Main;

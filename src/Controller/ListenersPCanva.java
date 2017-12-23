@@ -10,10 +10,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
-import View.PCanva;
-import server.ServerGroup;
-import server.ServerGroupImpl;
 import Main.Main;
+import server.ServerGroup;
 
 /**
  * Listening the actions performed on the Canvas, such as drawPath

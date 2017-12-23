@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import Controller.ListenerAddGroup;
 import Controller.ListenerSwitchGroup;
 import Main.Main;
-import Modele.Canvas;
 import Modele.Group;
 
 /**

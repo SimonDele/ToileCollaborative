@@ -2,7 +2,6 @@ package View;
 
 import java.awt.BorderLayout;
 
-
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 

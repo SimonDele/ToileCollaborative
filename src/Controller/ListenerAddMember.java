@@ -3,15 +3,13 @@ package Controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
-import Modele.Group;
+import Main.Main;
 import Modele.Member;
 import View.Menu;
 import View.MenuMembers;
-import Main.Main;
 
 /**
  * Listener to add a new Member in the user's currentGroup; keeps track of the String the user inputs.

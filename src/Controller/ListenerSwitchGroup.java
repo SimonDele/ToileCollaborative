@@ -8,7 +8,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import Main.Main;
-import Modele.Canvas;
 import Modele.Group;
 import View.MainFrame;
 import View.Menu;

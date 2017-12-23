@@ -14,6 +14,7 @@ import Modele.Member;
 /**
  * Implementation of the UserServer RMI Interface.
  */
+@SuppressWarnings("serial")
 public class UserServerImpl extends UnicastRemoteObject implements UserServer {
 	/**
 	 * Empty constructor

@@ -4,7 +4,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import Modele.Canvas;
 import Modele.Group;
 import Modele.Member;
 

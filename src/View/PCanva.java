@@ -1,8 +1,6 @@
 package View;
 
 import java.awt.Dimension;
-
-
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -15,11 +13,11 @@ import Main.Main;
 import Modele.Canvas;
 import Modele.Converter;
 import Modele.Member;
-import Modele.Toolbox;
 
 /**
  * Panel that holds the Canvas of the Member's currentGroup. The client draws on this.
  */
+@SuppressWarnings("serial")
 public class PCanva extends JPanel {
 	/**
 	 * The current drawing to display
